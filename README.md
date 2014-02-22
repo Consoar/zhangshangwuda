@@ -29,7 +29,7 @@ Nine Old Androids：https://github.com/JakeWharton/NineOldAndroids
 
 Universal Image Loader for Android：https://github.com/nostra13/Android-Universal-Image-Loader
 
-Android ViewBadger：https://github.com/jgilfelt/android-viewbadger（未投入使用）
+Android ViewBadger：https://github.com/jgilfelt/android-viewbadger
 
 SwipeBackLayout：https://github.com/Issacw0ng/SwipeBackLayout
 
