@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<zq.whu.zhangshangwuda.ui.MenuScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <TextView
+            style="@style/MenuDrawer.Widget.Category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/LeftMenu_Cat1" />
+
+        <TextView
+            android:id="@+id/left_menu_news"
+            style="@style/MenuDrawer.Widget.Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/left_menu_news_light"
+             android:textColor="#555555"
+            android:text="@string/LeftMenu_News" />
+
+        <TextView
+            android:id="@+id/left_menu_lessons"
+            style="@style/MenuDrawer.Widget.Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/left_menu_lessons_light"
+             android:textColor="#555555"
+            android:text="@string/LeftMenu_Lessons" />
+
+        <TextView
+            android:id="@+id/left_menu_wifi"
+            style="@style/MenuDrawer.Widget.Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/left_menu_wifi_light"
+             android:textColor="#555555"
+            android:text="@string/LeftMenu_Wifi" />
+
+        <TextView
+            style="@style/MenuDrawer.Widget.Category"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/LeftMenu_Cat2" />
+
+        <TextView
+            android:id="@+id/left_menu_setting"
+            style="@style/MenuDrawer.Widget.Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/left_menu_settings_light"
+             android:textColor="#555555"
+            android:text="@string/LeftMenu_Setting" />
+
+        <TextView
+            android:id="@+id/left_menu_help"
+            style="@style/MenuDrawer.Widget.Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/left_menu_help_light"
+             android:textColor="#555555"
+            android:text="@string/LeftMenu_Help" />
+
+        <TextView
+            android:id="@+id/left_menu_feedback"
+            style="@style/MenuDrawer.Widget.Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/left_menu_feedback_light"
+             android:textColor="#555555"
+            android:text="@string/LeftMenu_FeedBack" />
+
+        <TextView
+            android:id="@+id/left_menu_about"
+            style="@style/MenuDrawer.Widget.Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/left_menu_about_light"
+            android:textColor="#555555"
+            android:text="@string/LeftMenu_About" />
+    </LinearLayout>
+
+</zq.whu.zhangshangwuda.ui.MenuScrollView>

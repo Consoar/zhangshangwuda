@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="?attr/newsContentBg"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="0px"
+        android:layout_height="0px"
+        android:focusable="true"
+        android:focusableInTouchMode="true" />
+
+    <RelativeLayout
+        android:id="@+id/lessons_RelativeLayout"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="80dp" >
+
+        <EditText
+            android:id="@+id/lessons_txtAccount_EditText"
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="10.0dip"
+            android:layout_marginRight="5.0dip"
+            android:layout_marginTop="10.0dip"
+            android:background="@color/alpha"
+            android:drawableBottom="@drawable/lessons_input_line"
+            android:hint="@string/Lessons_strInputAccountHint"
+            android:paddingLeft="65.0dip"
+            android:inputType="number"
+            android:saveEnabled="true"
+            android:textColor="?attr/newsContentTextColor" />
+
+        <TextView
+            android:id="@+id/lessons_TextView01"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_alignBottom="@id/lessons_txtAccount_EditText"
+            android:layout_alignLeft="@id/lessons_txtAccount_EditText"
+            android:layout_alignTop="@id/lessons_txtAccount_EditText"
+            android:layout_marginRight="15.0dip"
+            android:gravity="left"
+            android:text="@string/Wifi_strAccountInputLabel"
+            android:textColor="#A47642"
+            android:textSize="18.0sp" />
+
+        <EditText
+            android:id="@+id/lessons_txtPassword_EditText"
+            android:layout_width="fill_parent"
+            android:layout_height="30dp"
+            android:layout_alignLeft="@id/lessons_txtAccount_EditText"
+            android:layout_alignRight="@id/lessons_txtAccount_EditText"
+            android:layout_below="@id/lessons_txtAccount_EditText"
+            android:layout_marginRight="1.0dip"
+            android:background="@color/alpha"
+            android:drawableBottom="@drawable/lessons_input_line"
+            android:hint="@string/Lessons_strInputPasswordHint"
+            android:inputType="textPassword"
+            android:paddingLeft="65.0dip"
+            android:saveEnabled="true"
+            android:textColor="?attr/newsContentTextColor" />
+
+        <TextView
+            android:id="@+id/lessons_TextView02"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_alignBottom="@id/lessons_txtPassword_EditText"
+            android:layout_alignRight="@id/lessons_TextView01"
+            android:layout_alignTop="@id/lessons_txtPassword_EditText"
+            android:gravity="left"
+            android:text="@string/Wifi_strPasswordInputLabel"
+            android:textColor="#A47642"
+            android:textSize="18.0sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/lessons_YZM"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/lessons_RelativeLayout"
+        android:layout_below="@+id/lessons_RelativeLayout" >
+
+        <EditText
+            android:id="@+id/lessons_YZM_EditText"
+            android:layout_width="50dp"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/lessons_YZMIMG_ImageView"
+            android:background="@color/alpha"
+            android:drawableBottom="@drawable/lessons_input_line"
+            android:saveEnabled="true"
+            android:singleLine="true"
+            android:textColor="?attr/newsContentTextColor" >
+        </EditText>
+
+        <TextView
+            android:id="@+id/lessons_YZMLable_TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="48dp"
+            android:layout_alignParentTop="true"
+            android:gravity="center_vertical"
+            android:text="验证码"
+            android:textColor="#A47642"
+            android:textSize="18.0sp" />
+
+        <ImageView
+            android:id="@+id/lessons_YZMIMG_ImageView"
+            android:layout_width="90dip"
+            android:layout_height="30dip"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/lessons_YZM_EditText"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/lessons_cmdLogin_Button"
+        android:layout_width="240dp"
+        android:layout_height="36dp"
+        android:layout_below="@+id/lessons_YZM"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/lessons_login_btn"
+        android:text="登录"
+        android:textColor="@color/white"
+        android:textSize="18sp" />
+
+    <ImageView
+        android:id="@+id/lessons_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/lessons_logo" />
+
+    <ImageView
+        android:id="@+id/lessons_bottom"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:scaleType="fitXY"
+        android:src="?attr/wifiBottomBG" />
+
+</RelativeLayout>

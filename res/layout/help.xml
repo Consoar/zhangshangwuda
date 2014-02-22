@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/Help_Root_RelativeLayout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/Help_Title_RelativeLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="50.0dip"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true" >
+
+        <TextView
+            android:id="@+id/Help_Title_TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="16.0dip"
+            android:text="@string/Help_App"
+            android:textSize="20.0dip" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/Help_Logo_RelativeLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/Help_Title_RelativeLayout"
+        android:layout_marginLeft="20.0dip"
+        android:layout_marginTop="10.0dip" >
+
+        <ImageView
+            android:id="@+id/Help_Logo_ImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20.0dip"
+            android:layout_toRightOf="@id/Help_Logo_ImageView"
+            android:gravity="center_vertical" >
+
+            <TextView
+                android:id="@+id/Help_Logo_Name_TextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/About_App_Name"
+                android:textSize="20.0dip" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/Help_Content_RelativeLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/Help_Logo_RelativeLayout"
+        android:layout_marginTop="10.0dip" >
+
+        <ScrollView
+            android:layout_width="300.0dip"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:fadingEdgeLength="0dp"
+            android:scrollbars="none" >
+
+            <RelativeLayout
+                android:id="@+id/Help_Description_RelativeLayout"
+                android:layout_width="300.0dip"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/Help_Description_TextView"
+                    android:layout_width="275.0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="13dp"
+                    android:text="@string/Help_App_Description"
+                    android:textSize="14.0dip" />
+            </RelativeLayout>
+        </ScrollView>
+    </RelativeLayout>
+
+</RelativeLayout>

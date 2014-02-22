@@ -1,0 +1,9 @@
+<resources>
+
+    <style name="Theme.MySherlock" parent="@style/Theme.Sherlock">
+        <item name="android:actionBarStyle">@style/Widget.MyTheme.ActionBar</item>
+    </style>
+    <style name="Theme.MySherlock.Light" parent="@style/Theme.Sherlock.Light">
+        <item name="android:actionBarStyle">@style/Widget.MyTheme.ActionBar.Light</item>
+    </style>
+</resources>

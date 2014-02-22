@@ -1,0 +1,440 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/lessons_add_linearLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#ffeeeeee"
+        android:orientation="vertical" >
+
+        <ScrollView
+            android:id="@+id/lessons_add_scrollView1"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" >
+
+            <LinearLayout
+                android:id="@+id/lessons_add_linearLayout3"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingBottom="5.0dip"
+                android:paddingTop="5.0dip" >
+
+                <LinearLayout
+                    android:layout_width="0px"
+                    android:layout_height="0px"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true" />
+
+                <LinearLayout
+                    android:id="@+id/lessons_add_linearLayout4"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10.0dip"
+                    android:background="@drawable/setting_words_bg"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:id="@+id/lessons_add_linearLayout5"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="2.0dip"
+                        android:layout_marginLeft="2.0dip"
+                        android:gravity="center_vertical"
+                        android:paddingBottom="5.0dip"
+                        android:paddingTop="5.0dip" >
+
+                        <TextView
+                            android:id="@+id/lessons_add_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10.0dip"
+                            android:text="@string/Lessons_Add_name"
+                            android:textColor="#ff000000"
+                            android:textSize="18.0sp" />
+
+                        <EditText
+                            android:id="@+id/lessons_add_name_EditText"
+                            android:layout_width="fill_parent"
+                            android:layout_height="30.0dip"
+                            android:layout_marginLeft="10.0dip"
+                            android:layout_marginRight="5dip"
+                            android:background="@null"
+                            android:gravity="center_vertical"
+                            android:hint="请输入课程名称"
+                            android:singleLine="true"
+                            android:textColor="@color/otakubg" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/lessons_add_ImageView01"
+                        android:layout_width="fill_parent"
+                        android:layout_height="1.0dip"
+                        android:layout_marginLeft="2.0dip"
+                        android:layout_marginRight="2.0dip"
+                        android:background="#20000000" />
+
+                    <LinearLayout
+                        android:id="@+id/lessons_add_linearLayout6"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="2.0dip"
+                        android:layout_marginLeft="2.0dip"
+                        android:gravity="center_vertical"
+                        android:paddingBottom="5.0dip"
+                        android:paddingTop="5.0dip" >
+
+                        <TextView
+                            android:id="@+id/lessons_add_teacher"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10.0dip"
+                            android:text="@string/Lessons_Add_teacher"
+                            android:textColor="#ff000000"
+                            android:textSize="18.0sp" />
+
+                        <EditText
+                            android:id="@+id/lessons_add_teacher_EditText"
+                            android:layout_width="fill_parent"
+                            android:layout_height="30.0dip"
+                            android:layout_marginLeft="10.0dip"
+                            android:layout_marginRight="5dip"
+                            android:background="@null"
+                            android:gravity="center_vertical"
+                            android:hint="请输入任课老师姓名"
+                            android:singleLine="true"
+                            android:textColor="@color/otakubg" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/lessons_add_ImageView02"
+                        android:layout_width="fill_parent"
+                        android:layout_height="1.0dip"
+                        android:layout_marginLeft="2.0dip"
+                        android:layout_marginRight="2.0dip"
+                        android:background="#20000000" />
+
+                    <LinearLayout
+                        android:id="@+id/lessons_add_linearLayout7"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="2.0dip"
+                        android:layout_marginLeft="2.0dip"
+                        android:gravity="center_vertical"
+                        android:paddingBottom="5.0dip"
+                        android:paddingTop="5.0dip" >
+
+                        <TextView
+                            android:id="@+id/lessons_add_place"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10.0dip"
+                            android:text="@string/Lessons_Add_place"
+                            android:textColor="#ff000000"
+                            android:textSize="18.0sp" />
+
+                        <EditText
+                            android:id="@+id/lessons_add_place_EditText"
+                            android:layout_width="fill_parent"
+                            android:layout_height="30.0dip"
+                            android:layout_marginLeft="10.0dip"
+                            android:layout_marginRight="5dip"
+                            android:background="@null"
+                            android:gravity="center_vertical"
+                            android:hint="例如:教五,101"
+                            android:singleLine="true"
+                            android:textColor="@color/otakubg" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/lessons_add_ImageView03"
+                        android:layout_width="fill_parent"
+                        android:layout_height="1.0dip"
+                        android:layout_marginLeft="2.0dip"
+                        android:layout_marginRight="2.0dip"
+                        android:background="#20000000" />
+
+                    <LinearLayout
+                        android:id="@+id/lessons_add_linearLayout8"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="2.0dip"
+                        android:layout_marginLeft="2.0dip"
+                        android:gravity="center_vertical"
+                        android:paddingBottom="5.0dip"
+                        android:paddingTop="5.0dip" >
+
+                        <TextView
+                            android:id="@+id/lessons_add_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10.0dip"
+                            android:text="@string/Lessons_Add_time"
+                            android:textColor="#ff000000"
+                            android:textSize="18.0sp" />
+
+                        <EditText
+                            android:id="@+id/lessons_add_time_start_EditText"
+                            android:layout_width="60dip"
+                            android:layout_height="30.0dip"
+                            android:layout_marginLeft="10.0dip"
+                            android:layout_marginRight="5dip"
+                            android:background="@null"
+                            android:gravity="center_vertical"
+                            android:hint="例如:1"
+                            android:singleLine="true"
+                            android:textColor="@color/otakubg" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="30.0dip"
+                            android:gravity="center_vertical"
+                            android:text="到"
+                            android:textColor="#ff000000"
+                            android:textSize="18.0sp" />
+
+                        <EditText
+                            android:id="@+id/lessons_add_time_end_EditText"
+                            android:layout_width="60dip"
+                            android:layout_height="30.0dip"
+                            android:layout_marginLeft="10.0dip"
+                            android:layout_marginRight="5dip"
+                            android:background="@null"
+                            android:gravity="center_vertical"
+                            android:hint="例如:2"
+                            android:singleLine="true"
+                            android:textColor="@color/otakubg" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/lessons_add_ImageView04"
+                        android:layout_width="fill_parent"
+                        android:layout_height="1.0dip"
+                        android:layout_marginLeft="2.0dip"
+                        android:layout_marginRight="2.0dip"
+                        android:background="#20000000" />
+
+                    <LinearLayout
+                        android:id="@+id/lessons_add_linearLayout9"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="2.0dip"
+                        android:layout_marginLeft="2.0dip"
+                        android:gravity="center_vertical"
+                        android:paddingBottom="5.0dip"
+                        android:paddingTop="5.0dip" >
+
+                        <TextView
+                            android:id="@+id/lessons_add_day"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10.0dip"
+                            android:text="@string/Lessons_Add_day"
+                            android:textColor="#ff000000"
+                            android:textSize="18.0sp" />
+
+                        <EditText
+                            android:id="@+id/lessons_add_day_EditText"
+                            android:layout_width="fill_parent"
+                            android:layout_height="30.0dip"
+                            android:layout_marginLeft="10.0dip"
+                            android:layout_marginRight="5dip"
+                            android:background="@null"
+                            android:gravity="center_vertical"
+                            android:hint="例如:1"
+                            android:singleLine="true"
+                            android:textColor="@color/otakubg" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/lessons_add_ImageView05"
+                        android:layout_width="fill_parent"
+                        android:layout_height="1.0dip"
+                        android:layout_marginLeft="2.0dip"
+                        android:layout_marginRight="2.0dip"
+                        android:background="#20000000" />
+
+                    <LinearLayout
+                        android:id="@+id/lessons_add_linearLayout10"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="2.0dip"
+                        android:layout_marginLeft="2.0dip"
+                        android:gravity="center_vertical"
+                        android:paddingBottom="5.0dip"
+                        android:paddingTop="5.0dip" >
+
+                        <TextView
+                            android:id="@+id/lessons_add_ste"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10.0dip"
+                            android:text="@string/Lessons_Add_ste"
+                            android:textColor="#ff000000"
+                            android:textSize="18.0sp" />
+
+                        <EditText
+                            android:id="@+id/lessons_add_ste_start_EditText"
+                            android:layout_width="70dip"
+                            android:layout_height="30.0dip"
+                            android:layout_marginLeft="10.0dip"
+                            android:layout_marginRight="5dip"
+                            android:background="@null"
+                            android:gravity="center_vertical"
+                            android:hint="例如:1"
+                            android:singleLine="true"
+                            android:textColor="@color/otakubg" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="30.0dip"
+                            android:gravity="center_vertical"
+                            android:text="到"
+                            android:textColor="#ff000000"
+                            android:textSize="18.0sp" />
+
+                        <EditText
+                            android:id="@+id/lessons_add_ste_end_EditText"
+                            android:layout_width="70dip"
+                            android:layout_height="30.0dip"
+                            android:layout_marginLeft="10.0dip"
+                            android:layout_marginRight="5dip"
+                            android:background="@null"
+                            android:gravity="center_vertical"
+                            android:hint="例如:17"
+                            android:singleLine="true"
+                            android:textColor="@color/otakubg" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/lessons_add_ImageView06"
+                        android:layout_width="fill_parent"
+                        android:layout_height="1.0dip"
+                        android:layout_marginLeft="2.0dip"
+                        android:layout_marginRight="2.0dip"
+                        android:background="#20000000" />
+
+                    <LinearLayout
+                        android:id="@+id/lessons_add_linearLayout11"
+                        android:layout_width="fill_parent"
+                        android:layout_height="40.0dip"
+                        android:layout_gravity="center"
+                        android:layout_marginBottom="2.0dip"
+                        android:layout_marginLeft="2.0dip"
+                        android:gravity="center_vertical"
+                        android:paddingBottom="5.0dip"
+                        android:paddingTop="5.0dip" >
+
+                        <TextView
+                            android:id="@+id/lessons_add_mjz"
+                            android:layout_width="0dip"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10.0dip"
+                            android:layout_weight="1.0"
+                            android:text="@string/Lessons_Add_mjz"
+                            android:textColor="#ff000000"
+                            android:textSize="18.0sp" />
+
+                        <CheckBox
+                            android:id="@+id/lessons_add_mjz_CheckBox"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="5dip"
+                            android:button="@drawable/selector_check_box"
+                            android:clickable="true" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/lessons_add_ImageView07"
+                        android:layout_width="fill_parent"
+                        android:layout_height="1.0dip"
+                        android:layout_marginLeft="2.0dip"
+                        android:layout_marginRight="2.0dip"
+                        android:background="#20000000" />
+
+                    <LinearLayout
+                        android:id="@+id/lessons_add_linearLayout12"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="2.0dip"
+                        android:layout_marginLeft="2.0dip"
+                        android:orientation="vertical"
+                        android:paddingBottom="5.0dip"
+                        android:paddingTop="5.0dip" >
+
+                        <TextView
+                            android:id="@+id/lessons_add_other"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10.0dip"
+                            android:text="@string/Lessons_Add_other"
+                            android:textColor="#ff000000"
+                            android:textSize="18.0sp" />
+
+                        <EditText
+                            android:id="@+id/lessons_add_other_EditText"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent"
+                            android:layout_marginLeft="10dip"
+                            android:background="#00000000"
+                            android:fadingEdge="vertical"
+                            android:gravity="top"
+                            android:hint="@string/Lessons_Add_other_hint"
+                            android:lineSpacingMultiplier="1.2"
+                            android:scrollbars="vertical"
+                            android:textColor="#ff000000"
+                            android:textSize="18.0sp" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/lessons_add_ImageView08"
+                        android:layout_width="fill_parent"
+                        android:layout_height="1.0dip"
+                        android:layout_marginLeft="2.0dip"
+                        android:layout_marginRight="2.0dip"
+                        android:background="#20000000" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lessons_add_linearLayout13"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10.0dip"
+                    android:layout_marginLeft="30.0dip"
+                    android:layout_marginRight="30.0dip"
+                    android:orientation="horizontal" >
+
+                    <Button
+                        android:id="@+id/lessons_add_save_Button"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.0"
+                        android:background="@drawable/button_lessons_add"
+                        android:text="@string/save"
+                        android:textColor="@color/black" />
+
+                    <Button
+                        android:id="@+id/lessons_add_delete_Button"
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10.0dip"
+                        android:layout_weight="1.0"
+                        android:background="@drawable/button_lessons_add"
+                        android:text="@string/delete"
+                        android:textColor="@color/black" />
+                </LinearLayout>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+</LinearLayout>

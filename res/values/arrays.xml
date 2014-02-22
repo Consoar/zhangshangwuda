@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="start_tabs">
+        <item>新闻</item>
+        <item>课程表</item>
+        <item>无线网</item>
+    </string-array>
+    <string-array name="start_tabs_value">
+        <item>news</item>
+        <item>lessons</item>
+        <item>wifi</item>
+    </string-array>
+    <string-array name="theme_tabs">
+        <item>白版</item>
+        <item>黑版</item>
+    </string-array>
+    <string-array name="theme_tabs_value">
+        <item>light</item>
+        <item>black</item>
+    </string-array>
+    <string-array name="jazzy_effects">
+        <item>Standard</item>
+        <item>Tablet</item>
+        <item>CubeIn</item>
+        <item>CubeOut</item>
+        <item>FlipVertical</item>
+        <item>FlipHorizontal</item>
+        <item>Stack</item>
+        <item>ZoomIn</item>
+        <item>ZoomOut</item>
+        <item>RotateUp</item>
+        <item>RotateDown</item>
+        <item>Accordion</item>
+    </string-array>
+</resources>

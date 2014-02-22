@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" >
+
+    <RelativeLayout
+        android:id="@+id/news_head_contentLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/news_head_img_ImageView"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+           />
+
+        <TextView
+            android:id="@+id/news_head_content_TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/news_head_img_ImageView"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="5dp"
+            android:maxLines="2"
+            android:text="今天没事呀~没事呀~事呀~呀~"
+            android:textColor="@color/white"
+            android:textSize="11sp" />
+    </RelativeLayout>
+
+</LinearLayout>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res/zq.whu.zhangshangwuda.ui"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" 
+    android:background="@null">
+
+    <FrameLayout
+        android:id="@+id/framelayout"
+        android:layout_width="fill_parent"
+        android:layout_height="200dip"
+        android:background="@null">
+
+        <org.taptwo.android.widget.ViewFlow
+            android:id="@+id/viewflow"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@null" >
+        </org.taptwo.android.widget.ViewFlow>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="bottom"
+            android:background="#88252525"
+            android:padding="3dip" >
+
+            <TextView
+                android:id="@+id/viewtext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:maxLines="2"
+                android:paddingLeft="6dp"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+
+            <org.taptwo.android.widget.CircleFlowIndicator
+                android:id="@+id/viewflowindic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:padding="2dip"
+                android:paddingBottom="12dp"
+                android:paddingRight="12dp"
+                android:background="@null"
+                app:activeColor="#33B5E5"
+                app:activeType="fill"
+                app:cradius="5dip"
+                app:circleSeparation="20dip"
+                app:inactiveColor="#ffffff"
+                app:inactiveType="fill" />
+        </RelativeLayout>
+    </FrameLayout>
+
+</LinearLayout>

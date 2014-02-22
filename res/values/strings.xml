@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">掌上武大</string>
+    <!-- Normal -->
+    <string name="load_more">加载更多</string>
+    <string name="exit_tip">是真的真的想退出吗？</string>
+    <string name="back">返回</string>
+    <string name="ok">确定</string>
+    <string name="share">分享</string>
+    <string name="cancel">取消</string>
+    <string name="refresh">刷新</string>
+    <string name="logoff">注销</string>
+    <string name="exportdb">备份</string>
+    <string name="importdb">恢复</string>
+    <!-- LocalData -->
+    <string name="save">保存</string>
+    <string name="delete">删除</string>
+    <string name="local_data_load_error">很不幸加载失败了呢</string>
+    <string name="no_local_data">暂无本地数据呢</string>
+    <string name="clear_local_data">清空本地数据</string>
+    <string name="delete_tip">确定删除吗？</string>
+    <string name="claer_data_tip">那个、确定要清空本地数据吗？</string>
+    <!-- Tips -->
+    <string name="Loading_Tip">正在很努力很努力地工作中哦，请稍等~</string>
+    <string name="Refresh_Done_Tip">刷新成功啦~</string>
+    <string name="No_Intenert_Tip">那个、网络不行了，请救救他吧</string>
+    <string name="No_Cache_Tip">我什么也没记住哦</string>
+    <string name="Load_More_Tip">又加载了%1$d条消息啦~</string>
+    <string name="No_Lessons_Tip">请先添加或导入课程哦~</string>
+    <!-- News -->
+    <string name="News">新闻</string>
+    <!-- Wifi -->
+    <string name="Wifi">无线网</string>
+    <string name="Wifi_onekey">一键登陆</string>
+    <string name="Wifi_Title">WHU-WLAN登陆</string>
+    <string name="Wifi_strInputAccountHint">输入帐号吧</string>
+    <string name="Wifi_strInputPasswordHint">输入密码吧</string>
+    <string name="Wifi_strAccountInputLabel">帐  号</string>
+    <string name="Wifi_strPasswordInputLabel">密  码</string>
+    <string name="Wifi_logout">注销</string>
+    <string name="Wifi_login">登陆</string>
+    <string name="Wifi_Exit">退出程序</string>
+    <string name="Wifi_Detail">查看详情</string>
+    <string name="Wifi_Logoff">强制注销</string>
+    <string name="Wifi_Settings">程序设置</string>
+    <string name="Wifi_Request_Message">看来还没有连接到WHU-WLAN呢~,请先在系统设置中开启WIFI，并连接WHU-WLAN哦！</string>
+    <string name="Wifi_Connect_Message">要先连接武汉大学WIFI哦~</string>
+    <!-- Lessons -->
+    <string name="Lessons">课程表</string>
+    <string name="Lessons_add_lessons">添加新课程</string>
+    <string name="Lessons_go_today">回到本周</string>
+    <string name="Lessons_now_day">第%1$d周</string>
+    <string name="Lessons_day_1">星期一</string>
+    <string name="Lessons_day_2">星期二</string>
+    <string name="Lessons_day_3">星期三</string>
+    <string name="Lessons_day_4">星期四</string>
+    <string name="Lessons_day_5">星期五</string>
+    <string name="Lessons_day_6">星期六</string>
+    <string name="Lessons_day_7">星期天</string>
+    <string name="Lessons_day_week">全周课程</string>
+    <string name="Lessons_strInputAccountHint">学号</string>
+    <string name="Lessons_strInputPasswordHint">与教务系统密码相同</string>
+    <string name="Lessons_logout">取消</string>
+    <string name="Lessons_login">登录</string>
+    <string name="Lessons_widget_4_2">掌上武大会查课(4X2)</string>
+    <string name="Lessons_widget_4_1">掌上武大会查课(4X1)</string>
+    <!-- Lessons_Add -->
+    <string name="Lessons_Add_name">课程名称</string>
+    <string name="Lessons_Add_day">周几上课</string>
+    <string name="Lessons_Add_ste">上课周数</string>
+    <string name="Lessons_Add_mjz">双周上课</string>
+    <string name="Lessons_Add_time">上课节数</string>
+    <string name="Lessons_Add_place">上课地点</string>
+    <string name="Lessons_Add_teacher">任课老师</string>
+    <string name="Lessons_Add_other">这是备注</string>
+    <string name="Lessons_Add_other_hint">请在这里输入内容&#8230;</string>
+    <!-- Setting -->
+    <string name="Setting">设置</string>
+    <!-- Help -->
+    <string name="Help_App">掌上武大帮助</string>
+    <string name="Help_App_Description">        Q:这软件有什么功能？\n
+        A:查看新闻、课表啦，还可以一键登录WIFI呢~\n
+        Q:新闻可以看些什么呢？\n
+        A:掌上武大可以看自强新闻、活动、公告等~\n
+        Q:什么你想换成夜间模式？\n
+        A:在设置中可以找到哦~\n
+        Q:WIFI怎么用？\n
+        A:输入账号密码一键登录，还可以设置自动登录哟，注销也是支持的！\n
+        Q:课表好用吗？\n
+        A:输入学号密码，即可一键导入！可设置智能显示当周要上的课，并能自定义编辑、添加课程哦~什么，怎么添加？点右上角的小加号啦~点击每一节课还可以查看详情哦~最后别忘了课表还有桌面小插件呢~\n 	 	Q:什么你想让课表只显示本周要上的课？\n
+        A:在设置中打开课表智能显示就可以哦，当然默认是打开的~\n
+        Q:当前周数显示不对\n
+        A:在设置中设置一下开学第一天就好啦~就是校历上的第一天~\n</string>
+    <!-- About -->
+    <string name="About_App">关于</string>
+    <string name="About_App_Title">关于掌上武大</string>
+    <string name="About_App_Name">掌上武大</string>
+    <string name="About_App_Description">        本应用更多功能不断开发中，请继续关注自强学堂网站的后续升级和其他应用。\n
+        希望获得最新的版本更新，或是bug反馈，功能建议，或是希望加入我们的团队？</string>
+    <string name="About_App_VersionName">版本号神马的:0.6.4.131202_Beta</string>
+    <string name="About_App_Author">自强网出品</string>
+    <string name="About_App_Other">        请关注或联系\n
+        掌上武大微信帐号:zhangshangwuda\n
+        人人网请搜索“掌上武大”\n
+        新浪微博：@掌上武大 \n
+        自强学堂网站:www.ziqiang.net</string>
+    <string name="About_App_Copyright">Copyright © 2012&#8211;2014 掌上武大. All Rights Reserved</string>
+    <string name="About_App_BasedOn" />
+    <!-- LeftMenu -->
+    <string name="LeftMenu_Cat1">功能</string>
+    <string name="LeftMenu_News">新闻</string>
+    <string name="LeftMenu_Lessons">课程表</string>
+    <string name="LeftMenu_Wifi">无线网</string>
+    <string name="LeftMenu_Cat2">其他</string>
+    <string name="LeftMenu_Setting">设置</string>
+    <string name="LeftMenu_Help">帮助</string>
+    <string name="LeftMenu_FeedBack">反馈</string>
+    <string name="LeftMenu_About">关于</string>
+
+</resources>

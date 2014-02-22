@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@null"
+    android:orientation="vertical" >
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:background="@null"
+        android:scrollbarStyle="outsideOverlay" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@null"
+                android:paddingBottom="15dp" >
+
+                <TextView
+                    android:id="@+id/news_content_news_title_TextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:paddingBottom="4dp"
+                    android:textColor="?attr/newsContentTextColor"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/news_content_news_author_TextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:paddingBottom="4dp"
+                    android:textColor="@color/darkgray"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/news_content_news_moreinfo_TextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:paddingBottom="4dp"
+                    android:textColor="@color/darkgray"
+                    android:textSize="15sp" />
+
+                <View
+                     android:id="@+id/news_content_news_content_line"
+                    android:layout_width="fill_parent"
+                    android:layout_height="1px"
+                    android:background="#bbbbbb"
+                    android:visibility="gone"
+                    android:paddingTop="10dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/news_content_news_content_LinearLayout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:orientation="vertical" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

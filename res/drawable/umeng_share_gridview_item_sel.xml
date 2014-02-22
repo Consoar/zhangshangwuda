@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?> 
+
+<!-- 表情选项背景（被选中） -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android" 
+       android:shape="rectangle"> 
+    <solid android:color="#DBDBDB"></solid>
+    <corners android:radius="2dip"/>                     
+</shape>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_marginLeft="10.0dip"
+    android:layout_marginRight="10.0dip" >
+
+    <TextView
+        android:id="@+id/lessons_widget_4_2_time"
+        android:layout_width="60.0dip"
+        android:layout_height="fill_parent"
+        android:layout_alignParentLeft="true"
+        android:gravity="center"
+        android:text="12-14节"
+        android:textSize="12.0dip" />
+
+    <TextView
+        android:id="@+id/lessons_widget_4_2_courseName"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_toLeftOf="@+id/lessons_widget_4_2_place"
+        android:layout_toRightOf="@+id/lessons_widget_4_2_time"
+        android:gravity="center"
+        android:maxLines="2"
+        android:text=""
+        android:textSize="14.0dip" />
+
+    <TextView
+        android:id="@+id/lessons_widget_4_2_place"
+        android:layout_width="60.0dip"
+        android:layout_height="fill_parent"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:text=""
+        android:textSize="12.0dip" />
+
+</RelativeLayout>

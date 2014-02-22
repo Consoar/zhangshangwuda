@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="通用设置" >
+        <ListPreference
+            android:defaultValue="news"
+            android:dialogTitle="选择起始页"
+            android:entries="@array/start_tabs"
+            android:entryValues="@array/start_tabs_value"
+            android:key="start_tab"
+            android:summary="自定义打开软件时默认的第一页"
+            android:title="选择起始页" >
+        </ListPreference>
+        <ListPreference
+            android:defaultValue="light"
+            android:dialogTitle="选择主题"
+            android:entries="@array/theme_tabs"
+            android:entryValues="@array/theme_tabs_value"
+            android:key="common_theme"
+            android:summary="切换主题"
+            android:title="选择主题" >
+        </ListPreference>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="WIFI相关设置" >
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:enabled="true"
+            android:key="wifi_isRememberMe"
+            android:summary="是否保存密码"
+            android:title="保存密码" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:enabled="true"
+            android:key="wifi_isAutoLogin"
+            android:summary="是否自动登录"
+            android:title="自动登录" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:enabled="true"
+            android:key="wifi_isCheckNetwork"
+            android:summary="是否检测WIFI状态"
+            android:title="检测WIFI" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="课程表相关设置" >
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:enabled="true"
+            android:key="lessons_isRememberMe"
+            android:summary="是否保存密码"
+            android:title="保存密码" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:enabled="true"
+            android:key="lessons_isShowNowLessons"
+            android:summary="是否只显示本周需要上的课程"
+            android:title="课程表智能显示" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:enabled="true"
+            android:key="lessons_isWidgetShowNowLessons"
+            android:summary="桌面小插件是否只显示本周需要上的课程"
+            android:title="桌面小插件智能显示" />
+
+        <EditTextPreference
+            android:defaultValue=""
+            android:key="lessons_TermFirstDay"
+            android:summary="校历上开学的第一天"
+            android:title="开学第一天" >
+        </EditTextPreference>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="新闻相关设置" >
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:enabled="true"
+            android:key="news_showimage"
+            android:summary="是否显示图片"
+            android:title="显示图片" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:enabled="true"
+            android:key="news_isAutoRefresh"
+            android:summary="是否在第一次查看新闻时自动刷新"
+            android:title="自动刷新" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:enabled="true"
+            android:key="news_isAutoLoadMore"
+            android:summary="是否自动加载更多"
+            android:title="自动加载更多" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="其他设置" >
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:enabled="true"
+            android:key="common_isViewPagerTX"
+            android:summary="是否开启课表/新闻滑动切换特效(需重启本软件)"
+            android:title="开启切换特效" />
+
+        <PreferenceScreen
+            android:key="common_update"
+            android:title="检查更新" >
+        </PreferenceScreen>
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_margin="@dimen/widget_margin"
+    android:background="@drawable/lessons_widget_4_1_bg" >
+
+    <RelativeLayout
+        android:id="@+id/lessons_widget_4_2_relativeLayout_title"
+        android:layout_width="fill_parent"
+        android:layout_height="40.0dip" >
+
+        <TextView
+            android:id="@+id/lessons_widget_4_2_title"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="14.0dip" />
+
+        <ImageView
+            android:id="@+id/lessons_widget_4_2_zqlogo"
+            android:layout_width="50.0dip"
+            android:layout_height="fill_parent"
+            android:layout_alignParentLeft="true"
+            android:scaleType="center"
+            android:src="@drawable/lessons_widget_4_2_zqlogo" />
+
+        <ImageButton
+            android:id="@+id/lessons_widget_4_2_today"
+            android:layout_width="50.0dip"
+            android:layout_height="fill_parent"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/appwidget_button_center"
+            android:paddingRight="5.0dip"
+            android:scaleType="center"
+            android:src="@drawable/lessons_widget_4_2_today" />
+
+        <ImageButton
+            android:id="@+id/lessons_widget_4_2_next"
+            android:layout_width="50.0dip"
+            android:layout_height="fill_parent"
+            android:layout_toRightOf="@+id/lessons_widget_4_2_title"
+            android:background="@drawable/appwidget_button_center"
+            android:scaleType="center"
+            android:src="@drawable/lessons_widget_4_2_next" />
+
+        <ImageButton
+            android:id="@+id/lessons_widget_4_2_previous"
+            android:layout_width="50.0dip"
+            android:layout_height="fill_parent"
+            android:layout_toLeftOf="@+id/lessons_widget_4_2_title"
+            android:background="@drawable/appwidget_button_center"
+            android:scaleType="center"
+            android:src="@drawable/lessons_widget_4_2_previous" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/lessons_widget_4_2_linearLayout_body"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/lessons_widget_4_2_footer"
+        android:layout_below="@+id/lessons_widget_4_2_relativeLayout_title"
+        android:layout_marginBottom="2.0dip"
+        android:layout_marginTop="2.0dip"
+        android:baselineAligned="false"
+        android:orientation="vertical"
+        android:weightSum="3.0" >
+
+        <RelativeLayout
+            android:id="@+id/lessons_widget_4_2_linearLayout_body1"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.0"
+            android:background="@drawable/lessons_widget_4_2_split_bg" />
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/newslist" />
+
+        <RelativeLayout
+            android:id="@+id/lessons_widget_4_2_linearLayout_body2"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.0"
+            android:background="@drawable/lessons_widget_4_2_split_bg" />
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/newslist" />
+
+        <RelativeLayout
+            android:id="@+id/lessons_widget_4_2_linearLayout_body3"
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.0"
+            android:background="@drawable/lessons_widget_4_2_split_bg" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/lessons_widget_4_2_footer"
+        android:layout_width="fill_parent"
+        android:layout_height="30.0dip"
+        android:layout_alignParentBottom="true" >
+
+        <RelativeLayout
+            android:id="@+id/lessons_widget_4_2_layout_nextpage"
+            android:layout_width="fill_parent"
+            android:layout_height="29.0dip"
+            android:layout_centerHorizontal="true"
+            android:gravity="center" >
+
+            <ImageButton
+                android:id="@+id/lessons_widget_4_2_nextpage"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@drawable/appwidget_button_center"
+                android:src="@drawable/lessons_widget_4_2_nextpage" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>

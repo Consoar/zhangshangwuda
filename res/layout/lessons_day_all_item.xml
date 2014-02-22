@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout_Root"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/lessons_listview_item_bg" >
+        <TextView
+            android:id="@+id/lessons_day_all_ListView_Item_Id"
+            android:layout_width="286.0dip"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
+        <TextView
+            android:id="@+id/lessons_day_all_ListView_Item_CourseName_TextView"
+            android:layout_width="286.0dip"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="10.0dip"
+            android:layout_marginTop="13.0dip"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:text="Descritpion"
+            android:textColor="#000"
+            android:textSize="16.0dip" />
+
+        <TextView
+            android:id="@+id/lessons_day_all_ListView_Item_Time_TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="10.0dip"
+            android:layout_marginTop="47.0dip"
+            android:text="17-19节,1-18周"
+            android:textColor="#000"
+            android:textSize="13.0dip" />
+
+        <TextView
+            android:id="@+id/lessons_day_all_ListView_Item_Place_TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/lessons_day_all_ListView_Item_LabelTeacher_TextView"
+            android:layout_alignBottom="@+id/lessons_day_all_ListView_Item_LabelTeacher_TextView"
+            android:layout_centerHorizontal="true"
+            android:text="3区,1-327"
+            android:textColor="#000"
+            android:textSize="13.0dip" />
+
+        <TextView
+            android:id="@+id/lessons_day_all_ListView_Item_TeacherName_TextView"
+            android:layout_width="60.0dip"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="5.0dip"
+            android:layout_marginTop="47.0dip"
+            android:singleLine="true"
+            android:text="赵燕芬"
+            android:textColor="#000"
+            android:textSize="13.0dip" />
+
+        <TextView
+            android:id="@+id/lessons_day_all_ListView_Item_LabelTeacher_TextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="47.0dip"
+            android:layout_toLeftOf="@id/lessons_day_all_ListView_Item_TeacherName_TextView"
+            android:text="教师："
+            android:textColor="#000"
+            android:textSize="13.0dip" />
+    </RelativeLayout>
+
+</RelativeLayout>
