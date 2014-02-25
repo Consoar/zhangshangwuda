@@ -401,7 +401,7 @@ public class LessonsFragment extends BaseSherlockFragment {
 		case 10:
 			return "17:25";
 		case 11:
-			return "17:30";
+			return "18:15";
 		case 12:
 			return "19:45";
 		case 13:
