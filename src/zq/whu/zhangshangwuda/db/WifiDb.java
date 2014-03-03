@@ -43,15 +43,17 @@ public class WifiDb extends WifiDBUtil {
 	 * @return
 	 */
 	public boolean insert(WifiAccount account) {
+		SQLiteDatabase db = this.getWritableDatabase();
 		try {
 			ContentValues cv = new ContentValues();
 			cv.put("username", account.getUsername());
 			cv.put("password", account.getPassword());
-			SQLiteDatabase db = this.getWritableDatabase();
 			db.insert(TABLE_NAME, null, cv);
-			db.close();
 		} catch (Exception e) {
 			return false;
+		} finally {
+			if (db != null)
+				db.close();
 		}
 		return true;
 	}
@@ -63,13 +65,19 @@ public class WifiDb extends WifiDBUtil {
 	 */
 	public void update(WifiAccount account) {
 		SQLiteDatabase db = this.getWritableDatabase();
-		ContentValues cv = new ContentValues();
-		cv.put("id", account.getId());
-		cv.put("username", account.getUsername());
-		cv.put("password", account.getPassword());
-		db.update(TABLE_NAME, cv, "id=?",
-				new String[] { String.valueOf(account.getId()) });
-		db.close();
+		try {
+			ContentValues cv = new ContentValues();
+			cv.put("id", account.getId());
+			cv.put("username", account.getUsername());
+			cv.put("password", account.getPassword());
+			db.update(TABLE_NAME, cv, "id=?",
+					new String[] { String.valueOf(account.getId()) });
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (db != null)
+				db.close();
+		}
 	}
 
 	/**
@@ -82,26 +90,29 @@ public class WifiDb extends WifiDBUtil {
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.query(TABLE_NAME, null, "id = ?",
 				new String[] { String.valueOf(id) }, null, null, null);
-		WifiAccount account = new WifiAccount();
-		if (cursor.moveToFirst()) {
-			account.setId(cursor.getInt(cursor.getColumnIndex("id")));
-			account.setUsername(cursor.getString(cursor
-					.getColumnIndex("username")));
-			account.setPassword(cursor.getString(cursor
-					.getColumnIndex("password")));
-			cursor.close();
-			db.close();
-			return account;
+		WifiAccount account = null;
+		try {
+			if (cursor.moveToFirst()) {
+				account = new WifiAccount();
+				account.setId(cursor.getInt(cursor.getColumnIndex("id")));
+				account.setUsername(cursor.getString(cursor
+						.getColumnIndex("username")));
+				account.setPassword(cursor.getString(cursor
+						.getColumnIndex("password")));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (cursor != null)
+				cursor.close();
+			if (db != null)
+				db.close();
 		}
-		if (cursor != null)
-			cursor.close();
-		cursor = null;
-		db.close();
 		return null;
 	}
 
 	/**
-	 * 由username获取课程
+	 * 由username获取WIFI账户
 	 * 
 	 * @param username
 	 * @return
@@ -110,21 +121,24 @@ public class WifiDb extends WifiDBUtil {
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.query(TABLE_NAME, null, "username = ?",
 				new String[] { String.valueOf(username) }, null, null, null);
-		WifiAccount account = new WifiAccount();
-		if (cursor.moveToFirst()) {
-			account.setId(cursor.getInt(cursor.getColumnIndex("id")));
-			account.setUsername(cursor.getString(cursor
-					.getColumnIndex("username")));
-			account.setPassword(cursor.getString(cursor
-					.getColumnIndex("password")));
-			cursor.close();
-			db.close();
-			return account;
+		WifiAccount account = null;
+		try {
+			if (cursor.moveToFirst()) {
+				account = new WifiAccount();
+				account.setId(cursor.getInt(cursor.getColumnIndex("id")));
+				account.setUsername(cursor.getString(cursor
+						.getColumnIndex("username")));
+				account.setPassword(cursor.getString(cursor
+						.getColumnIndex("password")));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (cursor != null)
+				cursor.close();
+			if (db != null)
+				db.close();
 		}
-		if (cursor != null)
-			cursor.close();
-		cursor = null;
-		db.close();
 		return null;
 	}
 
@@ -152,8 +166,8 @@ public class WifiDb extends WifiDBUtil {
 		} finally {
 			if (cursor != null)
 				cursor.close();
-			cursor = null;
-			db.close();
+			if (db != null)
+				db.close();
 		}
 		return list;
 	}
