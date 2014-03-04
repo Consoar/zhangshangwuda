@@ -19,10 +19,11 @@ public class WifiDb extends WifiDBUtil {
 	private static final String TABLE_NAME = "wifi";
 
 	private static WifiDb service = null;
-
+	private SQLiteDatabase db;
 	public static WifiDb getInstance(Context context) {
 		if (service == null) {
 			service = new WifiDb(context);
+			
 		}
 		return service;
 	}
@@ -30,12 +31,22 @@ public class WifiDb extends WifiDBUtil {
 	public WifiDb(Context context, String name, CursorFactory factory,
 			int version) {
 		super(context, name, factory, version);
+		openDB();
 	}
 
 	public WifiDb(Context context) {
 		super(context);
+		openDB();
 	}
-
+	
+	public void openDB() {
+		// TODO Auto-generated method stub
+		db=this.getWritableDatabase();
+	}
+	public void closeDB(){
+		if (db != null)
+			db.close();
+	}
 	/**
 	 * 插入一条数据
 	 * 
@@ -43,7 +54,6 @@ public class WifiDb extends WifiDBUtil {
 	 * @return
 	 */
 	public boolean insert(WifiAccount account) {
-		SQLiteDatabase db = this.getWritableDatabase();
 		try {
 			ContentValues cv = new ContentValues();
 			cv.put("username", account.getUsername());
@@ -52,8 +62,6 @@ public class WifiDb extends WifiDBUtil {
 		} catch (Exception e) {
 			return false;
 		} finally {
-			if (db != null)
-				db.close();
 		}
 		return true;
 	}
@@ -64,7 +72,6 @@ public class WifiDb extends WifiDBUtil {
 	 * @param lessons
 	 */
 	public void update(WifiAccount account) {
-		SQLiteDatabase db = this.getWritableDatabase();
 		try {
 			ContentValues cv = new ContentValues();
 			cv.put("id", account.getId());
@@ -75,8 +82,6 @@ public class WifiDb extends WifiDBUtil {
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			if (db != null)
-				db.close();
 		}
 	}
 
@@ -87,7 +92,6 @@ public class WifiDb extends WifiDBUtil {
 	 * @return
 	 */
 	public WifiAccount getAccountById(String id) {
-		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.query(TABLE_NAME, null, "id = ?",
 				new String[] { String.valueOf(id) }, null, null, null);
 		WifiAccount account = null;
@@ -105,10 +109,8 @@ public class WifiDb extends WifiDBUtil {
 		} finally {
 			if (cursor != null)
 				cursor.close();
-			if (db != null)
-				db.close();
 		}
-		return null;
+		return account;
 	}
 
 	/**
@@ -118,7 +120,6 @@ public class WifiDb extends WifiDBUtil {
 	 * @return
 	 */
 	public WifiAccount getAccountByUsername(String username) {
-		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.query(TABLE_NAME, null, "username = ?",
 				new String[] { String.valueOf(username) }, null, null, null);
 		WifiAccount account = null;
@@ -136,10 +137,8 @@ public class WifiDb extends WifiDBUtil {
 		} finally {
 			if (cursor != null)
 				cursor.close();
-			if (db != null)
-				db.close();
 		}
-		return null;
+		return account;
 	}
 
 	/**
@@ -148,7 +147,6 @@ public class WifiDb extends WifiDBUtil {
 	 */
 	public List<WifiAccount> getLocalAccountsList() {
 		ArrayList<WifiAccount> list = new ArrayList<WifiAccount>();
-		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.query(TABLE_NAME, //
 				null, null, null, null, null, null);
 		try {
@@ -166,8 +164,6 @@ public class WifiDb extends WifiDBUtil {
 		} finally {
 			if (cursor != null)
 				cursor.close();
-			if (db != null)
-				db.close();
 		}
 		return list;
 	}
@@ -179,7 +175,7 @@ public class WifiDb extends WifiDBUtil {
 	 * @return
 	 */
 	public boolean deleteByName(String name) {
-		if (this.getWritableDatabase().delete(TABLE_NAME, "username=?",
+		if (db.delete(TABLE_NAME, "username=?",
 				new String[] { name }) != 0) {
 			return true;
 		} else {
@@ -194,7 +190,7 @@ public class WifiDb extends WifiDBUtil {
 	 * @return
 	 */
 	public boolean deleteById(String id) {
-		if (this.getWritableDatabase().delete(TABLE_NAME, "id=?",
+		if (db.delete(TABLE_NAME, "id=?",
 				new String[] { id }) != 0) {
 			return true;
 		} else {
@@ -206,7 +202,7 @@ public class WifiDb extends WifiDBUtil {
 	 * 删除所有的数据
 	 */
 	public void deleteAll() {
-		this.getWritableDatabase().delete(TABLE_NAME, null, null);
+		db.delete(TABLE_NAME, null, null);
 	}
 
 }

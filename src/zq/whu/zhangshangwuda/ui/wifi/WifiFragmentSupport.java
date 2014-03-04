@@ -249,24 +249,35 @@ public class WifiFragmentSupport extends SherlockFragment {
 	private void SaveConfig() {
 		SharedPreferences.Editor localEditor = getActivity()
 				.getSharedPreferences("User_Data", 0).edit();
-		String str1 = AccountView.getText().toString();
-		String str2 = PasswordView.getText().toString();
+		String strAccount = AccountView.getText().toString();
+		String strPassword = PasswordView.getText().toString();
+		// 更新数据库
+		if (WifiDb.getInstance(getActivity()).getAccountByUsername(strAccount) == null) {
+			WifiAccount account = new WifiAccount(strAccount, strPassword);
+			WifiDb.getInstance(getActivity()).insert(account);
+		} else {
+			WifiAccount account = WifiDb.getInstance(getActivity())
+					.getAccountByUsername(strAccount);
+			account.setPassword(strPassword);
+			WifiDb.getInstance(getActivity()).update(account);
+		}
 		try {
-			str1 = BosCrypto.encrypt(BosCrypto.Excalibur, str1);
-			str2 = BosCrypto.encrypt(BosCrypto.Excalibur, str2);
+			strAccount = BosCrypto.encrypt(BosCrypto.Excalibur, strAccount);
+			strPassword = BosCrypto.encrypt(BosCrypto.Excalibur, strPassword);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		localEditor.putString("wifi_Account", str1).commit();
+		localEditor.putString("wifi_Account", strAccount).commit();
 		if (isRememberMe()) {
-			localEditor.putString("wifi_Password", str2).commit();
+			localEditor.putString("wifi_Password", strPassword).commit();
 		} else {
 			ClearPassword();
 		}
 	}
 
 	public void InitConfig() {
+		WifiDb.getInstance(getActivity()).openDB();
 		SharedPreferences localSharedPreferences = getActivity()
 				.getSharedPreferences("User_Data", 0);
 		String str1 = localSharedPreferences.getString("wifi_Account", "");
@@ -312,6 +323,13 @@ public class WifiFragmentSupport extends SherlockFragment {
 		// TODO Auto-generated method stub
 		super.onResume();
 		MobclickAgent.onPageStart(mPageName);
+	}
+
+	@Override
+	public void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		WifiDb.getInstance(getActivity()).closeDB();
 	}
 
 	public static String getErrorMessage(String html) {
@@ -618,16 +636,6 @@ public class WifiFragmentSupport extends SherlockFragment {
 			pairs.add(new BasicNameValuePair("password", Password));
 			// System.out.println("username "+Account);
 			// System.out.println("password "+Password);
-			// 更新数据库
-			if (WifiDb.getInstance(getActivity()).getAccountByUsername(Account) == null) {
-				WifiAccount account = new WifiAccount(Account, Password);
-				WifiDb.getInstance(getActivity()).insert(account);
-			} else {
-				WifiAccount account = WifiDb.getInstance(getActivity())
-						.getAccountByUsername(Account);
-				account.setPassword(Password);
-				WifiDb.getInstance(getActivity()).update(account);
-			}
 			// // 取得默认的HttpClient
 			// BasicHttpParams httpParams = new BasicHttpParams();
 			// /* 连接超时 */
