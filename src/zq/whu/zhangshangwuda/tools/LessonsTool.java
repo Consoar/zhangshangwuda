@@ -7,9 +7,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.jsoup.Jsoup;
+import org.jsoup.helper.StringUtil;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
@@ -66,9 +68,7 @@ public class LessonsTool {
 	public static List<Map<String, String>> getLessonsList(Context context,
 			String html) {
 		Document doc = null;
-		thtml = html;
-		// System.out.println(thtml);
-		doc = Jsoup.parse(thtml);
+		doc = Jsoup.parse(html);
 		if (doc == null) {
 			return null;
 		}
@@ -124,6 +124,101 @@ public class LessonsTool {
 		return list;
 	}
 
+	public static List<Map<String, String>> getLessonsListNew(Context context,
+			String html) {
+		Document doc = null;
+		doc = Jsoup.parse(html);
+		if (doc == null) {
+			return null;
+		}
+
+		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
+		Elements lessons = doc.select("table");
+		Elements times = lessons.select("tr");
+		int tid = LessonsSharedPreferencesTool.getLessonsId(context);
+		for (Element time : times) {
+			Elements contents = time.select("td");
+//			System.out.println(contents.text());
+			if (contents.size() > 0) {
+				Map<String, String> mapBase = new HashMap<String, String>();
+				// 提取课程名
+				mapBase.put("name", contents.get(1).text());
+				// 提取教师名
+				mapBase.put("teacher", contents.get(5).text());
+				// 提取备注信息
+				mapBase.put("other", contents.get(10).text());
+				String weekday = getShangKeDay(contents.get(9).text());
+				if (weekday == null) {
+					++tid;
+					// 设置课程ID
+					mapBase.put("id", String.valueOf(tid));
+					list.add(mapBase);
+				} else {
+					String[] sArray = weekday.split(":");
+					String tinfo = contents.get(9).text();
+					for (int i = 0; i < sArray.length; ++i) {
+						Map<String, String> map = new HashMap<String, String>();
+						++tid;
+						// 设置课程ID
+						map.put("id", String.valueOf(tid));
+						map.put("name", mapBase.get("name"));
+						map.put("teacher", mapBase.get("teacher"));
+						map.put("other", mapBase.get("other"));
+						map.put("day", sArray[i]);
+
+						tinfo = tinfo.substring(tinfo.indexOf(":") + 1);
+						int tpos = tinfo.indexOf("周");
+						map.put("ste", tinfo.substring(0, tpos));
+						// 提取每几周
+						tinfo = tinfo.substring(tinfo.indexOf("每") + 1);
+						map.put("mjz", tinfo.substring(0, 1));
+						// 提取第几节上课
+						tinfo = tinfo.substring(4);
+						tpos = tinfo.indexOf("节");
+						map.put("time", tinfo.substring(0, tpos));
+						// 提取上课地点
+						if (tinfo.length() > tpos + 2) {
+							tinfo = tinfo.substring(tpos + 2);
+							if (tinfo.contains(":")){
+								map.put("place", tinfo.substring(0,tinfo.indexOf("周")-1));
+							}
+							else{
+							map.put("place", tinfo);
+							}
+						} else {
+							map.put("place", "");
+						}
+						list.add(map);
+					}
+
+				}
+			}
+		}
+		LessonsSharedPreferencesTool.setLessonsId(context, tid);
+		return list;
+	}
+	
+	public static String getShangKeDay(String info) {
+		if (StringUtil.isBlank(info))
+			return null;
+		StringBuilder weekday = new StringBuilder();
+		if (info.indexOf("周一") > -1)
+			weekday.append("1").append(":");
+		if (info.indexOf("周二") > -1)
+			weekday.append("2").append(":");
+		if (info.indexOf("周三") > -1)
+			weekday.append("3").append(":");
+		if (info.indexOf("周四") > -1)
+			weekday.append("4").append(":");
+		if (info.indexOf("周五") > -1)
+			weekday.append("5").append(":");
+		if (info.indexOf("周六") > -1)
+			weekday.append("6").append(":");
+		if (info.indexOf("周日") > -1)
+			weekday.append("7").append(":");
+		String ans = weekday.toString();
+		return ans.substring(0, ans.length() - 1);
+	}
 	public static List<Map<String, String>> washLessonsByWeek(
 			List<Map<String, String>> list, int nowWeek) {
 		int tsize = list.size();

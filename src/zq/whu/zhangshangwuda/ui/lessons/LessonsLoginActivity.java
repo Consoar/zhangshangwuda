@@ -1,6 +1,10 @@
 ﻿package zq.whu.zhangshangwuda.ui.lessons;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +34,7 @@ import zq.whu.zhangshangwuda.tools.BosCrypto;
 import zq.whu.zhangshangwuda.tools.Constants;
 import zq.whu.zhangshangwuda.tools.LessonsSharedPreferencesTool;
 import zq.whu.zhangshangwuda.tools.LessonsTool;
+import zq.whu.zhangshangwuda.tools.StringUtils;
 import zq.whu.zhangshangwuda.ui.R;
 import zq.whu.zhangshangwuda.views.toast.ToastUtil;
 import android.app.ProgressDialog;
@@ -62,12 +67,15 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity {
 	private EditText YZMView;
 	private ImageView YZMimg;
 	private static Bitmap YZMbm = null;
-	private static String yzmURL = "http://202.114.74.199/GenImg";
-	private static String BaseURL = "http://202.114.74.199/servlet/Login";
+	private static String BaseURL = "http://210.42.121.241";
+	private static String yzmURL = "http://210.42.121.241/GenImg";
+	private static String LoginURL = "http://210.42.121.241/servlet/Login";
 	private static String MasterCookie;
 	private ImageView bottomImg;
+	private List<Map<String, String>> Lessonslist = new ArrayList<Map<String, String>>();
 
 	public Bitmap getYZM(String url, String cookie) {
+		url = BaseURL + "/servlet/GenImg?rdddd=" + Math.random();
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpGet httpget = new HttpGet(url);
 		httpget.addHeader("Cookie", cookie);
@@ -114,7 +122,7 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity {
 	}
 
 	public void refreshYZM() {
-		MasterCookie = getFirstCookie("http://202.114.74.199/");
+		MasterCookie = getFirstCookie(BaseURL);
 		YZMbm = getYZM(yzmURL, MasterCookie);
 		YZMhandler.sendEmptyMessage(0);
 	}
@@ -180,7 +188,7 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity {
 				new Thread(new LogInThread()).start();
 			} else {
 				ToastUtil.showToast(LessonsLoginActivity.this, "要先连上网哦~");
-				new Thread(new refreshYZMThread()).start();
+				// new Thread(new refreshYZMThread()).start();
 			}
 		}
 	}
@@ -194,9 +202,9 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity {
 		}
 	}
 
-	public String getFirstCookie(String url) {
+	public static String getFirstCookie(String url) {
 		HttpClient httpclient = new DefaultHttpClient();
-		String cookie = null;
+		String cookie = "";
 		HttpGet httpget = new HttpGet(url);
 		try {
 			HttpResponse httpResponse = httpclient.execute(httpget);
@@ -225,8 +233,35 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity {
 	public static String getErrorMessage(String html) {
 		Document doc = null;
 		doc = Jsoup.parse(html);
-		Elements links = doc.getElementsByClass("TR_TITLE");
-		return links.text().toString();
+		Elements links = doc.select("font[color=red]");
+		return links.get(0).text().toString();
+	}
+
+	public static String getcontent(String url, String cooike) {
+		try {
+			HttpURLConnection localHttpURLConnection = (HttpURLConnection) new URL(
+					url).openConnection();
+			localHttpURLConnection.setDoInput(true);
+			localHttpURLConnection.setRequestProperty("Cookie", cooike);
+			localHttpURLConnection.setRequestProperty("Content-type",
+					"application/x-www-form-urlencoded");
+			localHttpURLConnection.setUseCaches(false);
+			localHttpURLConnection.connect();
+			BufferedReader localBufferedReader = new BufferedReader(
+					new InputStreamReader(
+							localHttpURLConnection.getInputStream(), "gb2312"));
+			String inputLine;
+			StringBuffer sb = new StringBuffer();
+			while ((inputLine = localBufferedReader.readLine()) != null) {
+				sb.append(inputLine);
+				sb.append("\n");
+			}
+			return sb.toString();
+
+		} catch (Exception localException) {
+			localException.printStackTrace();
+		}
+		return "ERROR";
 	}
 
 	public String getLessonsHtml(String url, String cookie) {
@@ -240,8 +275,6 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity {
 				String strResult = EntityUtils.toString(httpResponse
 						.getEntity());
 				return strResult;
-			} else {
-
 			}
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();
@@ -263,16 +296,14 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity {
 		String Password = PasswordView.getText().toString();
 		String ImgStr = YZMView.getText().toString();
 		List<NameValuePair> pairs = new ArrayList<NameValuePair>();
-		pairs.add(new BasicNameValuePair("who", "student"));
 		pairs.add(new BasicNameValuePair("id", Account));
 		pairs.add(new BasicNameValuePair("pwd", Password));
-		pairs.add(new BasicNameValuePair("yzm", ImgStr));
-		pairs.add(new BasicNameValuePair("submit", "%D5%FD%B3%A3%B5%C7%C2%BC"));
+		pairs.add(new BasicNameValuePair("xdvfb", ImgStr));
 		try {
 			// 设置字符集
 			HttpEntity httpentity = new UrlEncodedFormEntity(pairs);
 			// HttpPost连接对象
-			HttpPost httpRequest = new HttpPost(BaseURL);
+			HttpPost httpRequest = new HttpPost(LoginURL);
 			httpRequest.addHeader("Cookie", cookie);
 			// 请求httpRequest
 			httpRequest.setEntity(httpentity);
@@ -281,7 +312,10 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity {
 			// HttpStatus.SC_OK表示连接成功
 			if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
 				strResult = EntityUtils.toString(httpResponse.getEntity());
-				strResult = getErrorMessage(strResult);
+				if (strResult.contains("验证码"))
+					strResult = getErrorMessage(strResult);
+				else
+					strResult = "SUCCESS";
 			} else {
 				strResult = null;
 			}
@@ -377,6 +411,27 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity {
 			// TODO Auto-generated method stub
 			LoginButton.setEnabled(true);
 			if (msg.arg1 == 0) {
+				int size = Lessonslist.size();
+				if (size != 0)
+					LessonsDb.getInstance(LessonsLoginActivity.this)
+							.deleteAll();
+				Lessons tlessons = new Lessons();
+				for (int i = 0; i <= size - 1; ++i) {
+					Map<String, String> tmap = new HashMap<String, String>();
+					tmap = Lessonslist.get(i);
+					tlessons.setId(tmap.get("id"));
+					tlessons.setName(tmap.get("name"));
+					tlessons.setDay(tmap.get("day"));
+					tlessons.setSte(tmap.get("ste"));
+					tlessons.setMjz(tmap.get("mjz"));
+					tlessons.setTime(tmap.get("time"));
+					tlessons.setPlace(tmap.get("place"));
+					tlessons.setTeacher(tmap.get("teacher"));
+					tlessons.setOther(tmap.get("other"));
+					LessonsDb.getInstance(LessonsLoginActivity.this).insert(
+							tlessons);
+				}
+
 				LessonsSharedPreferencesTool.setLessonsHave(
 						LessonsLoginActivity.this, true);
 				Intent intent = new Intent("zq.whu.zhangshangwuda.lessonsShow");
@@ -402,18 +457,16 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity {
 		public void run() {
 			// TODO Auto-generated method stub
 			Message msg = LogInHandler.obtainMessage();
-			String MasterCooike = MasterCookie;
 			String StateString;
-			StateString = LogIn(MasterCooike);
+			StateString = LogIn(MasterCookie);
 			if (StateString == null) {
 				msg.arg1 = 3;
-			} else if (StateString.indexOf("密码") > 0) {
+			} else if (StateString.contains("密码")) {
 				msg.arg1 = 1;
-			} else if (StateString.indexOf("验证码") > 0) {
+			} else if (StateString.contains("验证码")) {
 				msg.arg1 = 2;
 			} else {
 				msg.arg1 = 0;
-				List<Map<String, String>> list = new ArrayList<Map<String, String>>();
 				String TermFirstDay = MobclickAgent.getConfigParams(
 						LessonsLoginActivity.this, "term_firstday");
 				if (TermFirstDay != "")
@@ -421,33 +474,10 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity {
 							LessonsLoginActivity.this, TermFirstDay);
 				String LessonsURL = MobclickAgent.getConfigParams(
 						LessonsLoginActivity.this, "lessons_url");
-				String ServantCookie = "studentid=" + Account + ";"
-						+ MasterCooike + ";" + "studentid=" + Account;
-				// System.out.println(LessonsURL);
-				// LessonsURL="http://202.114.74.199/stu/query_stu_lesson.jsp?year=2012&term=%CF%C2&submit=%CF%D4+%CA%BE";
-				String Html_lessons = getLessonsHtml(LessonsURL, ServantCookie);
-				list = LessonsTool.getLessonsList(getApplicationContext(),
-						Html_lessons);
-				int size = list.size();
-				if (size != 0)
-					LessonsDb.getInstance(LessonsLoginActivity.this)
-							.deleteAll();
-				Lessons tlessons = new Lessons();
-				for (int i = 0; i <= size - 1; ++i) {
-					Map<String, String> tmap = new HashMap<String, String>();
-					tmap = list.get(i);
-					tlessons.setId(tmap.get("id"));
-					tlessons.setName(tmap.get("name"));
-					tlessons.setDay(tmap.get("day"));
-					tlessons.setSte(tmap.get("ste"));
-					tlessons.setMjz(tmap.get("mjz"));
-					tlessons.setTime(tmap.get("time"));
-					tlessons.setPlace(tmap.get("place"));
-					tlessons.setTeacher(tmap.get("teacher"));
-					tlessons.setOther(tmap.get("other"));
-					LessonsDb.getInstance(LessonsLoginActivity.this).insert(
-							tlessons);
-				}
+				LessonsURL = "http://210.42.121.241/servlet/Svlt_QueryStuLsn?action=normalLsn";
+				String Html_lessons = getLessonsHtml(LessonsURL, MasterCookie);
+				Lessonslist = LessonsTool.getLessonsListNew(
+						getApplicationContext(), Html_lessons);
 			}
 			LogInHandler.sendMessage(msg);
 		}
