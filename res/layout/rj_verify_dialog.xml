@@ -6,8 +6,8 @@
 
     <ImageView
         android:id="@+id/verifyImage"
-        android:layout_width="140dp"
-        android:layout_height="50dp" />
+        android:layout_width="150dp"
+        android:layout_height="55dp" />
 
     <EditText
         android:id="@+id/verify"

@@ -6,6 +6,8 @@ import java.io.UnsupportedEncodingException;
 import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -66,9 +68,12 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.format.Formatter;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -153,7 +158,9 @@ public class WifiFragmentSupport extends SherlockFragment {
 		SaveConfig();
 		Account = AccountView.getText().toString();
 		Password = PasswordView.getText().toString();
-		ToastUtil.showToast(getActivity(), "正在尝试启用/停用校园网");
+		Message msg = new Message();
+		msg.arg1 = 8;
+		switcherHandler.sendMessage(msg);
 		if(getActivity().getSharedPreferences("User_Data", Context.MODE_PRIVATE)
 				.getInt("AccountMode", SHENMA)==SHENMA) {
 			ShenmaThread testThread = new ShenmaThread(WIFI_STOP);
@@ -171,7 +178,9 @@ public class WifiFragmentSupport extends SherlockFragment {
 		SaveConfig();
 		Account = AccountView.getText().toString();
 		Password = PasswordView.getText().toString();
-		ToastUtil.showToast(getActivity(), "正在尝试启用/停用校园网");
+		Message msg = new Message();
+		msg.arg1 = 7;
+		switcherHandler.sendMessage(msg);
 		if(getActivity().getSharedPreferences("User_Data", Context.MODE_PRIVATE)
 				.getInt("AccountMode", SHENMA)==SHENMA) {
 			ShenmaThread testThread = new ShenmaThread(WIFI_START);
@@ -623,6 +632,7 @@ public class WifiFragmentSupport extends SherlockFragment {
 				// Toast.makeText(getActivity(), (String) msg.obj,
 				// Toast.LENGTH_SHORT).show();
 				ToastUtil.showToast(getActivity(), (String) msg.obj);
+				LoginButton.setEnabled(true);
 			}
 		}
 	};
@@ -673,7 +683,40 @@ public class WifiFragmentSupport extends SherlockFragment {
 			}
 			if (msg.arg1 == 3) {//成功?
 				ToastUtil.showToast(getActivity(), result);
-				loginWifi();
+				if(((String) msg.obj).equals(WIFI_START)) {
+					loginWifi();
+				}
+			}
+			if (msg.arg1 == 4) {
+				ToastUtil.showToast(getActivity(), "服务器不搭理我T_T");
+			}
+			if (msg.arg1 == 5) {
+				ToastUtil.showToast(getActivity(), "网络错误啦……服务器不理我了T_T");
+			}
+			if (msg.arg1 == 6) {//是否启用校园网账号
+				new AlertDialog.Builder(getActivity()).setTitle("您的账号已被停用")
+				.setMessage("是否需要为您启用校园无线网?").setCancelable(false)
+				.setNegativeButton("不连接校园网", new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						LoginButton.setText("登陆");
+						LoginButton.setEnabled(true);
+						return;
+					}
+				}).setPositiveButton("帮我启用", new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						startWifi();								
+					}
+				}).show();
+			}
+			if (msg.arg1 == 7) {
+				ToastUtil.showToast(getActivity(), "正在启用校园无线网");
+			}
+			if (msg.arg1 == 8) {
+				ToastUtil.showToast(getActivity(), "正在停用校园无线网");
 			}
 		}
 
@@ -779,25 +822,11 @@ public class WifiFragmentSupport extends SherlockFragment {
 					strResult = EntityUtils.toString(httpResponse.getEntity());
 					String strReturnMessage = getErrorMessage(strResult);
 					//标志位,wifi是否已经被停用
-					boolean isStopped = false;
 					if(strReturnMessage.contains("已被暂停")) {
-						isStopped = true;
-						new AlertDialog.Builder(getActivity()).setTitle("您的账号已被停用").setMessage("是否需要为您启用校园无线网?")
-						.setNegativeButton("不连接校园网", new DialogInterface.OnClickListener() {
-							
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								return;
-							}
-						}).setPositiveButton("帮我启用", new DialogInterface.OnClickListener() {
-							
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								startWifi();								
-							}
-						}).show();
+						msg.arg1 = 6;
+						switcherHandler.sendMessage(msg);
+						return;
 					}
-					if(isStopped) return;
 					if (strReturnMessage.length() <= 4) {
 						msg.arg1 = 0;
 					} else {
@@ -890,18 +919,18 @@ public class WifiFragmentSupport extends SherlockFragment {
 								//认定是神马用户
 								getActivity().getSharedPreferences("User_Data", Context.MODE_PRIVATE).edit().putInt("AccountMode", SHENMA).commit();
 								msg.arg1 = 3;
+								msg.obj = this.startorstop;
 								switcherHandler.sendMessage(msg);
 							}
-//						}
 					} catch (ClientProtocolException e) {
 						Message msg = new Message();
-						msg.arg1 = 2;
-						OnlineHandler.sendMessage(msg);
+						msg.arg1 = 4;
+						switcherHandler.sendMessage(msg);
 						e.printStackTrace();
 					} catch (IOException e) {
 						Message msg = new Message();
-						msg.arg1 = 3;
-						OnlineHandler.sendMessage(msg);
+						msg.arg1 = 5;
+						switcherHandler.sendMessage(msg);
 						e.printStackTrace();
 					}
 			super.run();
@@ -1019,6 +1048,7 @@ public class WifiFragmentSupport extends SherlockFragment {
 								getActivity().getSharedPreferences("User_Data", Context.MODE_PRIVATE).edit().putInt("AccountMode", RUIJIE).commit();
 								Message msg = new Message();
 								msg.arg1 = 3;
+								msg.obj = this.startorstop;
 								switcherHandler.sendMessage(msg);
 							}
 							
@@ -1026,13 +1056,13 @@ public class WifiFragmentSupport extends SherlockFragment {
 					}
 				} catch (ClientProtocolException e) {
 					Message msg = new Message();
-					msg.arg1 = 2;
-					OnlineHandler.sendMessage(msg);
+					msg.arg1 = 4;
+					switcherHandler.sendMessage(msg);
 					e.printStackTrace();
 				} catch (IOException e) {
 					Message msg = new Message();
-					msg.arg1 = 3;
-					OnlineHandler.sendMessage(msg);
+					msg.arg1 = 5;
+					switcherHandler.sendMessage(msg);
 					e.printStackTrace();
 				}
 			} catch (UnsupportedEncodingException e) {
@@ -1048,7 +1078,6 @@ public class WifiFragmentSupport extends SherlockFragment {
 	 * 会自动初始化一个线程获取cookie和验证码
 	 */
 	private void showVerify(final String _startorstop) {
-		
 		LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View vVerifyDialog = inflater.inflate(R.layout.rj_verify_dialog, null);
         verifyImage = (ImageView) vVerifyDialog.findViewById(R.id.verifyImage);
@@ -1056,9 +1085,14 @@ public class WifiFragmentSupport extends SherlockFragment {
         Button btnCancel = (Button) vVerifyDialog.findViewById(R.id.cancel);
         Button btnSubmit = (Button) vVerifyDialog.findViewById(R.id.submit);
         final AlertDialog dlg = new AlertDialog.Builder(getActivity()).setView(vVerifyDialog).create();
+        Window w=dlg.getWindow();
+		w.setGravity(Gravity.CENTER);
+		w.setLayout(android.view.WindowManager.LayoutParams.WRAP_CONTENT, 
+		android.view.WindowManager.LayoutParams.WRAP_CONTENT);
         btnCancel.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				hideInputMethod(edtVerify);
 				dlg.dismiss();
 			}
 		});
@@ -1071,8 +1105,15 @@ public class WifiFragmentSupport extends SherlockFragment {
 					Verify = edtVerify.getText().toString();
 					RuijieThread testThread = new RuijieThread(_startorstop);
 					testThread.start();
+					hideInputMethod(edtVerify);
 					dlg.dismiss();
-					ToastUtil.showToast(getActivity(), "正在尝试启用/停用校园网");
+					Message msg = new Message();
+					if(_startorstop.equals(WIFI_START)) {
+						msg.arg1 = 7;
+					} else {
+						msg.arg1 = 8;
+					}
+					switcherHandler.sendMessage(msg);
 				}
 			}
         	
@@ -1107,13 +1148,13 @@ public class WifiFragmentSupport extends SherlockFragment {
 					}
 				} catch (ClientProtocolException e) {
 					Message msg = new Message();
-					msg.arg1 = 2;
-					OnlineHandler.sendMessage(msg);
+					msg.arg1 = 4;
+					switcherHandler.sendMessage(msg);
 					e.printStackTrace();
 				} catch (IOException e) {
 					Message msg = new Message();
-					msg.arg1 = 3;
-					OnlineHandler.sendMessage(msg);
+					msg.arg1 = 5;
+					switcherHandler.sendMessage(msg);
 					e.printStackTrace();
 				}
 				
@@ -1122,5 +1163,24 @@ public class WifiFragmentSupport extends SherlockFragment {
         
         dlg.show();
         
+      //弹出软键盘，需要给点延迟，否则会弹出又收回
+  		Timer timer = new Timer();
+  		timer.schedule(new TimerTask() {
+  			@Override
+  			public void run() {
+  				InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);  
+  		        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+  			}
+  		}, 200);
+        
+	}
+	
+	/**
+	 * 隐藏软键盘
+	 * @param edt
+	 */
+	private void hideInputMethod(EditText edt) {
+		InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE); 
+		imm.hideSoftInputFromWindow(edt.getWindowToken(), 0);
 	}
 }
