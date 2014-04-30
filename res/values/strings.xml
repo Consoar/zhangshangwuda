@@ -46,6 +46,7 @@
     <string name="Wifi_Settings">程序设置</string>
     <string name="Wifi_Request_Message">看来还没有连接到WHU-WLAN呢~,请先在系统设置中开启WIFI，并连接WHU-WLAN哦！</string>
     <string name="Wifi_Connect_Message">要先连接武汉大学WIFI哦~</string>
+    <string name="Wifi_Stop_Wifi">停用校园网</string>
     <!-- Lessons -->
     <string name="Lessons">课程表</string>
     <string name="Lessons_add_lessons">添加新课程</string>

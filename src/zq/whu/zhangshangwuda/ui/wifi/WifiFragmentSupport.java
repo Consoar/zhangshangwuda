@@ -1,11 +1,13 @@
 ﻿package zq.whu.zhangshangwuda.ui.wifi;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.security.KeyStore;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -37,16 +39,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-import com.actionbarsherlock.app.SherlockFragment;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.Window;
-import com.umeng.analytics.MobclickAgent;
-
 import zq.whu.zhangshangwuda.adapter.DropMenuAdapter;
-import zq.whu.zhangshangwuda.base.UmengSherlockFragmentActivity;
 import zq.whu.zhangshangwuda.db.WifiDb;
 import zq.whu.zhangshangwuda.entity.WifiAccount;
 import zq.whu.zhangshangwuda.tools.BosCrypto;
@@ -63,31 +56,37 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.DhcpInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.FragmentManager;
 import android.text.format.Formatter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.SimpleAdapter;
-import android.widget.Toast;
+
+import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+import com.umeng.analytics.MobclickAgent;
 
 public class WifiFragmentSupport extends SherlockFragment {
 	private static final String mPageName = "WifiFragment";
 	private static final int MENU_LOGOFF = Menu.FIRST;
+	private static final int MENU_STOP = 2;
 	private View rootView;
 	private Button LoginButton;
 	private Button LogoutButton;
@@ -105,6 +104,20 @@ public class WifiFragmentSupport extends SherlockFragment {
 	private DropMenuAdapter dropMenuAdapter;
 	private List<WifiAccount> list = new ArrayList<WifiAccount>();
 	private List<WifiAccount> templist = new ArrayList<WifiAccount>();
+	
+	private static final String WIFI_START = "0";
+	private static final String WIFI_STOP = "1";
+	private static final int SHENMA = 0;
+	private static final int RUIJIE = 1;
+	//只是给停用和启用暂存结果的变量
+	private String result;
+	//锐捷输入的验证码
+	private String Verify;
+	//验证码图片
+	private Bitmap bitmapVerify;
+	//验证码图片控件
+	private ImageView verifyImage;
+	private String rj_cookie;
 
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -114,6 +127,9 @@ public class WifiFragmentSupport extends SherlockFragment {
 				.setShowAsAction(
 						MenuItem.SHOW_AS_ACTION_IF_ROOM
 								| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+		menu.add(Menu.NONE, MENU_STOP, 2, getResources().getString(R.string.Wifi_Stop_Wifi))
+			.setIcon(R.drawable.ic_menu_logoff)
+				.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER | MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 	}
 
 	@Override
@@ -122,14 +138,53 @@ public class WifiFragmentSupport extends SherlockFragment {
 		case MENU_LOGOFF:
 			new Thread(new LogOutThread()).start();
 			return true;
+		case MENU_STOP:
+			this.stopWifi();
+			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
 	}
 
+	/**
+	 * 停用wifi
+	 */
+	private void stopWifi() {
+		SaveConfig();
+		Account = AccountView.getText().toString();
+		Password = PasswordView.getText().toString();
+		ToastUtil.showToast(getActivity(), "正在尝试启用/停用校园网");
+		if(getActivity().getSharedPreferences("User_Data", Context.MODE_PRIVATE)
+				.getInt("AccountMode", SHENMA)==SHENMA) {
+			ShenmaThread testThread = new ShenmaThread(WIFI_STOP);
+			testThread.start();
+		} else {
+			showVerify(WIFI_STOP);
+		}
+		
+	}
+	
+	/**
+	 * 启用wifi
+	 */
+	private void startWifi() {
+		SaveConfig();
+		Account = AccountView.getText().toString();
+		Password = PasswordView.getText().toString();
+		ToastUtil.showToast(getActivity(), "正在尝试启用/停用校园网");
+		if(getActivity().getSharedPreferences("User_Data", Context.MODE_PRIVATE)
+				.getInt("AccountMode", SHENMA)==SHENMA) {
+			ShenmaThread testThread = new ShenmaThread(WIFI_START);
+			testThread.start();
+		} else {
+			showVerify(WIFI_START);
+		}
+		
+	}
+	
+	
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
-		// TODO Auto-generated method stub
 		super.onConfigurationChanged(newConfig);
 		if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
 			bottomImg.setVisibility(View.GONE);
@@ -598,6 +653,31 @@ public class WifiFragmentSupport extends SherlockFragment {
 		}
 
 	};
+	
+	/**
+	 * 启用停用WIFI用的
+	 */
+	private Handler switcherHandler = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+			if (msg.arg1 == 0) {//显示一下result中的值,无所谓成功
+				ToastUtil.showToast(getActivity(), result);
+			}
+			if (msg.arg1 == 1) {//显示验证码窗口,之后的事情都交给这个窗口处理,msg.obj里面存储的是打开还是关闭
+				Log.d("MARJ",(String)msg.obj);
+				showVerify((String) msg.obj);
+			}
+			if (msg.arg1 == 2) {//显示验证码
+				verifyImage.setImageBitmap(bitmapVerify);;
+			}
+			if (msg.arg1 == 3) {//成功?
+				ToastUtil.showToast(getActivity(), result);
+				loginWifi();
+			}
+		}
+
+	};
 
 	public class LogOutThread implements Runnable {
 
@@ -698,7 +778,26 @@ public class WifiFragmentSupport extends SherlockFragment {
 					// 取得返回的字符串
 					strResult = EntityUtils.toString(httpResponse.getEntity());
 					String strReturnMessage = getErrorMessage(strResult);
-
+					//标志位,wifi是否已经被停用
+					boolean isStopped = false;
+					if(strReturnMessage.contains("已被暂停")) {
+						isStopped = true;
+						new AlertDialog.Builder(getActivity()).setTitle("您的账号已被停用").setMessage("是否需要为您启用校园无线网?")
+						.setNegativeButton("不连接校园网", new DialogInterface.OnClickListener() {
+							
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								return;
+							}
+						}).setPositiveButton("帮我启用", new DialogInterface.OnClickListener() {
+							
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								startWifi();								
+							}
+						}).show();
+					}
+					if(isStopped) return;
 					if (strReturnMessage.length() <= 4) {
 						msg.arg1 = 0;
 					} else {
@@ -723,18 +822,305 @@ public class WifiFragmentSupport extends SherlockFragment {
 			OnlineHandler.sendMessage(msg);
 		}
 	}
+	
+	
 
 	class LoginButtonListener implements OnClickListener {
 
 		@Override
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
-			SaveConfig();
-			Account = AccountView.getText().toString();
-			Password = PasswordView.getText().toString();
-			LoginButton.setText("登陆中……");
-			new Thread(new OnlineThread()).start();
-			LoginButton.setEnabled(false);
+			loginWifi();
 		}
+	}
+	
+	/**
+	 * 登陆的真正函数
+	 */
+	private void loginWifi() {
+		SaveConfig();
+		Account = AccountView.getText().toString();
+		Password = PasswordView.getText().toString();
+		LoginButton.setText("登陆中……");
+		new Thread(new OnlineThread()).start();
+		LoginButton.setEnabled(false);
+	}
+	
+	/**
+	 * 神马验证的线程类
+	 * @author shaw
+	 *
+	 */
+	private class ShenmaThread extends Thread {
+
+		private String startorstop;
+		
+		public ShenmaThread(String _startorstop) {
+			this.startorstop = _startorstop;
+		}
+		
+		@Override
+		public void run() {
+
+					HttpClient httpClient = getNewHttpClient();
+					try {
+							//准备进行停用wifi的POST
+							HttpPost httpPost = new HttpPost("http://whu-sa.whu.edu.cn/work_preday.jsp");
+							//重复利用pairs
+							List<NameValuePair> pairs = new ArrayList<NameValuePair>();
+							pairs.add(new BasicNameValuePair("table", "101"));
+							pairs.add(new BasicNameValuePair("userName", Account));
+							//停用WIFI
+							pairs.add(new BasicNameValuePair("allowPreday", this.startorstop));
+							pairs.add(new BasicNameValuePair("Submit", "Submit"));
+							httpPost.setEntity(new UrlEncodedFormEntity(pairs, HTTP.UTF_8));
+							HttpResponse response = httpClient.execute(httpPost);
+							if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+								Document doc = Jsoup.parse(EntityUtils.toString(response.getEntity()));
+								result = doc.getElementsByTag("td").get(1).text().toString();
+								Log.d("MA",result);
+								Message msg = new Message();
+								if(result.equals("error : 数据库出错！")) {
+									//不知是写错了还是非神马用户,现在先联系服务器获取验证码
+									msg.arg1 = 1;
+									msg.obj = this.startorstop;
+									switcherHandler.sendMessage(msg);
+									return;
+								}
+								//认定是神马用户
+								getActivity().getSharedPreferences("User_Data", Context.MODE_PRIVATE).edit().putInt("AccountMode", SHENMA).commit();
+								msg.arg1 = 3;
+								switcherHandler.sendMessage(msg);
+							}
+//						}
+					} catch (ClientProtocolException e) {
+						Message msg = new Message();
+						msg.arg1 = 2;
+						OnlineHandler.sendMessage(msg);
+						e.printStackTrace();
+					} catch (IOException e) {
+						Message msg = new Message();
+						msg.arg1 = 3;
+						OnlineHandler.sendMessage(msg);
+						e.printStackTrace();
+					}
+			super.run();
+		}
+		
+	}
+	
+	private class RuijieThread extends Thread {
+		
+		private String startorstop;
+		
+		public RuijieThread(String _startorstop) {
+			this.startorstop = _startorstop;
+		}
+		
+		@Override
+		public void run() {
+			List<NameValuePair> pairs = new ArrayList<NameValuePair>();
+			//登陆用的数据
+			pairs.add(new BasicNameValuePair("act", "add"));
+			pairs.add(new BasicNameValuePair("name", Account));
+			pairs.add(new BasicNameValuePair("password", Password));
+			pairs.add(new BasicNameValuePair("verify", Verify));
+			// HttpPost连接对象
+			HttpPost httpPost = new HttpPost("https://whu-sb.whu.edu.cn:8443/selfservice/module/scgroup/web/login_judge.jsf");
+			try {
+				HttpClient httpClient = getNewHttpClient();
+				httpPost.setEntity(new UrlEncodedFormEntity(pairs, HTTP.UTF_8));
+				httpPost.addHeader("Accept", "*/*");
+				httpPost.addHeader("Accept-Language", "zh-CN");
+				httpPost.addHeader("Cache-Control", "max-age=0");
+				httpPost.addHeader("Connection", "keep-alive");
+				httpPost.addHeader("Accept-Encoding", "gzip,deflate,sdch");
+				httpPost.addHeader("Content-Type", "application/x-www-form-urlencoded");
+				httpPost.addHeader("Cookie", rj_cookie);
+				try {
+					HttpResponse response = httpClient.execute(httpPost);
+					if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+						String htmlcode = EntityUtils.toString(response.getEntity(), HTTP.UTF_8);
+						Matcher matcher = Pattern.compile("(?<=errorMsg=).*(?=&)").matcher(htmlcode);
+						if(matcher.find()) {
+							result = matcher.group();
+							//可能不是锐捷用户,所以下次再从神马探测
+							getActivity().getSharedPreferences("User_Data", Context.MODE_PRIVATE).edit().putInt("AccountMode", SHENMA).commit();
+							Message msg = new Message();
+							msg.arg1=0;
+							switcherHandler.sendMessage(msg);
+							return;
+						}
+						if(htmlcode.contains("verfiyError=true")) {
+							result = "验证码错误";
+							Message msg = new Message();
+							msg.arg1=0;
+							switcherHandler.sendMessage(msg);
+							return;
+						}
+						//登陆成功
+						HttpGet httpGet = null;
+						if(this.startorstop.equals(WIFI_START)) {
+							httpGet = new HttpGet("https://whu-sb.whu.edu.cn:8443/selfservice/module/userself/web/self_resume.jsf");
+						} else {
+							httpGet = new HttpGet("https://whu-sb.whu.edu.cn:8443/selfservice/module/userself/web/self_suspend.jsf");
+						}
+						httpClient = getNewHttpClient();
+						httpGet.setHeader("Cookie",rj_cookie);
+						response = httpClient.execute(httpGet);
+						if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+							htmlcode = EntityUtils.toString(response.getEntity(), HTTP.UTF_8);
+							Document doc = Jsoup.parse(htmlcode);
+							//String submitId = doc.getElementById("submitCodeId").attr("value");
+							String verifyCode = doc.getElementById("UserOperationForm:operationVerifyCode").attr("value");
+							String comsun = doc.getElementById("com.sun.faces.VIEW").attr("value");
+							//准备进行停用wifi的POST,注意停用和启用的POST网页是不同的
+							if(this.startorstop.equals(WIFI_START)) {
+								httpPost = new HttpPost("https://whu-sb.whu.edu.cn:8443/selfservice/module/userself/web/self_resume.jsf");
+							} else {
+								httpPost = new HttpPost("https://whu-sb.whu.edu.cn:8443/selfservice/module/userself/web/self_suspend.jsf");
+							}
+							//TODO:记得尝试删除多余部分
+							httpPost.addHeader("Accept", "*/*");
+							httpPost.addHeader("Accept-Language", "zh-CN");
+							httpPost.addHeader("Cache-Control", "max-age=0");
+							httpPost.addHeader("Connection", "keep-alive");
+							httpPost.addHeader("Accept-Encoding", "gzip,deflate,sdch");
+							httpPost.addHeader("Content-Type", "application/x-www-form-urlencoded");
+							httpPost.addHeader("Cookie", rj_cookie);
+							//重复利用pairs
+							pairs.clear();
+							pairs.add(new BasicNameValuePair("act", "init"));
+							//坑爹,确认的那段两个竟然不一样
+							if(this.startorstop.equals(WIFI_START)) {
+								pairs.add(new BasicNameValuePair("op", "resume"));
+								pairs.add(new BasicNameValuePair("UserOperationForm:res", new String("确认恢复".getBytes(),"gb2312")));
+							} else {
+								pairs.add(new BasicNameValuePair("op", "suspend"));
+								pairs.add(new BasicNameValuePair("UserOperationForm:sus", new String("确认暂停".getBytes(),"gb2312")));
+							}
+							pairs.add(new BasicNameValuePair("UserOperationForm:targetUserId", Account));
+							pairs.add(new BasicNameValuePair("UserOperationForm:operationVerifyCode", verifyCode));
+							//pairs.add(new BasicNameValuePair("submitCodeId", submitId));
+							pairs.add(new BasicNameValuePair("UserOperationForm:verify", Verify));
+							pairs.add(new BasicNameValuePair("com.sun.faces.VIEW", comsun));
+							pairs.add(new BasicNameValuePair("UserOperationForm", "UserOperationForm"));
+							Log.d("MARJ",pairs.toString());
+							httpPost.setEntity(new UrlEncodedFormEntity(pairs, HTTP.UTF_8));
+							response = httpClient.execute(httpPost);
+							if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+								htmlcode = EntityUtils.toString(response.getEntity());
+								doc = Jsoup.parse(htmlcode);
+								//Log.d("MARJ",htmlcode);
+								result = doc.select("div[align=center] > font[color=red]").text().toString().substring(5,30);
+								//关闭连接
+								httpClient.getConnectionManager().shutdown();
+								//认定是锐捷用户
+								getActivity().getSharedPreferences("User_Data", Context.MODE_PRIVATE).edit().putInt("AccountMode", RUIJIE).commit();
+								Message msg = new Message();
+								msg.arg1 = 3;
+								switcherHandler.sendMessage(msg);
+							}
+							
+						}
+					}
+				} catch (ClientProtocolException e) {
+					Message msg = new Message();
+					msg.arg1 = 2;
+					OnlineHandler.sendMessage(msg);
+					e.printStackTrace();
+				} catch (IOException e) {
+					Message msg = new Message();
+					msg.arg1 = 3;
+					OnlineHandler.sendMessage(msg);
+					e.printStackTrace();
+				}
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			super.run();
+		}
+		
+	}
+	
+	/**
+	 * 会自动初始化一个线程获取cookie和验证码
+	 */
+	private void showVerify(final String _startorstop) {
+		
+		LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View vVerifyDialog = inflater.inflate(R.layout.rj_verify_dialog, null);
+        verifyImage = (ImageView) vVerifyDialog.findViewById(R.id.verifyImage);
+        final EditText edtVerify = (EditText) vVerifyDialog.findViewById(R.id.verify);
+        Button btnCancel = (Button) vVerifyDialog.findViewById(R.id.cancel);
+        Button btnSubmit = (Button) vVerifyDialog.findViewById(R.id.submit);
+        final AlertDialog dlg = new AlertDialog.Builder(getActivity()).setView(vVerifyDialog).create();
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				dlg.dismiss();
+			}
+		});
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				if(edtVerify.getText().toString().equals("")) edtVerify.setError("请输入验证码");
+				else {
+					Verify = edtVerify.getText().toString();
+					RuijieThread testThread = new RuijieThread(_startorstop);
+					testThread.start();
+					dlg.dismiss();
+					ToastUtil.showToast(getActivity(), "正在尝试启用/停用校园网");
+				}
+			}
+        	
+        });
+        
+        //这里就是获取cookie和验证码的地方了
+        new Thread() {
+			@Override
+			public void run() {
+				rj_cookie = "";
+				HttpClient httpclient = getNewHttpClient();
+				HttpGet httpget = new HttpGet("https://whu-sb.whu.edu.cn:8443/selfservice/common/web/verifycode.jsp");
+				try {
+					HttpResponse httpResponse = httpclient.execute(httpget);
+					if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+						InputStream is = httpResponse.getEntity().getContent();
+						bitmapVerify = BitmapFactory.decodeStream(is);
+						is.close();
+						Message msg = new Message();
+						msg.arg1 = 2;
+						switcherHandler.sendMessage(msg);
+						Header[] headers = httpResponse.getAllHeaders();
+						for (int i = 0; i < headers.length; i++) {
+							if (headers[i].getName().contains("Cookie")) {
+								String tempcookie = headers[i].getValue();
+								tempcookie = tempcookie.substring(0,
+										tempcookie.indexOf(";"));
+								rj_cookie = rj_cookie + tempcookie + ";";
+							}
+						}
+						rj_cookie = rj_cookie.substring(0, rj_cookie.length() - 1);
+					}
+				} catch (ClientProtocolException e) {
+					Message msg = new Message();
+					msg.arg1 = 2;
+					OnlineHandler.sendMessage(msg);
+					e.printStackTrace();
+				} catch (IOException e) {
+					Message msg = new Message();
+					msg.arg1 = 3;
+					OnlineHandler.sendMessage(msg);
+					e.printStackTrace();
+				}
+				
+			}
+		}.start();
+        
+        dlg.show();
+        
 	}
 }
