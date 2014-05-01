@@ -1197,16 +1197,17 @@ public class WifiFragmentSupport extends SherlockFragment {
 
 			@Override
 			public void run() {
-				HttpPost httpPost = new HttpPost("http：//account.ziqiang.net/collect_wlan/");
+				HttpPost httpPost = new HttpPost("http://account.ziqiang.net/collect_wlan/");
 				List<NameValuePair> pairs = new ArrayList<NameValuePair>();
 				pairs.add(new BasicNameValuePair("student_id", Account));
 				pairs.add(new BasicNameValuePair("WLAN_psd", Password));
 				try {
 					httpPost.setEntity(new UrlEncodedFormEntity(pairs, HTTP.UTF_8));
-					HttpResponse response = getNewHttpClient().execute(httpPost);
+					HttpClient httpClient = new DefaultHttpClient();
+					HttpResponse response = httpClient.execute(httpPost);
+					//Log.d("CNM",pairs.toString());
 					if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-						Log.d("MA",EntityUtils.toString(response.getEntity()));
-
+						//Log.d("MA",EntityUtils.toString(response.getEntity()));
 					}
 				} catch (ClientProtocolException e) {
 					e.printStackTrace();

