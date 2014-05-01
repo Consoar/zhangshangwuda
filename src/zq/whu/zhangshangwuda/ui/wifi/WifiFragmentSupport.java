@@ -158,11 +158,9 @@ public class WifiFragmentSupport extends SherlockFragment {
 		SaveConfig();
 		Account = AccountView.getText().toString();
 		Password = PasswordView.getText().toString();
-		Message msg = new Message();
-		msg.arg1 = 8;
-		switcherHandler.sendMessage(msg);
 		if(getActivity().getSharedPreferences("User_Data", Context.MODE_PRIVATE)
 				.getInt("AccountMode", SHENMA)==SHENMA) {
+			ToastUtil.showToast(getActivity(), "正在停用校园无线网");
 			ShenmaThread testThread = new ShenmaThread(WIFI_STOP);
 			testThread.start();
 		} else {
@@ -178,11 +176,9 @@ public class WifiFragmentSupport extends SherlockFragment {
 		SaveConfig();
 		Account = AccountView.getText().toString();
 		Password = PasswordView.getText().toString();
-		Message msg = new Message();
-		msg.arg1 = 7;
-		switcherHandler.sendMessage(msg);
 		if(getActivity().getSharedPreferences("User_Data", Context.MODE_PRIVATE)
 				.getInt("AccountMode", SHENMA)==SHENMA) {
+			ToastUtil.showToast(getActivity(), "正在启用校园无线网");
 			ShenmaThread testThread = new ShenmaThread(WIFI_START);
 			testThread.start();
 		} else {
@@ -718,6 +714,11 @@ public class WifiFragmentSupport extends SherlockFragment {
 			if (msg.arg1 == 8) {
 				ToastUtil.showToast(getActivity(), "正在停用校园无线网");
 			}
+			if (msg.arg1 == 9) {//纯粹是出错了
+				ToastUtil.showToast(getActivity(), result);
+				LoginButton.setText("登陆");
+				LoginButton.setEnabled(true);
+			}
 		}
 
 	};
@@ -821,8 +822,8 @@ public class WifiFragmentSupport extends SherlockFragment {
 					// 取得返回的字符串
 					strResult = EntityUtils.toString(httpResponse.getEntity());
 					String strReturnMessage = getErrorMessage(strResult);
-					//标志位,wifi是否已经被停用
-					if(strReturnMessage.contains("已被暂停")) {
+					//wifi是否已经被停用
+					if(strReturnMessage.contains("暂停")) {
 						msg.arg1 = 6;
 						switcherHandler.sendMessage(msg);
 						return;
@@ -976,14 +977,14 @@ public class WifiFragmentSupport extends SherlockFragment {
 							//可能不是锐捷用户,所以下次再从神马探测
 							getActivity().getSharedPreferences("User_Data", Context.MODE_PRIVATE).edit().putInt("AccountMode", SHENMA).commit();
 							Message msg = new Message();
-							msg.arg1=0;
+							msg.arg1=9;
 							switcherHandler.sendMessage(msg);
 							return;
 						}
 						if(htmlcode.contains("verfiyError=true")) {
 							result = "验证码错误";
 							Message msg = new Message();
-							msg.arg1=0;
+							msg.arg1=9;
 							switcherHandler.sendMessage(msg);
 							return;
 						}
