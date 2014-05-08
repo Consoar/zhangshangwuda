@@ -42,6 +42,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import zq.whu.zhangshangwuda.adapter.DropMenuAdapter;
+import zq.whu.zhangshangwuda.base.PreferenceHelper;
 import zq.whu.zhangshangwuda.db.WifiDb;
 import zq.whu.zhangshangwuda.entity.WifiAccount;
 import zq.whu.zhangshangwuda.tools.BosCrypto;
@@ -112,8 +113,6 @@ public class WifiFragmentSupport extends SherlockFragment {
 	
 	private static final String WIFI_START = "0";
 	private static final String WIFI_STOP = "1";
-	private static final int SHENMA = 0;
-	private static final int RUIJIE = 1;
 	//只是给停用和启用暂存结果的变量
 	private String result;
 	//锐捷输入的验证码
@@ -158,8 +157,7 @@ public class WifiFragmentSupport extends SherlockFragment {
 		SaveConfig();
 		Account = AccountView.getText().toString();
 		Password = PasswordView.getText().toString();
-		if(getActivity().getSharedPreferences("User_Data", Context.MODE_PRIVATE)
-				.getInt("AccountMode", SHENMA)==SHENMA) {
+		if(PreferenceHelper.getAccountCatagory(getActivity()) == Constants.SHENMA) {
 			ToastUtil.showToast(getActivity(), "正在停用校园无线网");
 			ShenmaThread testThread = new ShenmaThread(WIFI_STOP);
 			testThread.start();
@@ -176,8 +174,7 @@ public class WifiFragmentSupport extends SherlockFragment {
 		SaveConfig();
 		Account = AccountView.getText().toString();
 		Password = PasswordView.getText().toString();
-		if(getActivity().getSharedPreferences("User_Data", Context.MODE_PRIVATE)
-				.getInt("AccountMode", SHENMA)==SHENMA) {
+		if(PreferenceHelper.getAccountCatagory(getActivity()) == Constants.SHENMA) {
 			ToastUtil.showToast(getActivity(), "正在启用校园无线网");
 			ShenmaThread testThread = new ShenmaThread(WIFI_START);
 			testThread.start();
@@ -681,8 +678,18 @@ public class WifiFragmentSupport extends SherlockFragment {
 			}
 			if (msg.arg1 == 3) {//成功?
 				ToastUtil.showToast(getActivity(), result);
+				
 				if(((String) msg.obj).equals(WIFI_START)) {
 					loginWifi();
+				} else {
+					//第一次成功关停校园网会提示
+					if(getActivity().getSharedPreferences(Constants.PREFS_NAME_USER_DATA
+							, Context.MODE_PRIVATE).getInt("FirstTimeStop", 0) == 0) {
+						new AlertDialog.Builder(getActivity()).setMessage("如果以后需要使用校园网,直接点击登陆按钮,掌武会帮您重新启用校园网并登陆")
+							.setCancelable(false).setPositiveButton("知道了", null).create().show();
+						getActivity().getSharedPreferences(Constants.PREFS_NAME_USER_DATA
+								, Context.MODE_PRIVATE).edit().putInt("FirstTimeStop", 1).commit();
+					}
 				}
 			}
 			if (msg.arg1 == 4) {
@@ -920,7 +927,7 @@ public class WifiFragmentSupport extends SherlockFragment {
 									return;
 								}
 								//认定是神马用户
-								getActivity().getSharedPreferences("User_Data", Context.MODE_PRIVATE).edit().putInt("AccountMode", SHENMA).commit();
+								PreferenceHelper.setAccountCatagory(getActivity(), Constants.SHENMA);
 								msg.arg1 = 3;
 								msg.obj = this.startorstop;
 								switcherHandler.sendMessage(msg);
@@ -977,7 +984,7 @@ public class WifiFragmentSupport extends SherlockFragment {
 						if(matcher.find()) {
 							result = matcher.group();
 							//可能不是锐捷用户,所以下次再从神马探测
-							getActivity().getSharedPreferences("User_Data", Context.MODE_PRIVATE).edit().putInt("AccountMode", SHENMA).commit();
+							PreferenceHelper.setAccountCatagory(getActivity(), Constants.SHENMA);
 							Message msg = new Message();
 							msg.arg1=9;
 							switcherHandler.sendMessage(msg);
@@ -1048,7 +1055,7 @@ public class WifiFragmentSupport extends SherlockFragment {
 								//关闭连接
 								httpClient.getConnectionManager().shutdown();
 								//认定是锐捷用户
-								getActivity().getSharedPreferences("User_Data", Context.MODE_PRIVATE).edit().putInt("AccountMode", RUIJIE).commit();
+								PreferenceHelper.setAccountCatagory(getActivity(), Constants.RUIJIE);
 								Message msg = new Message();
 								msg.arg1 = 3;
 								msg.obj = this.startorstop;
@@ -1085,42 +1092,38 @@ public class WifiFragmentSupport extends SherlockFragment {
         View vVerifyDialog = inflater.inflate(R.layout.rj_verify_dialog, null);
         verifyImage = (ImageView) vVerifyDialog.findViewById(R.id.verifyImage);
         final EditText edtVerify = (EditText) vVerifyDialog.findViewById(R.id.verify);
-        Button btnCancel = (Button) vVerifyDialog.findViewById(R.id.cancel);
-        Button btnSubmit = (Button) vVerifyDialog.findViewById(R.id.submit);
-        final AlertDialog dlg = new AlertDialog.Builder(getActivity()).setView(vVerifyDialog).create();
+        final AlertDialog dlg = new AlertDialog.Builder(getActivity()).setView(vVerifyDialog)
+        		.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						if(edtVerify.getText().toString().equals("")) edtVerify.setError("请输入验证码");
+						else {
+							Verify = edtVerify.getText().toString();
+							RuijieThread testThread = new RuijieThread(_startorstop);
+							testThread.start();
+							hideInputMethod(edtVerify);
+//							dismiss();
+							Message msg = new Message();
+							if(_startorstop.equals(WIFI_START)) {
+								msg.arg1 = 7;
+							} else {
+								msg.arg1 = 8;
+							}
+							switcherHandler.sendMessage(msg);
+						}						
+					}
+				}).setNegativeButton("取消", new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						hideInputMethod(edtVerify);						
+					}
+				}).create();
         Window w=dlg.getWindow();
 		w.setGravity(Gravity.CENTER);
 		w.setLayout(android.view.WindowManager.LayoutParams.WRAP_CONTENT, 
 		android.view.WindowManager.LayoutParams.WRAP_CONTENT);
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				hideInputMethod(edtVerify);
-				dlg.dismiss();
-			}
-		});
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				if(edtVerify.getText().toString().equals("")) edtVerify.setError("请输入验证码");
-				else {
-					Verify = edtVerify.getText().toString();
-					RuijieThread testThread = new RuijieThread(_startorstop);
-					testThread.start();
-					hideInputMethod(edtVerify);
-					dlg.dismiss();
-					Message msg = new Message();
-					if(_startorstop.equals(WIFI_START)) {
-						msg.arg1 = 7;
-					} else {
-						msg.arg1 = 8;
-					}
-					switcherHandler.sendMessage(msg);
-				}
-			}
-        	
-        });
         
         //这里就是获取cookie和验证码的地方了
         new Thread() {

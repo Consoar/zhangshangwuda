@@ -38,5 +38,23 @@ public class PreferenceHelper {
 	public static void setTheme(Context context, int theme) {
 		getEditor(context).putInt(KEY_THEME, theme).commit();
 	}
+	
+	/**
+	 * 获取用户账户类型,默认情况是神马(0)
+	 * @param context
+	 * @return
+	 */
+	public static int getAccountCatagory(Context context) {
+		return getSharedPreferences(context).getInt(Constants.ACCOUNTCATEGORY, Constants.SHENMA);
+	}
+	
+	/**
+	 * 设置账户类型,请使用Constants.SHENMA或者Constants.RUIJIE
+	 * @param context
+	 * @param catagory
+	 */
+	public static void setAccountCatagory(Context context, int catagory) {
+		getEditor(context).putInt(Constants.ACCOUNTCATEGORY, catagory).commit();
+	}
 
 }
