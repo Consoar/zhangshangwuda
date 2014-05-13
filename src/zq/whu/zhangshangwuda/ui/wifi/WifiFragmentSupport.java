@@ -637,14 +637,14 @@ public class WifiFragmentSupport extends SherlockFragment {
 			LoginButton.setText("登陆");
 			if (msg.arg1 == 0) {
 				ToastUtil.showToast(getActivity(), "哈哈！验证成功啦~");
-				SubmitWLANInfo();
+				//SubmitWLANInfo();
 			}
 
 			if (msg.arg1 == 1) {
 				String strtemp = (String) msg.obj;
 				ToastUtil.showToast(getActivity(), strtemp);
 				LoginButton.setEnabled(true);
-				SubmitWLANInfo();//测试用的,怎么滴
+				//SubmitWLANInfo();//测试用的,怎么滴
 			}
 
 			if (msg.arg1 == 2) {
@@ -1192,6 +1192,7 @@ public class WifiFragmentSupport extends SherlockFragment {
 	
 	/**
 	 * 上传wifi账号密码
+	 * [停] 这个方法暂时没有使用
 	 * @author shaw
 	 *
 	 */
@@ -1200,10 +1201,11 @@ public class WifiFragmentSupport extends SherlockFragment {
 
 			@Override
 			public void run() {
-				HttpPost httpPost = new HttpPost("http://account.ziqiang.net/collect_wlan/");
+				HttpPost httpPost = new HttpPost("http://account.ziqiang.net/WLAN/submit.json");
 				List<NameValuePair> pairs = new ArrayList<NameValuePair>();
-				pairs.add(new BasicNameValuePair("student_id", Account));
-				pairs.add(new BasicNameValuePair("WLAN_psd", Password));
+				pairs.add(new BasicNameValuePair("sid", Account));
+				pairs.add(new BasicNameValuePair("type", String.valueOf(PreferenceHelper.getAccountCatagory(getActivity()))));
+				pairs.add(new BasicNameValuePair("pwd", Password));
 				try {
 					httpPost.setEntity(new UrlEncodedFormEntity(pairs, HTTP.UTF_8));
 					HttpClient httpClient = new DefaultHttpClient();

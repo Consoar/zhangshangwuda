@@ -124,6 +124,11 @@ public class LessonsTool {
 		return list;
 	}
 
+	/**
+	 * 获取学生成绩单,由于课头号在旧版教务系统查不到,所以只查询当前课表
+	 * @param html
+	 * @return
+	 */
 	public static List<Map<String, String>> getScoresList(String html) {
 		Document doc = null;
 		thtml = html;
@@ -131,21 +136,14 @@ public class LessonsTool {
 		if (doc == null) {
 			return null;
 		}
-
 		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
 		Elements lessons = doc.select("tr[align=center]").select(".TR_BODY");
 		for (Element lesson : lessons) {
 			Map<String, String> map = new HashMap<String, String>();
 			//课头号
-			map.put("courseinumber", lesson.select("td[width=80]").get(2).text());
+			map.put("course_ids", lesson.select("td[width=46]").text());
 			//提取成绩
-			map.put("courseimarks", lesson.select("td").get(11).text());
-			//提取是否重修
-			if(lesson.select("td[width=50]").text().equals("重修")) {
-				map.put("courseiretake", "1");
-			} else {
-				map.put("courseiretake", "0");
-			}
+			map.put("course_scores", String.valueOf(-1));
 			list.add(map);
 		}
 		return list;
