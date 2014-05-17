@@ -11,7 +11,7 @@ public class TokenTool {
 	private String VAR = "account";
 	
 	public TokenTool() {
-		timestamp = System.currentTimeMillis();
+		timestamp = System.currentTimeMillis()/1000;
 		token = SHA1(VAR + timestamp);
 	}
 	

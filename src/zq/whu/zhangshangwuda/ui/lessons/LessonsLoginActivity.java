@@ -1,6 +1,7 @@
 ﻿package zq.whu.zhangshangwuda.ui.lessons;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,6 +41,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -481,7 +483,7 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity {
 				List<NameValuePair> pairs = new ArrayList<NameValuePair>();
 				pairs.add(new BasicNameValuePair("sid", Account));
 				pairs.add(new BasicNameValuePair("name", StuName));
-				//pairs.add(new BasicNameValuePair("academy", "未知学院"));//暂时获取不了学院
+//				pairs.add(new BasicNameValuePair("academy", "未知学院"));//暂时获取不了学院
 				StringBuilder course_ids = new StringBuilder();
 				StringBuilder course_scores = new StringBuilder();
 				for(int i=0;i<_scoreList.size();i++) {
@@ -501,10 +503,10 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity {
 				try {
 					httpPost.setEntity(new UrlEncodedFormEntity(pairs, HTTP.UTF_8));
 					HttpClient httpClient = new DefaultHttpClient();
-//					Log.d("CNM",pairs.toString());
+					Log.d("CNM",pairs.toString());
 					HttpResponse response = httpClient.execute(httpPost);
 					if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-						Log.d("MA",EntityUtils.toString(response.getEntity()));
+						Log.d("CNM",EntityUtils.toString(response.getEntity()));
 					}
 				} catch (ClientProtocolException e) {
 					e.printStackTrace();
