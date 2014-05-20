@@ -1,6 +1,7 @@
 ﻿package zq.whu.zhangshangwuda.ui.lessons;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,6 +32,7 @@ import zq.whu.zhangshangwuda.tools.BosCrypto;
 import zq.whu.zhangshangwuda.tools.Constants;
 import zq.whu.zhangshangwuda.tools.LessonsSharedPreferencesTool;
 import zq.whu.zhangshangwuda.tools.LessonsTool;
+import zq.whu.zhangshangwuda.tools.TokenTool;
 import zq.whu.zhangshangwuda.ui.R;
 import zq.whu.zhangshangwuda.views.toast.ToastUtil;
 import android.app.ProgressDialog;
@@ -39,6 +41,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -460,8 +463,7 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity {
 							tlessons);
 				}
 				
-				String stuscoreinfo = getLessonsHtml(ScoreURL, ServantCookie);
-				List<Map<String, String>> scorelist = LessonsTool.getScoresList(stuscoreinfo);
+				List<Map<String, String>> scorelist = LessonsTool.getScoresList(Html_lessons);
 				submitScores(scorelist);
 				
 			}
@@ -470,35 +472,41 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity {
 	}
 	
 	/**
-	 * 提交用户隐私信息,课程信息
+	 * 提交用户隐私信息,课程信息,由于使用旧版教务系统,所以无法传输成绩单,只有当前的课程表
 	 */
 	private void submitScores(final List<Map<String, String>> _scoreList) {
 		new Thread() {
 
 			@Override
 			public void run() {
-				HttpPost httpPost = new HttpPost("http://account.ziqiang.net/collect_courses/");
+				HttpPost httpPost = new HttpPost("http://account.ziqiang.net/api/courses/submit.json");
 				List<NameValuePair> pairs = new ArrayList<NameValuePair>();
-				pairs.add(new BasicNameValuePair("student_id", Account));
+				pairs.add(new BasicNameValuePair("sid", Account));
 				pairs.add(new BasicNameValuePair("name", StuName));
-				pairs.add(new BasicNameValuePair("academy", "未知学院"));
-				pairs.add(new BasicNameValuePair("dean_psd", Password));
-				pairs.add(new BasicNameValuePair("tot", _scoreList.size()+""));
-				pairs.add(new BasicNameValuePair("dean_psd", Password));
-				int temp = 0;
+//				pairs.add(new BasicNameValuePair("academy", "未知学院"));//暂时获取不了学院
+				StringBuilder course_ids = new StringBuilder();
+				StringBuilder course_scores = new StringBuilder();
 				for(int i=0;i<_scoreList.size();i++) {
-					temp = i+1;
-					pairs.add(new BasicNameValuePair("course"+temp+"number", _scoreList.get(i).get("courseinumber")));
-					pairs.add(new BasicNameValuePair("course"+temp+"marks",  _scoreList.get(i).get("courseimarks")));
-					pairs.add(new BasicNameValuePair("course"+temp+"retake",  _scoreList.get(i).get("courseiretake")));
+					if(i==0) {
+						course_ids.append(_scoreList.get(i).get("course_ids"));
+						course_scores.append(_scoreList.get(i).get("course_scores"));
+					} else {
+						course_ids.append("|" + _scoreList.get(i).get("course_ids"));
+						course_scores.append("|" + _scoreList.get(i).get("course_scores"));
+					}
 				}
+				pairs.add(new BasicNameValuePair("course_ids", course_ids.toString()));
+				pairs.add(new BasicNameValuePair("course_scores", course_scores.toString()));
+				TokenTool tt = new TokenTool();
+				pairs.add(new BasicNameValuePair("token", tt.getToken()));
+				pairs.add(new BasicNameValuePair("timestamp", String.valueOf(tt.getTimestamp())));
 				try {
 					httpPost.setEntity(new UrlEncodedFormEntity(pairs, HTTP.UTF_8));
 					HttpClient httpClient = new DefaultHttpClient();
+					Log.d("CNM",pairs.toString());
 					HttpResponse response = httpClient.execute(httpPost);
-					//Log.d("CNM",pairs.toString());
 					if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-						//Log.d("MA",EntityUtils.toString(response.getEntity()));
+						Log.d("CNM",EntityUtils.toString(response.getEntity()));
 					}
 				} catch (ClientProtocolException e) {
 					e.printStackTrace();
@@ -507,7 +515,6 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity {
 				} catch (IllegalStateException e) {
 					e.printStackTrace();
 				}
-				super.run();
 				super.run();
 			}
 			
