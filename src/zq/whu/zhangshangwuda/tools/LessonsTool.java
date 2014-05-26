@@ -67,7 +67,9 @@ public class LessonsTool {
 			String html) {
 		Document doc = null;
 		thtml = html;
-		// System.out.println(thtml);
+		if (StringUtils.isEmpty(html)) {
+			return null;
+		}
 		doc = Jsoup.parse(thtml);
 		if (doc == null) {
 			return null;

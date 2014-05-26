@@ -62,8 +62,8 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity {
 	private EditText YZMView;
 	private ImageView YZMimg;
 	private static Bitmap YZMbm = null;
-	private static String yzmURL = "http://202.114.74.199/GenImg";
-	private static String BaseURL = "http://202.114.74.199/servlet/Login";
+	private static String yzmURL = "http://202.114.74.198/GenImg";
+	private static String BaseURL = "http://202.114.74.198/servlet/Login";
 	private static String MasterCookie;
 	private ImageView bottomImg;
 
@@ -114,7 +114,7 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity {
 	}
 
 	public void refreshYZM() {
-		MasterCookie = getFirstCookie("http://202.114.74.199/");
+		MasterCookie = getFirstCookie("http://202.114.74.198/");
 		YZMbm = getYZM(yzmURL, MasterCookie);
 		YZMhandler.sendEmptyMessage(0);
 	}
@@ -420,7 +420,7 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity {
 					LessonsSharedPreferencesTool.setTermFirstDay(
 							LessonsLoginActivity.this, TermFirstDay);
 				String LessonsURL = MobclickAgent.getConfigParams(
-						LessonsLoginActivity.this, "lessons_url");
+						LessonsLoginActivity.this, "lessons_url_2");
 				String ServantCookie = "studentid=" + Account + ";"
 						+ MasterCooike + ";" + "studentid=" + Account;
 				// System.out.println(LessonsURL);
