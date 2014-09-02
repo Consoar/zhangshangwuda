@@ -75,6 +75,9 @@
     <string name="Lessons_Add_teacher">任课老师</string>
     <string name="Lessons_Add_other">这是备注</string>
     <string name="Lessons_Add_other_hint">请在这里输入内容&#8230;</string>
+    <!-- Ringer -->
+    <string name="Ringer">定时静音</string>
+    
     <!-- Setting -->
     <string name="Setting">设置</string>
     <!-- Help -->
@@ -112,6 +115,7 @@
     <string name="LeftMenu_News">新闻</string>
     <string name="LeftMenu_Lessons">课程表</string>
     <string name="LeftMenu_Wifi">无线网</string>
+    <string name="LeftMenu_Ringer">定时静音</string>
     <string name="LeftMenu_Cat2">其他</string>
     <string name="LeftMenu_Setting">设置</string>
     <string name="LeftMenu_Help">帮助</string>

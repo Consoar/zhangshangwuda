@@ -43,6 +43,15 @@
             android:drawableLeft="@drawable/left_menu_wifi_light"
              android:textColor="#555555"
             android:text="@string/LeftMenu_Wifi" />
+        
+        <TextView
+            android:id="@+id/left_menu_ringer"
+            style="@style/MenuDrawer.Widget.Title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/left_menu_wifi_light"
+            android:textColor="#555555"
+            android:text="@string/LeftMenu_Ringer" />
 
         <TextView
             style="@style/MenuDrawer.Widget.Category"
