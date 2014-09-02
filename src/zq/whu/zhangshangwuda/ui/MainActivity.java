@@ -10,6 +10,7 @@ import zq.whu.zhangshangwuda.tools.SmileyPickerUtility;
 import zq.whu.zhangshangwuda.tools.StringUtils;
 import zq.whu.zhangshangwuda.ui.lessons.LessonsFragmentSupport;
 import zq.whu.zhangshangwuda.ui.news.NewsFragmentSupport;
+import zq.whu.zhangshangwuda.ui.ringer.RingerFragmentSupport;
 import zq.whu.zhangshangwuda.ui.wifi.WifiFragmentSupport;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -35,10 +36,12 @@ public class MainActivity extends BaseThemeFragmentActivityWithoutAnime {
 	private final static String TAB_TAG_NEWS = "news";
 	private final static String TAB_TAG_LESSONS = "lessons";
 	private final static String TAB_TAG_WIFI = "wifi";
+	private final static String TAB_TAG_RINGER = "ringer";
 	private final static String TAB_TAG_SETTING = "setting";
 	private final static String TAB_TAG_HELP = "help";
 	private final static String TAB_TAG_FEED = "feed";
 	private final static String TAB_TAG_ABOUT = "about";
+	
 	private String mCurrentFragmentTag;
 	public MenuDrawer mMenuDrawer;
 	private FeedbackAgent agent;
@@ -117,6 +120,8 @@ public class MainActivity extends BaseThemeFragmentActivityWithoutAnime {
 			hideFragment(getFragment(TAB_TAG_LESSONS));
 		if (!tab.equals(TAB_TAG_WIFI))
 			hideFragment(getFragment(TAB_TAG_WIFI));
+		if (!tab.equals(TAB_TAG_RINGER))
+			hideFragment(getFragment(TAB_TAG_RINGER));
 	}
 
 	protected FragmentTransaction ensureTransaction() {
@@ -166,6 +171,8 @@ public class MainActivity extends BaseThemeFragmentActivityWithoutAnime {
 			if (tag.equals("wifi")) {
 				f = new WifiFragmentSupport();
 			}
+			if (tag.equals("ringer"))
+				f = new RingerFragmentSupport();
 		}
 		return f;
 	}
@@ -195,6 +202,8 @@ public class MainActivity extends BaseThemeFragmentActivityWithoutAnime {
 			StartTabNo = 2;
 		if (StartTab.equals("wifi"))
 			StartTabNo = 3;
+		if (StartTab.equals("ringer"))
+			StartTabNo = 5;
 		switch (StartTabNo) {
 		case 1:
 			mMenuDrawer.setActiveView(findViewById(R.id.left_menu_news));
@@ -210,6 +219,11 @@ public class MainActivity extends BaseThemeFragmentActivityWithoutAnime {
 			mMenuDrawer.setActiveView(findViewById(R.id.left_menu_wifi));
 			selectItem(TAB_TAG_WIFI);
 			getSupportActionBar().setTitle(R.string.Wifi);
+			break;
+		case 5:
+			mMenuDrawer.setActiveView(findViewById(R.id.left_menu_ringer));
+			selectItem(TAB_TAG_RINGER);
+			getSupportActionBar().setTitle(R.string.Ringer);
 			break;
 		}
 	}
@@ -284,6 +298,21 @@ public class MainActivity extends BaseThemeFragmentActivityWithoutAnime {
 								.getNowWeek(getApplicationContext());
 						getSupportActionBar().setSubtitle(
 								"第" + String.valueOf(nowWeek) + "周");
+					}
+				});
+		findViewById(R.id.left_menu_ringer).setOnClickListener(
+				new OnClickListener()
+				{
+					@Override
+					public void onClick(View arg0) 
+					{
+						// TODO Auto-generated method stub
+						mMenuDrawer.setActiveView(arg0);
+						selectItem(TAB_TAG_RINGER);
+						mMenuDrawer.closeMenu();
+						getSupportActionBar().setTitle(R.string.Ringer);
+						int nowWeek = LessonsTool.getNowWeek(getApplicationContext());
+						getSupportActionBar().setSubtitle("第" +  nowWeek  + "周");
 					}
 				});
 		findViewById(R.id.left_menu_setting).setOnClickListener(
