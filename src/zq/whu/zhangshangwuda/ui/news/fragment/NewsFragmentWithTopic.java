@@ -43,8 +43,8 @@ public class NewsFragmentWithTopic extends NewsFragmentBase {
 	private static final int MENU_REFRESH = Menu.FIRST;
 	public static final String URL = "URL";
 	public static final String TABNAME = "TABNAME";
-	public String URL_MAIN = "http://news.ziqiang.net/api/article/?n=15&s=全部&p=";
-	public static final String URL_MAIN_TOP = "http://news.ziqiang.net/api/article/?n=3&s=最新&p=1";
+	public String URL_MAIN = "http://115.29.17.73:8001/news/categories/timeline/?category=0&page=";
+	public static final String URL_MAIN_TOP = "http://115.29.17.73:8001/news/top/image/";
 	private ViewFlowViewPager mPager;// 页卡内容
 	private View rootView;
 	private String URL_ALL;
@@ -56,6 +56,7 @@ public class NewsFragmentWithTopic extends NewsFragmentBase {
 	private List<Map<String, String>> newsList;
 	private List<Map<String, String>> tempList;
 	private int lastpos = 1;
+	private final int IMAGE_COUNT = 5;
 	private boolean loadMoreError;
 	private boolean isLoadMore;
 	private View headView = null;
@@ -267,14 +268,7 @@ public class NewsFragmentWithTopic extends NewsFragmentBase {
 							lastpos = newsList.size();
 							tempList = NewsTool.getNewsList(URL_ALL);
 							tempList = NewsTool.getNewstype(tempList, "新闻");
-							if (tempList != null) {
-								if (TAB_NAME.contains("活动")) {
-									tempList = NewsTool.getNewsHDList(tempList);
-								}
-								if (TAB_NAME.contains("通知")) {
-									tempList = NewsTool.getNewsTZList(tempList);
-								}
-							} else {
+							if (tempList == null) {
 								loadMoreError = true;
 								--page;
 							}
@@ -307,14 +301,6 @@ public class NewsFragmentWithTopic extends NewsFragmentBase {
 						try {
 							tempList = NewsTool.getNewsList(URL_ALL);
 							tempList = NewsTool.getNewstype(tempList, "新闻");
-							if (tempList != null) {
-								if (TAB_NAME.contains("活动")) {
-									tempList = NewsTool.getNewsHDList(tempList);
-								}
-								if (TAB_NAME.contains("通知")) {
-									tempList = NewsTool.getNewsTZList(tempList);
-								}
-							}
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -322,6 +308,7 @@ public class NewsFragmentWithTopic extends NewsFragmentBase {
 						// 获取头条
 						try {
 							temppic = NewsTool.getPicList(URL_MAIN_TOP);
+							//temppic是获取的原始数据
 							if (temppic != null) {
 								pic.clear();
 								pic.addAll(temppic);
@@ -332,10 +319,10 @@ public class NewsFragmentWithTopic extends NewsFragmentBase {
 							temppic = null;
 						}
 						if (tempList != null) {
-							if ((temppic == null || temppic.size() < 3)
-									|| pic.size() != 3) {
-								pic.clear();
-								for (int i = 1; i <= 3; ++i) {
+							if ((temppic == null || temppic.size() < IMAGE_COUNT)
+									|| pic.size() != IMAGE_COUNT) {
+//								pic.clear();
+								for (int i = pic.size() + 1; i <= IMAGE_COUNT; ++i) {
 									Map<String, String> map = new HashMap<String, String>();
 									map.put("title", "还不知道是什么呢……");
 									map.put("image", "");
@@ -345,6 +332,7 @@ public class NewsFragmentWithTopic extends NewsFragmentBase {
 							}
 						}
 						handler.sendEmptyMessage(0);
+						//数据准备好就通知更新UI
 					}
 				}).start();
 	}
@@ -367,10 +355,10 @@ public class NewsFragmentWithTopic extends NewsFragmentBase {
 							e.printStackTrace();
 							temppic = null;
 						}
-						if ((temppic == null || temppic.size() < 3)
-								|| pic.size() != 3) {
-							pic.clear();
-							for (int i = 1; i <= 3; ++i) {
+						if ((temppic == null || temppic.size() < IMAGE_COUNT)
+								|| pic.size() != IMAGE_COUNT) {
+//							pic.clear();
+							for (int i = pic.size() + 1; i <= IMAGE_COUNT; ++i) {
 								Map<String, String> map = new HashMap<String, String>();
 								map.put("title", "还不知道是什么呢……");
 								map.put("image", "");
@@ -385,14 +373,6 @@ public class NewsFragmentWithTopic extends NewsFragmentBase {
 						try {
 							tempList = NewsTool.getNewsListFromCache(URL_ALL);
 							tempList = NewsTool.getNewstype(tempList, "新闻");
-							if (tempList != null) {
-								if (TAB_NAME.contains("活动")) {
-									tempList = NewsTool.getNewsHDList(tempList);
-								}
-								if (TAB_NAME.contains("通知")) {
-									tempList = NewsTool.getNewsTZList(tempList);
-								}
-							}
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -486,7 +466,7 @@ public class NewsFragmentWithTopic extends NewsFragmentBase {
 	public void notifyDataHeadView() {
 		viewFlowAdapter.notifyDataSetChanged();
 		headViewFlowText.setText(pic
-				.get(viewFlow.getSelectedItemPosition() % 3).get("title"));
+				.get(viewFlow.getSelectedItemPosition() % IMAGE_COUNT).get("title"));
 	}
 
 	public View getHeadView() {
@@ -502,13 +482,11 @@ public class NewsFragmentWithTopic extends NewsFragmentBase {
 		viewFlow.setFlowIndicator(indic);
 		viewFlowAdapter = new NewsTopicAdapter(getActivity(), pic);
 		viewFlow.setAdapter(viewFlowAdapter);
-		viewFlow.setmSideBuffer(3);
-		// for (int i = 0; i < pic.size(); ++i)
-		// System.out.println(pic.get(i));
-		// 设置自动播放
-		// viewFlow.setTimeSpan(4500);
-		// viewFlow.setSelection(2 * 1000);
-		// viewFlow.startAutoFlowTimer();
+		viewFlow.setmSideBuffer(IMAGE_COUNT);
+		 //设置自动播放
+		viewFlow.setTimeSpan(4500);
+		viewFlow.setSelection(3 * 1000);
+		viewFlow.startAutoFlowTimer();
 		headViewFlowText = (TextView) headView.findViewById(R.id.viewtext);
 		headViewFlowText.setText(pic.get(0).get("title"));
 		viewFlow.setOnViewSwitchListener(new ViewSwitchListener() {
@@ -516,7 +494,7 @@ public class NewsFragmentWithTopic extends NewsFragmentBase {
 			@Override
 			public void onSwitched(View view, int position) {
 				// TODO Auto-generated method stub
-				headViewFlowText.setText(pic.get(position % 3).get("title"));
+				headViewFlowText.setText(pic.get(position % IMAGE_COUNT).get("title"));
 
 			}
 		});

@@ -6,14 +6,17 @@
     android:background="@null"
     android:minHeight="45dip"
     android:orientation="horizontal"
-    android:padding="4dp" >
+    android:paddingTop="5dp"
+    android:paddingBottom="5dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp" >
 
     <TextView
         android:id="@+id/news_itemTitleType_TextView"
         android:layout_width="45dip"
         android:layout_height="45dip"
         android:textColor="@color/white"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="5dp"
         android:gravity="center"
         android:textSize="18sp"
         android:text="新闻"
@@ -27,7 +30,7 @@
         android:layout_marginBottom="6dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="5dp"
         android:maxLines="1"
         android:text="第一行是标题的说~"
         android:textColor="?attr/newsItemTextColor"
@@ -41,35 +44,22 @@
         android:visibility="gone" />
 
     <TextView
-        android:id="@+id/news_itemClickTime_TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/news_itemTitle_TextView"
-        android:layout_toRightOf="@+id/news_itemLabelClickTime_TextView"
-        android:ems="4"
-        android:text="9999"
-        android:textColor="#BBBBBB"
-        android:textSize="12sp" />
-
-    <TextView
         android:id="@+id/news_itemPostTime_TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/news_itemLabelClickTime_TextView"
-        android:layout_alignLeft="@+id/news_itemTitle_TextView"
+        android:layout_below="@id/news_itemTitle_TextView"
+        android:layout_alignLeft="@id/news_itemTitle_TextView"
         android:text="2012-12-30"
         android:textColor="#BBBBBB"
         android:textSize="12sp" />
-
-    <TextView
-        android:id="@+id/news_itemLabelClickTime_TextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/news_itemClickTime_TextView"
-        android:layout_marginLeft="19dp"
-        android:layout_toRightOf="@+id/news_itemPostTime_TextView"
-        android:text="点击："
-        android:textColor="#BBBBBB"
-        android:textSize="12sp" />
+    
+    <ImageView 
+        android:id="@+id/news_itemImage_ImageView"
+        android:layout_width="100dip"
+        android:layout_height="75dip"
+        android:layout_alignTop="@id/news_itemTitle_TextView"
+        android:layout_alignParentRight="true"
+        android:scaleType="centerCrop"
+        />
 
 </RelativeLayout>

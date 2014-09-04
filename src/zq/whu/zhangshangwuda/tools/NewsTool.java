@@ -10,9 +10,63 @@ import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
+import android.content.Context;
+
 public class NewsTool {
 	private static boolean flag = true;
 
+	/**
+	 * 获取新闻类别列表
+	 * 
+	 * @return
+	 * @throws JSONException
+	 */
+	public static List<Map<String, String>> getNewsCategory(String url)
+			throws JSONException {
+		String jsonData = HtmlTool.downLoadZqNewsJson(url);
+		// System.out.println(jsonData);
+		if (StringUtils.isEmpty(jsonData))
+			return null;
+		FileCache.getInstance().setUrlCache(jsonData, url);
+		JSONArray arr = null;
+		arr = new JSONArray(jsonData);
+		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
+		for (int i = 0; i < arr.length(); i++) {
+			JSONObject temp = (JSONObject) arr.get(i);
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("category", temp.getString("category").trim());
+			map.put("id", temp.getString("id").trim());
+			list.add(map);
+		}
+		return list;
+	}
+
+	/**
+	 * 从缓存获取新闻类别列表
+	 * 
+	 * @return
+	 * @throws JSONException
+	 */
+	public static List<Map<String, String>> getNewsCategoryFromCache(String url)
+			throws JSONException {
+		String jsonData = FileCache.getInstance().getUrlCache(url);
+		// System.out.println(jsonData);
+		if (StringUtils.isEmpty(jsonData))
+			return null;
+		FileCache.getInstance().setUrlCache(jsonData, url);
+		JSONArray arr = null;
+		arr = new JSONArray(jsonData);
+		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
+		for (int i = 0; i < arr.length(); i++) {
+			JSONObject temp = (JSONObject) arr.get(i);
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("category", temp.getString("category").trim());
+			map.put("id", temp.getString("id").trim());
+			list.add(map);
+		}
+		return list;
+	}
+	
 	/**
 	 * 获取自强新闻列表
 	 * 
@@ -25,7 +79,7 @@ public class NewsTool {
 		// System.out.println(jsonData);
 		if (StringUtils.isEmpty(jsonData))
 			return null;
-		if (url.substring(url.indexOf("p=")).equals("p=1"))
+		if (url.substring(url.indexOf("page=")).equals("page=1"))
 			FileCache.getInstance().setUrlCache(jsonData, url);
 		JSONArray arr = null;
 		arr = new JSONArray(jsonData);
@@ -39,12 +93,10 @@ public class NewsTool {
 			Map<String, String> map = new HashMap<String, String>();
 			map.put("title", temp.getString("title").trim());
 			map.put("time", temp.getString("published"));
-			map.put("hits", temp.getString("hits"));
-			if (temp.getString("category") != null
-					&& temp.getString("category").contains("院系"))
-				map.put("category", temp.getString("category"));
+			map.put("image", temp.getString("image"));
+			map.put("category", temp.getString("category"));
 			map.put("href",
-					"http://news.ziqiang.net/api/article/?id="
+					"http://115.29.17.73:8001/news/show/?id="
 							+ temp.getString("id"));
 			list.add(map);
 		}
@@ -75,12 +127,10 @@ public class NewsTool {
 			Map<String, String> map = new HashMap<String, String>();
 			map.put("title", temp.getString("title").trim());
 			map.put("time", temp.getString("published"));
-			if (temp.getString("category") != null
-					&& temp.getString("category").contains("院系"))
-				map.put("category", temp.getString("category"));
-			map.put("hits", temp.getString("hits"));
+			map.put("image", temp.getString("image"));
+			map.put("category", temp.getString("category"));
 			map.put("href",
-					"http://news.ziqiang.net/api/article/?id="
+					"http://115.29.17.73:8001/news/show/?id="
 							+ temp.getString("id"));
 			list.add(map);
 		}
@@ -117,15 +167,18 @@ public class NewsTool {
 		// System.out.println(jsonData);
 		JSONObject temp = (JSONObject) arr.get(0);
 		Map<String, String> map = new HashMap<String, String>();
-		map.put("title", temp.getString("title").trim());
+		if(temp.getString("category").contains("广告"))
+			map.put("category", "推广");
+		else
+			map.put("category", temp.getString("category").trim());
 		map.put("content", temp.getString("content"));
 		// System.out.println(temp.getString("content"));
 		map.put("author", temp.getString("author"));
+		map.put("tag", temp.getString("tag"));
 		map.put("time", temp.getString("published"));
-		map.put("category", temp.getString("category"));
+		map.put("title", temp.getString("title"));
 		map.put("id", temp.getString("id"));
-		map.put("hits", temp.getString("hits"));
-		map.put("href", temp.getString("url"));
+		map.put("href", temp.getString("source_url"));
 		return map;
 	}
 
@@ -152,14 +205,18 @@ public class NewsTool {
 			// System.out.println(temp.get("category"));
 			Map<String, String> map = new HashMap<String, String>();
 			// System.out.println(temp);
-			map.put("title", temp.getString("title").trim());
+			if(temp.getString("category").contains("广告"))
+				map.put("title", "【推广】" + temp.getString("title").trim());
+			else
+				map.put("title", temp.getString("title").trim());
 			if (!StringUtils.isEmpty(temp.getString("image")))
-				map.put("image", temp.getString("image"));
+				map.put("image", DisplayTool.getMyImageUrl(temp.getString("image")));
 			else
 				map.put("image", null);
 			map.put("href",
-					"http://news.ziqiang.net/api/article/?id="
+					"http://115.29.17.73:8001/news/show/?id="
 							+ temp.getString("id"));
+			map.put("time", temp.getString("published"));
 			list.add(map);
 		}
 		return list;
@@ -186,84 +243,30 @@ public class NewsTool {
 			// System.out.println(temp.get("title"));
 			// System.out.println(temp.get("category"));
 			Map<String, String> map = new HashMap<String, String>();
-			map.put("title", temp.getString("title").trim());
+			if(temp.getString("category").contains("广告"))
+				map.put("title", "【推广】" + temp.getString("title").trim());
+			else
+				map.put("title", temp.getString("title").trim());
 			if (!StringUtils.isEmpty(temp.getString("image")))
-				map.put("image", temp.getString("image"));
+				map.put("image", DisplayTool.getMyImageUrl(temp.getString("image")));
 			else
 				map.put("image", null);
 			map.put("href",
-					"http://news.ziqiang.net/api/article/?id="
+					"http://115.29.17.73:8001/news/show/?id="
 							+ temp.getString("id"));
+			map.put("time", temp.getString("published"));
 			list.add(map);
 		}
 		return list;
 	}
 
 	/**
-	 * 过滤出自强新闻通知列表
+	 * 获得新闻类型以便于在首页推荐处显示
 	 * 
-	 * @param list
+	 * @param list, String
 	 * @return list
-	 */
-	public static List<Map<String, String>> getNewsTZList(
-			List<Map<String, String>> list) {
-		int size = list.size();
-		// System.out.println("size "+size);
-		String ttitle, tstring;
-		Map<String, String> tmap;
-		List<Map<String, String>> ans = new ArrayList<Map<String, String>>();
-		for (int i = 0; i < size; ++i) {
-			ttitle = list.get(i).get("title").trim();
-			tstring = ttitle.substring(0, 4);
-			if (tstring.indexOf("】") < 0) {
-				ans.add(list.get(i));
-				continue;
-			}
-			if (tstring.indexOf("公告") > 0 || tstring.indexOf("通知") > 0) {
-				tmap = list.get(i);
-				Map<String, String> map = new HashMap<String, String>();
-				map.put("title", tmap.get("title").substring(4));
-				map.put("time", tmap.get("time"));
-				map.put("hits", tmap.get("hits"));
-				map.put("href", tmap.get("href"));
-				ans.add(map);
-			}
-		}
-		return ans;
-	}
-
-	/**
-	 * 过滤出自强新闻活动列表
-	 * 
-	 * @param list
-	 * @return list
-	 */
-	public static List<Map<String, String>> getNewsHDList(
-			List<Map<String, String>> list) {
-		int size = list.size();
-		String ttitle, tstring;
-		Map<String, String> tmap;
-		List<Map<String, String>> ans = new ArrayList<Map<String, String>>();
-		for (int i = 0; i < size; ++i) {
-			ttitle = list.get(i).get("title").trim();
-			tstring = ttitle.substring(0, 4);
-			if (tstring.indexOf("】") < 0) {
-				ans.add(list.get(i));
-				continue;
-			}
-			if (tstring.indexOf("活动") > 0 || tstring.indexOf("讲座") > 0) {
-				tmap = list.get(i);
-				Map<String, String> map = new HashMap<String, String>();
-				map.put("title", tmap.get("title").substring(4));
-				map.put("time", tmap.get("time"));
-				map.put("hits", tmap.get("hits"));
-				map.put("href", tmap.get("href"));
-				ans.add(map);
-			}
-		}
-		return ans;
-	}
-
+	 * @throws JSONException
+	 * */
 	public static List<Map<String, String>> getNewstype(
 			List<Map<String, String>> list, String NonType) {
 		if (list == null)

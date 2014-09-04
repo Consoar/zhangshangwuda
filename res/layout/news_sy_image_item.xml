@@ -10,7 +10,7 @@
         android:layout_height="fill_parent"
         android:layout_gravity="center_vertical|center_horizontal"
         android:background="@null"
-        android:scaleType="fitXY" >
+        android:scaleType="centerCrop" >
     </ImageView>
 
 </LinearLayout>
