@@ -26,6 +26,7 @@ public class NewsTopicAdapter extends BaseAdapter {
 	private Bitmap failedBitmap = null;
 	private Context mContext;
 	private LayoutInflater mInflater;
+	private final int IMAGE_COUNT = 5;
 	private List<Map<String, String>> pic = new ArrayList<Map<String, String>>();
 
 	static class NewsTopicItemViewHolder { // 自定义控件集合
@@ -69,7 +70,7 @@ public class NewsTopicAdapter extends BaseAdapter {
 			topicItemView = (NewsTopicItemViewHolder) convertView.getTag();
 		}
 		ImageView img = topicItemView.img;
-		String url = pic.get(position % 3).get("image");
+		String url = pic.get(position % IMAGE_COUNT).get("image");
 		if (!StringUtils.isEmpty(url))
 			MyApplication.getInstance().mImageLoader.displayImage(url, img);
 		else
@@ -78,8 +79,8 @@ public class NewsTopicAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(mContext, NewsContentActivity.class);
-				intent.putExtra("time", pic.get(position % 3).get("time"));
-				intent.putExtra("href", pic.get(position % 3).get("href"));
+				intent.putExtra("time", pic.get(position % IMAGE_COUNT).get("time"));
+				intent.putExtra("href", pic.get(position % IMAGE_COUNT).get("href"));
 				mContext.startActivity(intent);
 			}
 		});

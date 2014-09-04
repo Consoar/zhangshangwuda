@@ -13,6 +13,7 @@ import org.jsoup.select.Elements;
 
 import zq.whu.zhangshangwuda.base.BaseThemeSwipeBackSherlockActivity;
 import zq.whu.zhangshangwuda.tools.Constants;
+import zq.whu.zhangshangwuda.tools.DisplayTool;
 import zq.whu.zhangshangwuda.tools.HtmlTool;
 import zq.whu.zhangshangwuda.tools.NewsTool;
 import zq.whu.zhangshangwuda.tools.StringUtils;
@@ -139,12 +140,6 @@ public class NewsContentActivity extends BaseThemeSwipeBackSherlockActivity {
 			@Override
 			public void run() {
 				loadContent();
-				if (contentmap != null) {
-					String id = contentmap.get("id");
-					String hitUrl = "http://news.ziqiang.net/article/hits/"
-							+ id + "/";
-					HtmlTool.downLoadZqNewsJson(hitUrl);
-				}
 				handler.sendEmptyMessage(0);
 			}
 
@@ -196,9 +191,11 @@ public class NewsContentActivity extends BaseThemeSwipeBackSherlockActivity {
 				contentLinearLayout.removeAllViews();
 				boolean showImage = isShowImage();
 				titleTextView.setText(contentmap.get("title"));
-				anthorTextView.setText(contentmap.get("author"));
-				moreinfoTextView.setText(contentmap.get("time") + ' ' + "点击："
-						+ contentmap.get("hits"));
+				if(!StringUtils.isEmpty(contentmap.get("author")))
+					anthorTextView.setText(contentmap.get("author"));
+				else
+					anthorTextView.setText(contentmap.get("tag"));
+				moreinfoTextView.setText(contentmap.get("time"));
 				getSupportActionBar().setSubtitle(contentmap.get("category"));
 				Document doc = Jsoup.parse(contentmap.get("content"));
 				Elements contents = doc.getElementsByTag("p");
@@ -216,7 +213,7 @@ public class NewsContentActivity extends BaseThemeSwipeBackSherlockActivity {
 							if (!t.equals(""))
 								pheight = Integer.parseInt(t);
 							if (!StringUtils.isEmpty(img.absUrl("src")))
-								pic.load(img.absUrl("src"), pwidth, pheight);
+								pic.load(DisplayTool.getMyImageUrl(img.absUrl("src")), pwidth, pheight);
 							contentLinearLayout.addView(pic);
 						}
 					}
