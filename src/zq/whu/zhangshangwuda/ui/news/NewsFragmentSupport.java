@@ -61,6 +61,11 @@ public class NewsFragmentSupport extends BaseSherlockFragment {
 				.get(position);
 	}
 
+	/**
+	 * 创建optionMenu，用于刷新
+	 * @param menu
+	 * @param inflater
+	 */
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 		menu.add(Menu.NONE, MENU_REFRESH, 1,
@@ -71,6 +76,11 @@ public class NewsFragmentSupport extends BaseSherlockFragment {
 								| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 	}
 
+	/**
+	 * 刷新菜单项的选中处理方法，如果选中刷新，则交由sherlockFragment的onOptionItemSelected处理
+	 * @param item
+	 * @return
+	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
@@ -88,7 +98,6 @@ public class NewsFragmentSupport extends BaseSherlockFragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		// System.out.println("NewsFragment_onCreate");
 		setHasOptionsMenu(true);
@@ -117,10 +126,21 @@ public class NewsFragmentSupport extends BaseSherlockFragment {
 		return rootView;
 	}
 
+	
+	/**
+	 * 获取第几周
+	 * 开启viewPaper特效Tablet
+	 * 从缓存加载InitListTab和InitListURL，如果失败则只添加“推荐”
+	 * 设置viewpaper的adapter
+	 * 实现indicator.setOnPageChangeListener监听器，并且和viewpager绑定
+	 * 更新InitListTab和InitListURL
+	 * @param savedInstanceState
+	 */
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		// System.out.println("NewsFragment_onActivityCreated");
 		super.onActivityCreated(savedInstanceState);
+		
 		int nowWeek = LessonsTool.getNowWeek(getActivity());
 		MainActivity.MainActivityActionbar.setSubtitle("第"
 				+ String.valueOf(nowWeek) + "周");
@@ -145,7 +165,6 @@ public class NewsFragmentSupport extends BaseSherlockFragment {
 				}
 			}
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			InitListTab.clear();
 			InitListURL.clear();
@@ -184,12 +203,9 @@ public class NewsFragmentSupport extends BaseSherlockFragment {
 		RefreshCategory();
 	}
 
-	@Override
-	public void onDestroy() {
-		// TODO Auto-generated method stub
-		super.onDestroy();
-	}
-
+	/**
+	 * 友盟服务
+	 */
 	@Override
 	public void onPause() {
 		// TODO Auto-generated method stub
@@ -197,6 +213,9 @@ public class NewsFragmentSupport extends BaseSherlockFragment {
 		MobclickAgent.onPageEnd(mPageName);
 	}
 
+	/**
+	 * 友盟服务
+	 */
 	@Override
 	public void onResume() {
 		// TODO Auto-generated method stub
@@ -204,7 +223,7 @@ public class NewsFragmentSupport extends BaseSherlockFragment {
 		MobclickAgent.onPageStart(mPageName);
 	}
 
-	/*
+	/**
 	 * 刷新服务器上已有的类别
 	 * 
 	 * */
@@ -223,7 +242,9 @@ public class NewsFragmentSupport extends BaseSherlockFragment {
 		}).start();
 	}
 	
-	// 定义Handler对象, 刷新新闻类别
+	/**
+	 * 定义Handler对象, 刷新新闻类别
+	 */
 	private Handler handler = new Handler() {
 		@Override
 		public void handleMessage(Message msg) {
