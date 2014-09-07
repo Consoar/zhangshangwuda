@@ -175,7 +175,7 @@ public class LessonsFragment extends BaseSherlockFragment {
 		rootView.findViewById(R.id.left_11).setMinimumHeight(minHeight);
 		rootView.findViewById(R.id.left_12).setMinimumHeight(minHeight);
 		rootView.findViewById(R.id.left_13).setMinimumHeight(minHeight);
-		rootView.findViewById(R.id.left_14).setMinimumHeight(minHeight);
+		//rootView.findViewById(R.id.left_14).setMinimumHeight(minHeight);
 
 	}
 
@@ -310,8 +310,8 @@ public class LessonsFragment extends BaseSherlockFragment {
 					- a + 1, ccolor, flag);
 			t = b + 1;
 		}
-		if (t < 14)
-			setNoClass(tday, 14 - t + 1, 0);
+		if (t < 13)
+			setNoClass(tday, 13 - t + 1, 0);
 	}
 
 	public void removeEveryDayLessons(int day) {
@@ -356,23 +356,21 @@ public class LessonsFragment extends BaseSherlockFragment {
 		case 5:
 			return "11:30";
 		case 6:
-			return "13:15";
-		case 7:
 			return "14:05";
-		case 8:
+		case 7:
 			return "14:55";
-		case 9:
+		case 8:
 			return "15:45";
-		case 10:
+		case 9:
 			return "16:40";
-		case 11:
+		case 10:
 			return "17:30";
+		case 11:
+			return "18:30";
 		case 12:
-			return "19:00";
+			return "19:20";
 		case 13:
-			return "19:50";
-		case 14:
-			return "20:40";
+			return "20:10";
 		}
 		return null;
 	}
@@ -391,23 +389,21 @@ public class LessonsFragment extends BaseSherlockFragment {
 		case 5:
 			return "12:15";
 		case 6:
-			return "14:00";
-		case 7:
 			return "14:50";
-		case 8:
+		case 7:
 			return "15:40";
-		case 9:
+		case 8:
 			return "16:30";
+		case 9:
+			return "17:25";
 		case 10:
 			return "17:25";
 		case 11:
-			return "17:30";
+			return "19:15";
 		case 12:
-			return "19:45";
+			return "20:05";
 		case 13:
-			return "20:35";
-		case 14:
-			return "21:25";
+			return "20:55";
 		}
 		return null;
 	}
