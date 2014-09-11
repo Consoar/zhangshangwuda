@@ -62,7 +62,7 @@
 
     <TencentWeibo
         Id="2" 
-        SortId="2"
+        SortId="19"
         AppKey="801307650"
         AppSecret="ae36f4ee3946e1cbb98d6965b0b2ff5c"
         RedirectUri="http://sharesdk.cn"
@@ -71,7 +71,7 @@
     <!-- ShareByAppClient标识是否使用微博客户端分享，默认是false -->
     <QZone
         Id="3"
-        SortId="3"
+        SortId="6"
         AppId="100371282"
         AppKey="aed9b0303e3ed1e27bae87c33761161d"
         ShareByAppClient="true"
@@ -91,21 +91,21 @@
 	-->
     <Wechat
         Id="4"
-        SortId="4"
+        SortId="2"
         AppId="wx4868b35061f87885"
         BypassApproval="true"
         Enable="true" />
     
     <WechatMoments
         Id="5"
-        SortId="5"
+        SortId="3"
         AppId="wx4868b35061f87885"
         BypassApproval="true"
         Enable="true" />
         
 	<WechatFavorite
         Id="6"
-        SortId="6"
+        SortId="9"
         AppId="wx4868b35061f87885"
         Enable="true" />
     
@@ -120,14 +120,14 @@
     
     <Facebook
         Id="8"
-        SortId="8"
+        SortId="10"
         ConsumerKey="107704292745179"
         ConsumerSecret="38053202e1a5fe26c80c753071f0b573"
         Enable="true" />
 
     <Twitter
         Id="9"
-        SortId="9"
+        SortId="17"
         ConsumerKey="mnTGqtXk0TYMXYTN7qUxg"
         ConsumerSecret="ROkFqr8c3m1HXqS3rm3TJ0WkAJuwBOSaWhPbZ9Ojuc"
         CallbackUrl="http://www.sharesdk.cn"
@@ -135,7 +135,7 @@
 
     <Renren
         Id="10"
-        SortId="10"
+        SortId="8"
         AppId="226427"
         ApiKey="fc5b8aed373c4c27a05b712acba0f8c3"
         SecretKey="f29df781abdd4f49beca5a2194676ca4"
@@ -182,11 +182,11 @@
         ApiKey="02e2cbe5ca06de5908a863b15e149b0b"
         Secret="9f1e7b4f71304f2f"
         RedirectUri="http://www.sharesdk.cn"
-        Enable="true" />
+        Enable="false" />
     
     <YouDao
         Id="17"
-        SortId="17"
+        SortId="5"
         HostType="product"
         ConsumerKey="dcde25dca105bcc36884ed4534dab940"
         ConsumerSecret="d98217b4020e7f1874263795f44838fe"
@@ -213,11 +213,11 @@
     -->
     <Evernote
         Id="19"
-        SortId="19"
+        SortId="4"
         HostType="sandbox"
     	ConsumerKey="sharesdk-7807"
 		ConsumerSecret="d05bf86993836004"
-		ShareByAppClient="false"
+		ShareByAppClient="true"
 		Enable="true" />
     
     <LinkedIn

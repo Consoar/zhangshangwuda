@@ -1,6 +1,7 @@
 ﻿package zq.whu.zhangshangwuda.ui.news;
 
 import imid.swipebacklayout.lib.SwipeBackLayout;
+import org.htmlparser.*;
 
 import java.util.Map;
 
@@ -36,6 +37,9 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.onekeyshare.OnekeyShare;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -78,8 +82,7 @@ public class NewsContentActivity extends BaseThemeSwipeBackSherlockActivity {
 				getResources().getString(R.string.share))
 				.setIcon(R.drawable.ic_menu_share)
 				.setShowAsAction(
-						MenuItem.SHOW_AS_ACTION_IF_ROOM
-								| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+						MenuItem.SHOW_AS_ACTION_ALWAYS);
 		;
 		return true;
 	}
@@ -256,7 +259,6 @@ public class NewsContentActivity extends BaseThemeSwipeBackSherlockActivity {
 	// };
 
 	 public void sharenews() {
-		 //还没有导sharesdk的包
 		// TODO Auto-generated method stub
 		ShareSDK.initSDK(this);
 		OnekeyShare oks = new OnekeyShare();
@@ -264,24 +266,31 @@ public class NewsContentActivity extends BaseThemeSwipeBackSherlockActivity {
 		oks.disableSSOWhenAuthorize();
 
 		// 分享时Notification的图标和文字
-		oks.setNotification(R.drawable.ic_launcher,
+		oks.setNotification(R.drawable.icon,
 				getString(R.string.app_name));
 		// title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
-		oks.setTitle(getString(R.string.share));
+		oks.setTitle(contentmap.get("title"));
 		// titleUrl是标题的网络链接，仅在人人网和QQ空间使用
-		oks.setTitleUrl("http://sharesdk.cn");
+		oks.setTitleUrl(contentmap.get("href"));
 		// text是分享文本，所有平台都需要这个字段
-		oks.setText("我是分享文本");
+		StringBuilder sb = new StringBuilder(contentmap.get("title"));
+		sb.append("\n");
+		Document doc = Jsoup.parse(contentmap.get("content"));
+		Elements contents = doc.getElementsByTag("p");
+		for (Element content : contents) {
+			sb.append(content.text()).append("\n");
+		}
+		oks.setText(sb.toString());
 		// imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
-		oks.setImagePath("/sdcard/test.jpg");
+		oks.setImageUrl(contentmap.get("image"));
 		// url仅在微信（包括好友和朋友圈）中使用
-		oks.setUrl("http://sharesdk.cn");
+		oks.setUrl(contentmap.get("href"));
 		// comment是我对这条分享的评论，仅在人人网和QQ空间使用
 		oks.setComment("我是测试评论文本");
 		// site是分享此内容的网站名称，仅在QQ空间使用
 		oks.setSite(getString(R.string.app_name));
 		// siteUrl是分享此内容的网站地址，仅在QQ空间使用
-		oks.setSiteUrl("http://sharesdk.cn");
+		oks.setSiteUrl("http://www.ziqiang.net");
 
 		// 启动分享GUI
 		oks.show(this);

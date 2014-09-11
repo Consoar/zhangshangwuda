@@ -316,7 +316,7 @@ public class OnekeyShare extends FakeActivity implements
 		grid.setHiddenPlatforms(hiddenPlatforms);
 		grid.setCustomerLogos(customers);
 		grid.setParent(this);
-		btnCancel.setOnClickListener(this);
+		//btnCancel.setOnClickListener(this);
 
 		// 显示列表
 		flPage.clearAnimation();
@@ -356,24 +356,24 @@ public class OnekeyShare extends FakeActivity implements
 		llPage.addView(grid);
 
 		// 取消按钮
-		btnCancel = new Button(getContext());
-		btnCancel.setTextColor(0xffffffff);
-		btnCancel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
-		resId = getStringRes(getContext(), "cancel");
-		if (resId > 0) {
-			btnCancel.setText(resId);
-		}
-		btnCancel.setPadding(0, 0, 0, cn.sharesdk.framework.utils.R.dipToPx(getContext(), 5));
-		resId = getBitmapRes(getContext(), "btn_cancel_back");
-		if (resId > 0) {
-			btnCancel.setBackgroundResource(resId);
-		}
-		LinearLayout.LayoutParams lpBtn = new LinearLayout.LayoutParams(
-				LayoutParams.MATCH_PARENT, cn.sharesdk.framework.utils.R.dipToPx(getContext(), 45));
-		int dp_10 = cn.sharesdk.framework.utils.R.dipToPx(getContext(), 10);
-		lpBtn.setMargins(dp_10, dp_10, dp_10, dp_10);
-		btnCancel.setLayoutParams(lpBtn);
-		llPage.addView(btnCancel);
+//		btnCancel = new Button(getContext());
+//		btnCancel.setTextColor(0xffffffff);
+//		btnCancel.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
+//		resId = getStringRes(getContext(), "cancel");
+//		if (resId > 0) {
+//			btnCancel.setText(resId);
+//		}
+//		btnCancel.setPadding(0, 0, 0, cn.sharesdk.framework.utils.R.dipToPx(getContext(), 5));
+//		resId = getBitmapRes(getContext(), "btn_cancel_back");
+//		if (resId > 0) {
+//			btnCancel.setBackgroundResource(resId);
+//		}
+//		LinearLayout.LayoutParams lpBtn = new LinearLayout.LayoutParams(
+//				LayoutParams.MATCH_PARENT, cn.sharesdk.framework.utils.R.dipToPx(getContext(), 45));
+//		int dp_10 = cn.sharesdk.framework.utils.R.dipToPx(getContext(), 10);
+//		lpBtn.setMargins(dp_10, dp_10, dp_10, dp_10);
+//		btnCancel.setLayoutParams(lpBtn);
+//		llPage.addView(btnCancel);
 	}
 
 	private void initAnim() {

@@ -175,10 +175,11 @@ public class NewsTool {
 		// System.out.println(temp.getString("content"));
 		map.put("author", temp.getString("author"));
 		map.put("tag", temp.getString("tag"));
+		map.put("image", temp.getString("image"));
 		map.put("time", temp.getString("published"));
 		map.put("title", temp.getString("title"));
 		map.put("id", temp.getString("id"));
-		map.put("href", temp.getString("source_url"));
+		map.put("href", temp.getString("share_url"));
 		return map;
 	}
 
