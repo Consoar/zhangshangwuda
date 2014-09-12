@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,7 @@ public class LessonsFragmentSupport extends BaseSherlockFragment {
 	private static final int MENU_LOGOFF = Menu.FIRST;
 	private static final int MENU_ADD = Menu.FIRST + 1;
 	private static final int MENU_TODAY = Menu.FIRST + 2;
+	private static final int MENU_COURSES=Menu.FIRST+3;
 	private static MyApplication application;
 	private boolean lessonsHave;
 	private String sWeekFormat;
@@ -68,6 +70,12 @@ public class LessonsFragmentSupport extends BaseSherlockFragment {
 				.setShowAsAction(
 						MenuItem.SHOW_AS_ACTION_IF_ROOM
 								| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+		menu.add(Menu.NONE, MENU_COURSES, 4,
+				getResources().getString(R.string.course_management))
+				.setIcon(R.drawable.ic_menu_menu)
+				.setShowAsAction(
+						MenuItem.SHOW_AS_ACTION_IF_ROOM
+								| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
 	}
 
 	@Override
@@ -88,6 +96,11 @@ public class LessonsFragmentSupport extends BaseSherlockFragment {
 			viewPager.setCurrentItem(nowWeek - 1);
 			ACTIONBAR_MODEL = 0;
 			getSherlockActivity().invalidateOptionsMenu();
+			return true;
+		case MENU_COURSES:
+			Intent intent2 = new Intent();
+			intent2.setClass(getActivity(), LessonsManagementActivity.class);
+			getActivity().startActivity(intent2);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -145,7 +158,16 @@ public class LessonsFragmentSupport extends BaseSherlockFragment {
 		// int nowWeek = 1;
  
 		String sWeekInfo=String.format(sWeekFormat,nowWeek); 
-		MainActivity.MainActivityActionbar.setSubtitle(sWeekInfo);
+		MainActivity.MainActivityActionbar.setSubtitle(sWeekInfo);		
+		
+		if(nowWeek==0){
+			viewPager.setPagingEnabled(false);
+			viewPager.setCurrentItem(30);
+			ACTIONBAR_MODEL = 0;
+			getSherlockActivity().invalidateOptionsMenu();
+			return;
+		}
+		viewPager.setPagingEnabled(true);
 		viewPager.setCurrentItem(nowWeek - 1);
 		viewPager.setOnPageChangeListener(new OnPageChangeListener() {
 
@@ -211,6 +233,14 @@ public class LessonsFragmentSupport extends BaseSherlockFragment {
 				int nowWeek = LessonsTool.getNowWeek(getActivity());
 				String sWeekInfo=String.format(sWeekFormat,nowWeek); 
 				MainActivity.MainActivityActionbar.setSubtitle(sWeekInfo);
+				if(nowWeek==0){
+					viewPager.setPagingEnabled(false);
+					viewPager.setCurrentItem(30);
+					ACTIONBAR_MODEL = 0;
+					getSherlockActivity().invalidateOptionsMenu();
+					return;
+				}
+				viewPager.setPagingEnabled(true);
 				viewPager.setCurrentItem(nowWeek - 1);
 				ACTIONBAR_MODEL = 0;
 				getSherlockActivity().invalidateOptionsMenu();

@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import zq.whu.zhangshangwuda.entity.Lessons;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -155,6 +156,45 @@ public class LessonsDb extends LessonsDBUtil {
 		db.close();
 		return null;
 	}
+	
+	public List<Map<String, String>> getLocalLessonsListGroupByName(){
+		ArrayList<Map<String, String>> list = new ArrayList<Map<String, String>>();
+		Set<String> set=new TreeSet<String>();
+		SQLiteDatabase db = this.getReadableDatabase();		
+		Cursor cursor = db.query(TABLE_NAME, //
+				null, null, null, null, null, null);
+		try {
+			while (cursor.moveToNext()) {
+				Map<String, String> map = new HashMap<String, String>();
+				map.put("id", cursor.getString(cursor.getColumnIndex("id")));
+				map.put("name", cursor.getString(cursor.getColumnIndex("name")));
+				set.add(cursor.getString(cursor.getColumnIndex("name")));
+				list.add(map);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (cursor != null)
+				cursor.close();
+			cursor = null;
+			db.close();
+		}
+		ArrayList<Map<String, String>> _list = new ArrayList<Map<String, String>>();
+		for(String name:set){
+			Map<String, String> map=new HashMap<String, String>();
+			String id="";
+			for(Map<String, String> course:list){
+				if(course.get("name").equals(name)) {
+					id=id+course.get("id")+";";					
+				}
+			}
+			map.put("name", name);
+			map.put("id", id);
+			_list.add(map);
+		}
+		return _list;		
+	}
+	
 
 	/**
 	 * 

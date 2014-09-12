@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:background="#ffeeeeee" >
+
+	<ScrollView
+	    android:id="@+id/lessons_add_scrollView1"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent" >
+	
+	    <LinearLayout
+	        android:id="@+id/lessons_add_linearLayout3"
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="vertical"
+	        android:paddingBottom="5.0dip"
+	        android:paddingTop="5.0dip" >
+	
+	        <LinearLayout
+	            android:id="@+id/lessons_add_linearLayout4"
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_margin="10.0dip"
+	            android:background="@drawable/setting_words_bg"
+	            android:orientation="vertical" >
+	
+	            <LinearLayout
+	                android:id="@+id/lessons_add_linearLayout5"
+	                android:layout_width="fill_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_gravity="center"
+	                android:layout_marginBottom="2.0dip"
+	                android:layout_marginLeft="2.0dip"
+	                android:gravity="center_vertical"
+	                android:paddingBottom="5.0dip"
+	                android:paddingTop="5.0dip" >
+	
+	                <TextView
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_marginLeft="10.0dip"
+	                    android:text="@string/Lessons_Add_name"
+	                    android:textColor="#ff000000"
+	                    android:textSize="18.0sp" />
+	
+	                <TextView
+	                    android:id="@+id/lessons_info_name"
+	                    android:layout_width="fill_parent"
+	                    android:layout_height="30.0dip"
+	                    android:layout_marginRight="10dip"
+	                    android:layout_marginLeft="10.0dip"
+	                    android:background="@null"
+	                    android:gravity="right|center_vertical"
+	                    android:singleLine="true"
+	                    android:textColor="@color/otakubg"
+	                    android:textSize="18.0sp" />
+
+	            </LinearLayout>
+	
+	            <ImageView
+	                android:id="@+id/lessons_add_ImageView01"
+	                android:layout_width="fill_parent"
+	                android:layout_height="1.0dip"
+	                android:layout_marginLeft="2.0dip"
+	                android:layout_marginRight="2.0dip"
+	                android:background="#20000000" />
+	
+	            <LinearLayout
+	                android:id="@+id/lessons_add_linearLayout6"
+	                android:layout_width="fill_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_gravity="center"
+	                android:layout_marginBottom="2.0dip"
+	                android:layout_marginLeft="2.0dip"
+	                android:gravity="center_vertical"
+	                android:paddingBottom="5.0dip"
+	                android:paddingTop="5.0dip" >
+	
+	                <TextView
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_marginLeft="10.0dip"
+	                    android:text="@string/Lessons_Add_teacher"
+	                    android:textColor="#ff000000"
+	                    android:textSize="18.0sp" />
+	                <TextView
+	                    android:id="@+id/lessons_info_teacher"
+	                    android:layout_width="fill_parent"
+	                    android:layout_height="30.0dip"
+	                    android:layout_marginRight="10dip"
+	                    android:layout_marginLeft="10.0dip"
+	                    android:textSize="18.0sp"
+	                    android:background="@null"
+	                    android:gravity="right|center_vertical"
+	                    android:singleLine="true"
+	                    android:textColor="@color/otakubg" />
+	            </LinearLayout>
+	
+	            <ImageView
+	                android:id="@+id/lessons_add_ImageView02"
+	                android:layout_width="fill_parent"
+	                android:layout_height="1.0dip"
+	                android:layout_marginLeft="2.0dip"
+	                android:layout_marginRight="2.0dip"
+	                android:background="#20000000" />
+	
+	            <LinearLayout
+	                android:id="@+id/lessons_add_linearLayout7"
+	                android:layout_width="fill_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_gravity="center"
+	                android:layout_marginBottom="2.0dip"
+	                android:layout_marginLeft="2.0dip"
+	                android:gravity="center_vertical"
+	                android:paddingBottom="5.0dip"
+	                android:paddingTop="5.0dip" >
+	
+	                <TextView
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_marginLeft="10.0dip"
+	                    android:text="学分"
+	                    android:textColor="#ff000000"
+	                    android:textSize="18.0sp" />
+	                <TextView
+	                    android:id="@+id/lessons_info_credit"
+	                    android:layout_width="fill_parent"
+	                    android:layout_height="30.0dip"
+	                    android:layout_marginRight="10dip"
+	                    android:background="@null"
+	                    android:textSize="18.0sp"
+	                    android:layout_marginLeft="10.0dip"
+	                    android:gravity="right|center_vertical"
+	                    android:singleLine="true"
+	                    android:textColor="@color/otakubg" />
+	            </LinearLayout>
+	
+	            <ImageView
+	                android:id="@+id/lessons_add_ImageView03"
+	                android:layout_width="fill_parent"
+	                android:layout_height="1.0dip"
+	                android:layout_marginLeft="2.0dip"
+	                android:layout_marginRight="2.0dip"
+	                android:background="#20000000" />
+	
+	            <LinearLayout
+	                android:id="@+id/lessons_add_linearLayout8"
+	                android:layout_width="fill_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_gravity="center"
+	                android:layout_marginBottom="2.0dip"
+	                android:layout_marginLeft="2.0dip"
+	                android:gravity="center_vertical"
+	                android:paddingBottom="5.0dip"
+	                android:paddingTop="5.0dip" >
+	
+	                <TextView
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_marginLeft="10.0dip"
+	                    android:text="课程类型"
+	                    android:textColor="#ff000000"
+	                    android:textSize="18.0sp" />
+	                <TextView
+	                    android:id="@+id/lessons_info_type"
+	                    android:layout_width="fill_parent"
+	                    android:layout_height="30.0dip"
+	                    android:layout_marginRight="10dip"
+	                    android:background="@null"
+	                    android:layout_marginLeft="10.0dip"
+	                    android:gravity="right|center_vertical"
+	                    android:singleLine="true"
+	                    android:textSize="18.0sp"
+	                    android:textColor="@color/otakubg" />
+	                
+	            </LinearLayout>
+	
+	            <ImageView
+	                android:id="@+id/lessons_add_ImageView04"
+	                android:layout_width="fill_parent"
+	                android:layout_height="1.0dip"
+	                android:layout_marginLeft="2.0dip"
+	                android:layout_marginRight="2.0dip"
+	                android:background="#20000000" />
+	
+	            <LinearLayout
+	                android:id="@+id/lessons_add_linearLayout9"
+	                android:layout_width="fill_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_gravity="center"
+	                android:layout_marginBottom="2.0dip"
+	                android:layout_marginLeft="2.0dip"
+	                android:gravity="center_vertical"
+	                android:paddingBottom="5.0dip"
+	                android:paddingTop="5.0dip" >
+	
+	                <TextView
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_marginLeft="10.0dip"
+	                    android:text="授课学院"
+	                    android:textColor="#ff000000"
+	                    android:textSize="18.0sp" />
+	                <TextView
+	                    android:id="@+id/lessons_info_academy"
+	                    android:layout_width="fill_parent"
+	                    android:layout_height="30.0dip"
+	                    android:layout_marginRight="10dip"
+	                    android:background="@null"
+	                    android:gravity="right|center_vertical"
+	                    android:textSize="18.0sp"
+	                    android:layout_marginLeft="10.0dip"
+	                    android:singleLine="true"
+	                    android:textColor="@color/otakubg" />
+	            </LinearLayout>
+	
+	            <ImageView
+	                android:id="@+id/lessons_add_ImageView05"
+	                android:layout_width="fill_parent"
+	                android:layout_height="1.0dip"
+	                android:layout_marginLeft="2.0dip"
+	                android:layout_marginRight="2.0dip"
+	                android:background="#20000000" />
+	
+	            <LinearLayout
+	                android:id="@+id/lessons_add_linearLayout10"
+	                android:layout_width="fill_parent"
+	                android:layout_height="wrap_content"
+	                android:layout_gravity="center"
+	                android:layout_marginBottom="2.0dip"
+	                android:layout_marginLeft="2.0dip"
+	                android:gravity="center_vertical"
+	                android:paddingBottom="5.0dip"
+	                android:paddingTop="5.0dip" >
+	
+	                <TextView
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_marginLeft="10.0dip"
+	                    android:text="学习类型"
+	                    android:textColor="#ff000000"
+	                    android:textSize="18.0sp" />
+	                <TextView
+	                    android:id="@+id/lessons_info_major"
+	                    android:layout_width="fill_parent"
+	                    android:layout_height="30.0dip"
+	                    android:layout_marginRight="10dip"
+	                    android:background="@null"
+	                    android:gravity="right|center_vertical"
+	                    android:layout_marginLeft="10.0dip"
+	                    android:singleLine="true"
+	                    android:textSize="18.0sp"
+	                    android:textColor="@color/otakubg" />
+	            </LinearLayout>
+	
+	            <ImageView
+	                android:id="@+id/lessons_add_ImageView06"
+	                android:layout_width="fill_parent"
+	                android:layout_height="1.0dip"
+	                android:layout_marginLeft="2.0dip"
+	                android:layout_marginRight="2.0dip"
+	                android:background="#20000000" />
+	
+	            <LinearLayout
+	                android:id="@+id/lessons_add_linearLayout11"
+	                android:layout_width="fill_parent"
+	                android:layout_height="40.0dip"
+	                android:layout_gravity="center"
+	                android:layout_marginBottom="2.0dip"
+	                android:layout_marginLeft="2.0dip"
+	                android:gravity="center_vertical"
+	                android:paddingBottom="5.0dip"
+	                android:paddingTop="5.0dip" >
+	                <TextView
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_marginLeft="10.0dip"
+	                    android:text="成绩"
+	                    android:textColor="#ff000000"
+	                    android:textSize="18.0sp" />
+	                <TextView
+	                    android:id="@+id/lessons_info_score"
+	                    android:layout_width="fill_parent"
+	                    android:layout_height="30.0dip"
+	                    android:layout_marginRight="10dip"
+	                    android:background="@null"
+	                    android:gravity="right|center_vertical"
+	                    android:layout_marginLeft="10.0dip"
+	                    android:textSize="18.0sp"
+	                    android:singleLine="true"
+	                    android:textColor="@color/otakubg" />
+	            </LinearLayout>
+	
+	            <ImageView
+	                android:id="@+id/lessons_add_ImageView07"
+	                android:layout_width="fill_parent"
+	                android:layout_height="1.0dip"
+	                android:layout_marginLeft="2.0dip"
+	                android:layout_marginRight="2.0dip"
+	                android:background="#20000000" />
+	        </LinearLayout>
+	    </LinearLayout>
+	</ScrollView>
+</LinearLayout>

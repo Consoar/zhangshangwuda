@@ -121,5 +121,7 @@
     <string name="LeftMenu_Help">帮助</string>
     <string name="LeftMenu_FeedBack">反馈</string>
     <string name="LeftMenu_About">关于</string>
+    <string name="course_management">课程管理</string>
+    <string name="Lessons_choose_course">请选择课程</string>
 
 </resources>

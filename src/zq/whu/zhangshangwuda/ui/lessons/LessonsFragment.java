@@ -175,8 +175,6 @@ public class LessonsFragment extends BaseSherlockFragment {
 		rootView.findViewById(R.id.left_11).setMinimumHeight(minHeight);
 		rootView.findViewById(R.id.left_12).setMinimumHeight(minHeight);
 		rootView.findViewById(R.id.left_13).setMinimumHeight(minHeight);
-		//rootView.findViewById(R.id.left_14).setMinimumHeight(minHeight);
-
 	}
 
 	private void setDayItemWidth(int minWidth) {
@@ -294,6 +292,7 @@ public class LessonsFragment extends BaseSherlockFragment {
 			time1 = time;
 			time1 = time1.substring(0, time1.indexOf("节"));
 			StrPd = String.valueOf(day) + time1;
+			//这里缺少判断周数的逻辑，但是我不想改了，好麻烦
 			if (PdList.contains(StrPd))
 				continue;
 			boolean flag = false;
@@ -310,8 +309,8 @@ public class LessonsFragment extends BaseSherlockFragment {
 					- a + 1, ccolor, flag);
 			t = b + 1;
 		}
-		if (t < 13)
-			setNoClass(tday, 13 - t + 1, 0);
+		if (t < 14)
+			setNoClass(tday, 14 - t + 1, 0);
 	}
 
 	public void removeEveryDayLessons(int day) {
@@ -371,6 +370,8 @@ public class LessonsFragment extends BaseSherlockFragment {
 			return "19:20";
 		case 13:
 			return "20:10";
+//		case 14:
+//			return "";
 		}
 		return null;
 	}
@@ -397,13 +398,15 @@ public class LessonsFragment extends BaseSherlockFragment {
 		case 9:
 			return "17:25";
 		case 10:
-			return "17:25";
+			return "18:15";
 		case 11:
 			return "19:15";
 		case 12:
 			return "20:05";
 		case 13:
 			return "20:55";
+//		case 14:
+//			return "";
 		}
 		return null;
 	}

@@ -11,6 +11,7 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.NameValuePair;
+import org.apache.http.ParseException;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
@@ -24,6 +25,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import zq.whu.zhangshangwuda.base.SwipeBackSherlockActivity;
+import zq.whu.zhangshangwuda.db.CourseDataUtil;
 import zq.whu.zhangshangwuda.db.LessonsDb;
 import zq.whu.zhangshangwuda.entity.Lessons;
 import zq.whu.zhangshangwuda.tools.BosCrypto;
@@ -32,6 +34,7 @@ import zq.whu.zhangshangwuda.tools.LessonsSharedPreferencesTool;
 import zq.whu.zhangshangwuda.tools.LessonsTool;
 import zq.whu.zhangshangwuda.ui.R;
 import zq.whu.zhangshangwuda.views.toast.ToastUtil;
+import zq.whu.zhangshangwuda.tools.GetScoreTools;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -64,6 +67,9 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity {
 	private static Bitmap YZMbm = null;
 	private static String yzmURL = "http://202.114.74.198/GenImg";
 	private static String BaseURL = "http://202.114.74.198/servlet/Login";
+	private static String QueryStuScore ="http://202.114.74.198/stu/query_score.jsp";
+	
+	
 	private static String MasterCookie;
 	private ImageView bottomImg;
 
@@ -254,7 +260,40 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity {
 		}
 		return null;
 	}
-
+	
+	public void addLessonsScoreToDb(String url, String cookie){
+		HttpClient httpClient = new DefaultHttpClient();
+		HttpGet get=new HttpGet(QueryStuScore);
+		get.setHeader( "Cookie" , cookie);
+		String content=null;
+		try {
+			HttpResponse response = httpClient.execute(get);
+			if (response.getStatusLine().getStatusCode() == 200){
+				HttpEntity httpEntity = response.getEntity();
+				content = EntityUtils.toString(httpEntity, "GBK");
+			}			
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}catch (ParseException e){
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally{
+			get.abort(); 
+			httpClient.getConnectionManager().shutdown();
+		}
+        GetScoreTools courses=new GetScoreTools(content);
+        courses.parse();
+        CourseDataUtil courseDataUtil=new CourseDataUtil(this);
+        courseDataUtil.deleteAllCourseScoreData();		            
+        courseDataUtil.addCourseScoreData(courses.getList());
+        courseDataUtil.close();
+        courseDataUtil=null;        
+	}
+	
 	private String LogIn(String cookie) {
 		// 取得默认的HttpClient
 		String strResult = null;
@@ -447,6 +486,8 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity {
 					tlessons.setOther(tmap.get("other"));
 					LessonsDb.getInstance(LessonsLoginActivity.this).insert(
 							tlessons);
+					
+					addLessonsScoreToDb(QueryStuScore,MasterCookie);
 				}
 			}
 			LogInHandler.sendMessage(msg);
