@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout  
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
-    
-    <View 
-        android:layout_width="fill_parent"
-        android:layout_height="200dp"
-        android:background="#555555" />
-    
-   	<android.view.ext.SatelliteMenu
-   	    android:id="@+id/sate_menu"
+
+   	<Button
+   	    android:id="@+id/test_s"
    	    android:layout_width="wrap_content"
    	    android:layout_height="wrap_content"
-   	    android:layout_gravity="bottom|left" 
-        android:layout_margin="8dp" />
+   	    android:text="静音" />
 
-</FrameLayout >
+   	<Button
+   	    android:id="@+id/test_n"
+   	    android:layout_width="wrap_content"
+   	    android:layout_height="wrap_content"
+   	    android:layout_alignParentLeft="true"
+   	    android:layout_below="@+id/test_s"
+   	    android:text="非静音" />
+
+</RelativeLayout>

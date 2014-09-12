@@ -1,5 +1,0 @@
-360 degree
-size of buttons
-give distance also in dp ? 
-
- 

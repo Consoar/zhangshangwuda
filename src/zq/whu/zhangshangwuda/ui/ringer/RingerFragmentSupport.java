@@ -1,20 +1,22 @@
 package zq.whu.zhangshangwuda.ui.ringer;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import zq.whu.zhangshangwuda.base.BaseSherlockFragment;
+import zq.whu.zhangshangwuda.db.LessonsDb;
 import zq.whu.zhangshangwuda.tools.LessonsTool;
 import zq.whu.zhangshangwuda.ui.MainActivity;
 import zq.whu.zhangshangwuda.ui.MyApplication;
 import zq.whu.zhangshangwuda.ui.R;
+import zq.whu.zhangshangwuda.ui.news.NewsFragmentSupport;
 import android.os.Bundle;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.ext.SatelliteMenu;
-import android.view.ext.SatelliteMenuItem;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.umeng.analytics.MobclickAgent;
 
@@ -22,7 +24,7 @@ public class RingerFragmentSupport extends BaseSherlockFragment
 {
 	private static final String mpagename = "RingerFragment";
 	private View rootView;
-	private SatelliteMenu sate_menu;
+	private Button bs,bn;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState)
@@ -48,25 +50,43 @@ public class RingerFragmentSupport extends BaseSherlockFragment
 	}
 	
 	private void init()
-	{
-		sate_menu = (SatelliteMenu)rootView.findViewById(R.id.sate_menu);
-		float distance = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, getResources().getDisplayMetrics());
-        sate_menu.setSatelliteDistance((int) distance);
-        sate_menu.setExpandDuration(500);
-        sate_menu.setCloseItemsOnClick(true);
-        sate_menu.setTotalSpacingDegree(90);
-        sate_menu.setMainImage(R.drawable.sate_menu);
+	{        
+        bs = (Button)rootView.findViewById(R.id.test_s);
+        bn = (Button)rootView.findViewById(R.id.test_n);
         
-        List<SatelliteMenuItem> items = new ArrayList<SatelliteMenuItem>();
-        items.add(new SatelliteMenuItem(4, R.drawable.sate_menu));
-        items.add(new SatelliteMenuItem(4, R.drawable.sate_menu));
-        items.add(new SatelliteMenuItem(4, R.drawable.sate_menu));
-        items.add(new SatelliteMenuItem(3, R.drawable.sate_menu));
-        items.add(new SatelliteMenuItem(2, R.drawable.sate_menu));
-        items.add(new SatelliteMenuItem(1, R.drawable.sate_menu));
-//        items.add(new SatelliteMenuItem(5, R.drawable.sat_item));
-        sate_menu.addItems(items); 
+        bs.setOnClickListener(new OnClickListener()
+        {
+        	public void onClick(View v)
+        	{
+        		RingerTools rt = new RingerTools(getActivity());
+        		rt.initAudioManager();
+        		rt.setSilent(true);
+        		Toast.makeText(getActivity(), "开启静音", Toast.LENGTH_SHORT).show();
+        	}
+        });
+        
+        bn.setOnClickListener(new OnClickListener()
+        {
+        	public void onClick(View v)
+        	{
+        		RingerTools rt = new RingerTools(getActivity());
+        		rt.initAudioManager();
+        		rt.setSilent(false);
+        		Toast.makeText(getActivity(), "关闭静音", Toast.LENGTH_SHORT).show();
+        	}
+        });
+   
+        /////////////////////////////////////////////////////////////
+        List<Map<String, String>> mp = LessonsDb.getInstance(getActivity()).getLocalLessonsList();
+        
+        for (int i = 0; i < mp.size(); i++)
+        {
+        	Map<String, String> li = mp.get(i);
+        	System.out.println("mp[" + i + "]--->" + mp.get(i).toString());
+        }
+        ////////////////////////////////////////////////////////////
 	}
+	
 	
 	public void onPause()
 	{

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="zq.whu.zhangshangwuda.ui"
+    android:versionCode="28"
+    android:versionName="0.6.9.140911_Beta" >
+
+    <uses-sdk
+        android:minSdkVersion="8"
+        android:targetSdkVersion="14" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+
+    <application
+        android:name="MyApplication"
+        android:icon="@drawable/icon"
+        android:label="@string/app_name"
+        android:theme="@style/MyLightTheme" >
+        <activity
+            android:name=".SplashScreen"
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.NoTitleBar" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:logo="@drawable/menu_logo"
+            android:screenOrientation="user"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity android:name=".news.NewsFragmentSupport" />
+        <activity android:name=".news.NewsContentActivity" />
+        <activity android:name=".news.TouchImageViewActivity" />
+        <activity
+            android:name=".lessons.LessonsLoginActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity android:name=".lessons.LessonsAddActivity" />
+        <activity android:name=".lessons.LessonsFragmentSupport" />
+        <activity android:name=".lessons.LessonsDayActivity" />
+
+        <receiver
+            android:name=".lessons.widget.LessonsWidgetProvider_4_2"
+            android:label="@string/Lessons_widget_4_2" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="android.appwidget.action.APPWIDGET_DELETED" />
+                <action android:name="android.appwidget.action.APPWIDGET_ENABLED" />
+                <action android:name="android.appwidget.action.APPWIDGET_DISABLED" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/lessons_widget_provider_4_2" />
+        </receiver>
+        <receiver
+            android:name=".lessons.widget.LessonsWidgetProvider_4_1"
+            android:label="@string/Lessons_widget_4_1" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+                <action android:name="android.appwidget.action.APPWIDGET_DELETED" />
+                <action android:name="android.appwidget.action.APPWIDGET_ENABLED" />
+                <action android:name="android.appwidget.action.APPWIDGET_DISABLED" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/lessons_widget_provider_4_1" />
+        </receiver>
+
+        <activity android:name=".wifi.WifiFragmentSupport" />
+        <activity
+            android:name=".wifi.CreateOneKeyWifi"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:icon="@drawable/wifi_onekey_icon"
+            android:label="@string/Wifi_onekey"
+            android:theme="@style/OneKeyWifiAnimeTheme" >
+            <intent-filter>
+                <action android:name="android.intent.action.CREATE_SHORTCUT" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".wifi.OneKeyWifi"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:icon="@drawable/wifi_onekey_icon"
+            android:label="@string/Wifi_onekey"
+            android:launchMode="singleInstance"
+            android:theme="@style/OneKeyWifiAnimeTheme" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".AboutActivity" />
+        <activity android:name=".HelpActivity" />
+        <activity android:name=".SettingActivity" />
+        <activity android:name="zq.whu.zhangshangwuda.base.UmengSherlockFragmentActivity" />
+        <activity
+            android:name="com.umeng.fb.ConversationActivity"
+            android:theme="@style/MyBlackTheme" />
+        <activity
+            android:name="com.umeng.fb.ContactActivity"
+            android:theme="@style/MyBlackTheme" />
+
+        <service
+            android:name="com.umeng.common.net.DownloadingService"
+            android:process=":DownloadingService" >
+        </service>
+
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="508bde4652701519c800018f" >
+        </meta-data>
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="ZiQiang" />
+    </application>
+
+
+</manifest>
