@@ -309,8 +309,8 @@ public class LessonsFragment extends BaseSherlockFragment {
 					- a + 1, ccolor, flag);
 			t = b + 1;
 		}
-		if (t < 14)
-			setNoClass(tday, 14 - t + 1, 0);
+		if (t < 13)
+			setNoClass(tday, 13 - t + 1, 0);
 	}
 
 	public void removeEveryDayLessons(int day) {
