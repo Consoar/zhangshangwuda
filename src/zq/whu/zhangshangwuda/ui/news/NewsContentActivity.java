@@ -113,6 +113,7 @@ public class NewsContentActivity extends BaseThemeSwipeBackSherlockActivity {
 		setContentView(R.layout.news_content);
 		Intent intent = getIntent();
 		href = intent.getStringExtra("href");
+		System.out.println("href=="+href);
 		// title = NoticeHtmlTool.getZqNoticesContentTitle(href);
 		// isSaveInLocal =
 		// LocalDataSharedPreferencesTool.news_isSaveInLocal(this);

@@ -17,7 +17,7 @@ public class LessonsSharedPreferencesTool {
 
 	public static String getTermFirstDay(Context c) {
 		SharedPreferences Mysettings = c.getSharedPreferences("User_Data", 0);
-		return Mysettings.getString("Lessons_TermFirstDay", "2012-8-31");
+		return Mysettings.getString("Lessons_TermFirstDay", "2014-9-7");
 	}
 
 	public static void setTermFirstDay(Context c, String x) {
