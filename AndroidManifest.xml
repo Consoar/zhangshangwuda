@@ -46,8 +46,10 @@
             android:name=".lessons.LessonsLoginActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity android:name=".lessons.LessonsAddActivity" />
+        <activity android:name=".lessons.LessonsManagementActivity" />
         <activity android:name=".lessons.LessonsFragmentSupport" />
         <activity android:name=".lessons.LessonsDayActivity" />
+        <activity android:name=".lessons.LessonsInfoActivity" />
 
         <receiver
             android:name=".lessons.widget.LessonsWidgetProvider_4_2"
