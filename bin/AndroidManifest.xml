@@ -119,6 +119,9 @@
             android:name="com.umeng.common.net.DownloadingService"
             android:process=":DownloadingService" >
         </service>
+        
+        <receiver android:name="zq.whu.zhangshangwuda.ui.ringer.OnSilentReceiver" />
+        <receiver android:name="zq.whu.zhangshangwuda.ui.ringer.OffSilentReceiver" />
 
         <meta-data
             android:name="UMENG_APPKEY"

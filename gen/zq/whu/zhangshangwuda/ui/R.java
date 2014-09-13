@@ -1364,34 +1364,32 @@ containing a value of this type.
         public static final int default_underline_indicator_fades=0x7f080004;
     }
     public static final class color {
-        public static final int ListViewBGColor_Light=0x7f0700af;
-        public static final int ListViewType1Color=0x7f0700b0;
-        public static final int ListViewType2Color=0x7f0700b1;
-        public static final int ListViewType3Color=0x7f0700b2;
-        public static final int ListViewType4Color=0x7f0700b3;
-        public static final int ListViewType5Color=0x7f0700b4;
-        public static final int ListViewType6Color=0x7f0700b5;
-        public static final int List_Time_color=0x7f0700aa;
-        /**  透明色 
-         */
-        public static final int List_Title_color=0x7f0700a9;
+        public static final int ListViewBGColor_Light=0x7f0700b1;
+        public static final int ListViewType1Color=0x7f0700b2;
+        public static final int ListViewType2Color=0x7f0700b3;
+        public static final int ListViewType3Color=0x7f0700b4;
+        public static final int ListViewType4Color=0x7f0700b5;
+        public static final int ListViewType5Color=0x7f0700b6;
+        public static final int ListViewType6Color=0x7f0700b7;
+        public static final int List_Time_color=0x7f0700ac;
+        public static final int List_Title_color=0x7f0700ab;
         public static final int abs__background_holo_dark=0x7f070012;
         public static final int abs__background_holo_light=0x7f070013;
         public static final int abs__bright_foreground_disabled_holo_dark=0x7f070016;
         public static final int abs__bright_foreground_disabled_holo_light=0x7f070017;
         public static final int abs__bright_foreground_holo_dark=0x7f070014;
         public static final int abs__bright_foreground_holo_light=0x7f070015;
-        public static final int abs__primary_text_disable_only_holo_dark=0x7f0700be;
-        public static final int abs__primary_text_disable_only_holo_light=0x7f0700bf;
-        public static final int abs__primary_text_holo_dark=0x7f0700c0;
-        public static final int abs__primary_text_holo_light=0x7f0700c1;
-        public static final int actionbar_black=0x7f0700ba;
+        public static final int abs__primary_text_disable_only_holo_dark=0x7f0700c0;
+        public static final int abs__primary_text_disable_only_holo_light=0x7f0700c1;
+        public static final int abs__primary_text_holo_dark=0x7f0700c2;
+        public static final int abs__primary_text_holo_light=0x7f0700c3;
+        public static final int actionbar_black=0x7f0700bc;
         /**  Toast-End 
          */
-        public static final int actionbar_light=0x7f0700b9;
+        public static final int actionbar_light=0x7f0700bb;
         /**  Toast-Start 
          */
-        public static final int alert=0x7f0700b6;
+        public static final int alert=0x7f0700b8;
         /**  蜜色 
          */
         public static final int aliceblue=0x7f070044;
@@ -1443,7 +1441,7 @@ containing a value of this type.
         /**  茶色 
          */
         public static final int chocolate=0x7f070057;
-        public static final int confirm=0x7f0700b7;
+        public static final int confirm=0x7f0700b9;
         /**  暗桔黄色 
          */
         public static final int coral=0x7f07002f;
@@ -1468,7 +1466,7 @@ containing a value of this type.
         /**  中粉紫色 
          */
         public static final int darkgoldenrod=0x7f07005f;
-        public static final int darkgray=0x7f0700ad;
+        public static final int darkgray=0x7f0700af;
         /**  绿色 
          */
         public static final int darkgreen=0x7f0700a2;
@@ -1574,7 +1572,7 @@ containing a value of this type.
         /**  灰色 
          */
         public static final int grey=0x7f070075;
-        public static final int holo_blue=0x7f0700bb;
+        public static final int holo_blue=0x7f0700bd;
         /**  天蓝色 
          */
         public static final int honeydew=0x7f070043;
@@ -1587,7 +1585,7 @@ containing a value of this type.
         /**  暗橄榄绿 
          */
         public static final int indigo=0x7f070089;
-        public static final int info=0x7f0700b8;
+        public static final int info=0x7f0700ba;
         /**  白色 
          */
         public static final int ivory=0x7f070019;
@@ -1606,7 +1604,7 @@ containing a value of this type.
         /**  花白色 
          */
         public static final int lemonchiffon=0x7f07001e;
-        public static final int lightblue=0x7f0700ac;
+        public static final int lightblue=0x7f0700ae;
         /**  黄褐色 
          */
         public static final int lightcoral=0x7f070046;
@@ -1712,7 +1710,7 @@ containing a value of this type.
         /**  暗蓝色 
          */
         public static final int navy=0x7f0700a6;
-        public static final int newslist=0x7f0700ae;
+        public static final int newslist=0x7f0700b0;
         /**  红色 
          */
         public static final int oldlace=0x7f070037;
@@ -1731,7 +1729,7 @@ containing a value of this type.
         /**  金麒麟色 
          */
         public static final int orchid=0x7f070052;
-        public static final int otakubg=0x7f0700ab;
+        public static final int otakubg=0x7f0700ad;
         /**  亮珊瑚色 
          */
         public static final int palegoldenrod=0x7f070047;
@@ -1768,6 +1766,10 @@ containing a value of this type.
         /**  红紫色 
          */
         public static final int red=0x7f070036;
+        public static final int red_pressed=0x7f0700aa;
+        /**  透明色 
+         */
+        public static final int red_unpress=0x7f0700a9;
         /**  暗黄褐色 
          */
         public static final int rosybrown=0x7f07005d;
@@ -1831,8 +1833,8 @@ containing a value of this type.
         /**  皇家蓝 
          */
         public static final int turquoise=0x7f07008e;
-        public static final int umeng_fb_color_btn_normal=0x7f0700bd;
-        public static final int umeng_fb_color_btn_pressed=0x7f0700bc;
+        public static final int umeng_fb_color_btn_normal=0x7f0700bf;
+        public static final int umeng_fb_color_btn_pressed=0x7f0700be;
         /**  苍麒麟色 
          */
         public static final int violet=0x7f070048;
@@ -1844,8 +1846,8 @@ containing a value of this type.
         public static final int vpi__bright_foreground_holo_light=0x7f070003;
         public static final int vpi__bright_foreground_inverse_holo_dark=0x7f070006;
         public static final int vpi__bright_foreground_inverse_holo_light=0x7f070007;
-        public static final int vpi__dark_theme=0x7f0700c2;
-        public static final int vpi__light_theme=0x7f0700c3;
+        public static final int vpi__dark_theme=0x7f0700c4;
+        public static final int vpi__light_theme=0x7f0700c5;
         /**  米色 
          */
         public static final int wheat=0x7f070040;
@@ -2224,125 +2226,128 @@ containing a value of this type.
         public static final int pin=0x7f0200fb;
         public static final int pulldownlistview_arrow_black=0x7f0200fc;
         public static final int pulldownlistview_arrow_light=0x7f0200fd;
-        public static final int sate_menu=0x7f0200fe;
-        public static final int selector_check_box=0x7f0200ff;
-        public static final int setting_words_bg=0x7f020100;
-        public static final int shadow_bottom=0x7f020101;
-        public static final int shadow_left=0x7f020102;
-        public static final int shadow_right=0x7f020103;
-        public static final int share_vp_back=0x7f020104;
-        public static final int ssdk_auth_title_back=0x7f020105;
-        public static final int ssdk_back_arr=0x7f020106;
-        public static final int ssdk_logo=0x7f020107;
-        public static final int ssdk_oks_ptr_ptr=0x7f020108;
-        public static final int ssdk_oks_shake_to_share_back=0x7f020109;
-        public static final int ssdk_oks_yaoyiyao=0x7f02010a;
-        public static final int ssdk_title_div=0x7f02010b;
-        public static final int title_back=0x7f02010c;
-        public static final int title_shadow=0x7f02010d;
-        public static final int top_background=0x7f02010e;
-        public static final int umeng_common_gradient_green=0x7f02010f;
-        public static final int umeng_common_gradient_orange=0x7f020110;
-        public static final int umeng_common_gradient_red=0x7f020111;
-        public static final int umeng_fb_arrow_right=0x7f020112;
-        public static final int umeng_fb_back_normal=0x7f020113;
-        public static final int umeng_fb_back_selected=0x7f020114;
-        public static final int umeng_fb_back_selector=0x7f020115;
-        public static final int umeng_fb_bar_bg=0x7f020116;
-        public static final int umeng_fb_blank_selector=0x7f020117;
-        public static final int umeng_fb_bottom_banner=0x7f020118;
-        public static final int umeng_fb_btn_bg_selector=0x7f020119;
-        public static final int umeng_fb_conversation_bg=0x7f02011a;
-        public static final int umeng_fb_dev_bubble=0x7f02011b;
-        public static final int umeng_fb_gradient_green=0x7f02011c;
-        public static final int umeng_fb_gradient_orange=0x7f02011d;
-        public static final int umeng_fb_gray_frame=0x7f02011e;
-        public static final int umeng_fb_list_item=0x7f02011f;
-        public static final int umeng_fb_list_item_pressed=0x7f020120;
-        public static final int umeng_fb_list_item_selector=0x7f020121;
-        public static final int umeng_fb_logo=0x7f020122;
-        public static final int umeng_fb_point_new=0x7f020123;
-        public static final int umeng_fb_point_normal=0x7f020124;
-        public static final int umeng_fb_reply_left_bg=0x7f020125;
-        public static final int umeng_fb_reply_right_bg=0x7f020126;
-        public static final int umeng_fb_see_list_normal=0x7f020127;
-        public static final int umeng_fb_see_list_pressed=0x7f020128;
-        public static final int umeng_fb_see_list_selector=0x7f020129;
-        public static final int umeng_fb_statusbar_icon=0x7f02012a;
-        public static final int umeng_fb_submit_selector=0x7f02012b;
-        public static final int umeng_fb_tick_normal=0x7f02012c;
-        public static final int umeng_fb_tick_selected=0x7f02012d;
-        public static final int umeng_fb_tick_selector=0x7f02012e;
-        public static final int umeng_fb_top_banner=0x7f02012f;
-        public static final int umeng_fb_user_bubble=0x7f020130;
-        public static final int umeng_fb_write_normal=0x7f020131;
-        public static final int umeng_fb_write_pressed=0x7f020132;
-        public static final int umeng_fb_write_selector=0x7f020133;
-        public static final int umeng_share_bg_gridview=0x7f020134;
-        public static final int umeng_share_bg_shareitem_nor=0x7f020135;
-        public static final int umeng_share_bg_shareitem_sel=0x7f020136;
-        public static final int umeng_share_face_01=0x7f020137;
-        public static final int umeng_share_face_02=0x7f020138;
-        public static final int umeng_share_face_03=0x7f020139;
-        public static final int umeng_share_face_04=0x7f02013a;
-        public static final int umeng_share_face_05=0x7f02013b;
-        public static final int umeng_share_face_06=0x7f02013c;
-        public static final int umeng_share_face_07=0x7f02013d;
-        public static final int umeng_share_face_08=0x7f02013e;
-        public static final int umeng_share_face_09=0x7f02013f;
-        public static final int umeng_share_face_10=0x7f020140;
-        public static final int umeng_share_face_11=0x7f020141;
-        public static final int umeng_share_face_12=0x7f020142;
-        public static final int umeng_share_gridview_item=0x7f020143;
-        public static final int umeng_share_gridview_item_sel=0x7f020144;
-        public static final int umeng_share_locate=0x7f020145;
-        public static final int umeng_share_logo_doub=0x7f020146;
-        public static final int umeng_share_logo_renren=0x7f020147;
-        public static final int umeng_share_logo_sina=0x7f020148;
-        public static final int umeng_share_logo_tenc=0x7f020149;
-        public static final int umeng_share_send=0x7f02014a;
-        public static final int umeng_share_send_button_nor=0x7f02014b;
-        public static final int umeng_share_send_button_sel=0x7f02014c;
-        public static final int umeng_share_shareitem=0x7f02014d;
-        public static final int umeng_share_shareto=0x7f02014e;
-        public static final int umeng_share_shareto_stroke=0x7f02014f;
-        public static final int umeng_share_shareto_title=0x7f020150;
-        public static final int umeng_share_update_bottom=0x7f020151;
-        public static final int umeng_share_update_button=0x7f020152;
-        public static final int umeng_share_update_button_nor=0x7f020153;
-        public static final int umeng_share_update_button_sel=0x7f020154;
-        public static final int umeng_share_update_main=0x7f020155;
-        public static final int umeng_update_button_cancel_bg_focused=0x7f020156;
-        public static final int umeng_update_button_cancel_bg_normal=0x7f020157;
-        public static final int umeng_update_button_cancel_bg_selector=0x7f020158;
-        public static final int umeng_update_button_cancel_bg_tap=0x7f020159;
-        public static final int umeng_update_button_close_bg_selector=0x7f02015a;
-        public static final int umeng_update_button_ok_bg_focused=0x7f02015b;
-        public static final int umeng_update_button_ok_bg_normal=0x7f02015c;
-        public static final int umeng_update_button_ok_bg_selector=0x7f02015d;
-        public static final int umeng_update_button_ok_bg_tap=0x7f02015e;
-        public static final int umeng_update_close_bg_normal=0x7f02015f;
-        public static final int umeng_update_close_bg_tap=0x7f020160;
-        public static final int umeng_update_dialog_bg=0x7f020161;
-        public static final int umeng_update_title_bg=0x7f020162;
-        public static final int umeng_update_wifi_disable=0x7f020163;
-        public static final int vpi__tab_indicator=0x7f020164;
-        public static final int vpi__tab_selected_focused_holo=0x7f020165;
-        public static final int vpi__tab_selected_holo=0x7f020166;
-        public static final int vpi__tab_selected_pressed_holo=0x7f020167;
-        public static final int vpi__tab_unselected_focused_holo=0x7f020168;
-        public static final int vpi__tab_unselected_holo=0x7f020169;
-        public static final int vpi__tab_unselected_pressed_holo=0x7f02016a;
-        public static final int white_point=0x7f02016b;
-        public static final int wifi_bottom=0x7f02016c;
-        public static final int wifi_bottom_light=0x7f02016d;
-        public static final int wifi_input_line=0x7f02016e;
-        public static final int wifi_login_btn=0x7f02016f;
-        public static final int wifi_login_btn_normal=0x7f020170;
-        public static final int wifi_login_btn_press=0x7f020171;
-        public static final int wifi_logo=0x7f020172;
-        public static final int wifi_onekey_cat=0x7f020173;
-        public static final int wifi_onekey_icon=0x7f020174;
+        public static final int ringer_button=0x7f0200fe;
+        public static final int ringer_button_pressed=0x7f0200ff;
+        public static final int ringer_button_unpress=0x7f020100;
+        public static final int sate_menu=0x7f020101;
+        public static final int selector_check_box=0x7f020102;
+        public static final int setting_words_bg=0x7f020103;
+        public static final int shadow_bottom=0x7f020104;
+        public static final int shadow_left=0x7f020105;
+        public static final int shadow_right=0x7f020106;
+        public static final int share_vp_back=0x7f020107;
+        public static final int ssdk_auth_title_back=0x7f020108;
+        public static final int ssdk_back_arr=0x7f020109;
+        public static final int ssdk_logo=0x7f02010a;
+        public static final int ssdk_oks_ptr_ptr=0x7f02010b;
+        public static final int ssdk_oks_shake_to_share_back=0x7f02010c;
+        public static final int ssdk_oks_yaoyiyao=0x7f02010d;
+        public static final int ssdk_title_div=0x7f02010e;
+        public static final int title_back=0x7f02010f;
+        public static final int title_shadow=0x7f020110;
+        public static final int top_background=0x7f020111;
+        public static final int umeng_common_gradient_green=0x7f020112;
+        public static final int umeng_common_gradient_orange=0x7f020113;
+        public static final int umeng_common_gradient_red=0x7f020114;
+        public static final int umeng_fb_arrow_right=0x7f020115;
+        public static final int umeng_fb_back_normal=0x7f020116;
+        public static final int umeng_fb_back_selected=0x7f020117;
+        public static final int umeng_fb_back_selector=0x7f020118;
+        public static final int umeng_fb_bar_bg=0x7f020119;
+        public static final int umeng_fb_blank_selector=0x7f02011a;
+        public static final int umeng_fb_bottom_banner=0x7f02011b;
+        public static final int umeng_fb_btn_bg_selector=0x7f02011c;
+        public static final int umeng_fb_conversation_bg=0x7f02011d;
+        public static final int umeng_fb_dev_bubble=0x7f02011e;
+        public static final int umeng_fb_gradient_green=0x7f02011f;
+        public static final int umeng_fb_gradient_orange=0x7f020120;
+        public static final int umeng_fb_gray_frame=0x7f020121;
+        public static final int umeng_fb_list_item=0x7f020122;
+        public static final int umeng_fb_list_item_pressed=0x7f020123;
+        public static final int umeng_fb_list_item_selector=0x7f020124;
+        public static final int umeng_fb_logo=0x7f020125;
+        public static final int umeng_fb_point_new=0x7f020126;
+        public static final int umeng_fb_point_normal=0x7f020127;
+        public static final int umeng_fb_reply_left_bg=0x7f020128;
+        public static final int umeng_fb_reply_right_bg=0x7f020129;
+        public static final int umeng_fb_see_list_normal=0x7f02012a;
+        public static final int umeng_fb_see_list_pressed=0x7f02012b;
+        public static final int umeng_fb_see_list_selector=0x7f02012c;
+        public static final int umeng_fb_statusbar_icon=0x7f02012d;
+        public static final int umeng_fb_submit_selector=0x7f02012e;
+        public static final int umeng_fb_tick_normal=0x7f02012f;
+        public static final int umeng_fb_tick_selected=0x7f020130;
+        public static final int umeng_fb_tick_selector=0x7f020131;
+        public static final int umeng_fb_top_banner=0x7f020132;
+        public static final int umeng_fb_user_bubble=0x7f020133;
+        public static final int umeng_fb_write_normal=0x7f020134;
+        public static final int umeng_fb_write_pressed=0x7f020135;
+        public static final int umeng_fb_write_selector=0x7f020136;
+        public static final int umeng_share_bg_gridview=0x7f020137;
+        public static final int umeng_share_bg_shareitem_nor=0x7f020138;
+        public static final int umeng_share_bg_shareitem_sel=0x7f020139;
+        public static final int umeng_share_face_01=0x7f02013a;
+        public static final int umeng_share_face_02=0x7f02013b;
+        public static final int umeng_share_face_03=0x7f02013c;
+        public static final int umeng_share_face_04=0x7f02013d;
+        public static final int umeng_share_face_05=0x7f02013e;
+        public static final int umeng_share_face_06=0x7f02013f;
+        public static final int umeng_share_face_07=0x7f020140;
+        public static final int umeng_share_face_08=0x7f020141;
+        public static final int umeng_share_face_09=0x7f020142;
+        public static final int umeng_share_face_10=0x7f020143;
+        public static final int umeng_share_face_11=0x7f020144;
+        public static final int umeng_share_face_12=0x7f020145;
+        public static final int umeng_share_gridview_item=0x7f020146;
+        public static final int umeng_share_gridview_item_sel=0x7f020147;
+        public static final int umeng_share_locate=0x7f020148;
+        public static final int umeng_share_logo_doub=0x7f020149;
+        public static final int umeng_share_logo_renren=0x7f02014a;
+        public static final int umeng_share_logo_sina=0x7f02014b;
+        public static final int umeng_share_logo_tenc=0x7f02014c;
+        public static final int umeng_share_send=0x7f02014d;
+        public static final int umeng_share_send_button_nor=0x7f02014e;
+        public static final int umeng_share_send_button_sel=0x7f02014f;
+        public static final int umeng_share_shareitem=0x7f020150;
+        public static final int umeng_share_shareto=0x7f020151;
+        public static final int umeng_share_shareto_stroke=0x7f020152;
+        public static final int umeng_share_shareto_title=0x7f020153;
+        public static final int umeng_share_update_bottom=0x7f020154;
+        public static final int umeng_share_update_button=0x7f020155;
+        public static final int umeng_share_update_button_nor=0x7f020156;
+        public static final int umeng_share_update_button_sel=0x7f020157;
+        public static final int umeng_share_update_main=0x7f020158;
+        public static final int umeng_update_button_cancel_bg_focused=0x7f020159;
+        public static final int umeng_update_button_cancel_bg_normal=0x7f02015a;
+        public static final int umeng_update_button_cancel_bg_selector=0x7f02015b;
+        public static final int umeng_update_button_cancel_bg_tap=0x7f02015c;
+        public static final int umeng_update_button_close_bg_selector=0x7f02015d;
+        public static final int umeng_update_button_ok_bg_focused=0x7f02015e;
+        public static final int umeng_update_button_ok_bg_normal=0x7f02015f;
+        public static final int umeng_update_button_ok_bg_selector=0x7f020160;
+        public static final int umeng_update_button_ok_bg_tap=0x7f020161;
+        public static final int umeng_update_close_bg_normal=0x7f020162;
+        public static final int umeng_update_close_bg_tap=0x7f020163;
+        public static final int umeng_update_dialog_bg=0x7f020164;
+        public static final int umeng_update_title_bg=0x7f020165;
+        public static final int umeng_update_wifi_disable=0x7f020166;
+        public static final int vpi__tab_indicator=0x7f020167;
+        public static final int vpi__tab_selected_focused_holo=0x7f020168;
+        public static final int vpi__tab_selected_holo=0x7f020169;
+        public static final int vpi__tab_selected_pressed_holo=0x7f02016a;
+        public static final int vpi__tab_unselected_focused_holo=0x7f02016b;
+        public static final int vpi__tab_unselected_holo=0x7f02016c;
+        public static final int vpi__tab_unselected_pressed_holo=0x7f02016d;
+        public static final int white_point=0x7f02016e;
+        public static final int wifi_bottom=0x7f02016f;
+        public static final int wifi_bottom_light=0x7f020170;
+        public static final int wifi_input_line=0x7f020171;
+        public static final int wifi_login_btn=0x7f020172;
+        public static final int wifi_login_btn_normal=0x7f020173;
+        public static final int wifi_login_btn_press=0x7f020174;
+        public static final int wifi_logo=0x7f020175;
+        public static final int wifi_onekey_cat=0x7f020176;
+        public static final int wifi_onekey_icon=0x7f020177;
     }
     public static final class id {
         public static final int About_Author_RelativeLayout=0x7f060037;
@@ -2368,6 +2373,8 @@ containing a value of this type.
         public static final int Help_Root_RelativeLayout=0x7f060063;
         public static final int Help_Title_RelativeLayout=0x7f060064;
         public static final int Help_Title_TextView=0x7f060065;
+        public static final int LinearLayout1=0x7f060105;
+        public static final int LinearLayout2=0x7f06010c;
         public static final int abs__action_bar=0x7f06004c;
         public static final int abs__action_bar_container=0x7f06004b;
         public static final int abs__action_bar_subtitle=0x7f06003d;
@@ -2409,9 +2416,11 @@ containing a value of this type.
         public static final int abs__up=0x7f06001a;
         public static final int accordion=0x7f06002c;
         public static final int all=0x7f06002d;
-        public static final int anim_image=0x7f060130;
-        public static final int anim_layout=0x7f06012f;
+        public static final int anim_image=0x7f060138;
+        public static final int anim_layout=0x7f060137;
         public static final int bottom=0x7f060003;
+        public static final int button_set_after_time=0x7f06010b;
+        public static final int checkbox_set_auto_time=0x7f06010e;
         public static final int content_frame=0x7f0600e6;
         public static final int cubein=0x7f060023;
         public static final int cubeout=0x7f060024;
@@ -2435,6 +2444,7 @@ containing a value of this type.
         public static final int guidePages=0x7f060062;
         public static final int head_contentLayout=0x7f060100;
         public static final int homeAsUp=0x7f060015;
+        public static final int hourtext=0x7f060109;
         public static final int imgView=0x7f0600fa;
         public static final int indicator=0x7f0600e7;
         public static final int left=0x7f060005;
@@ -2552,7 +2562,7 @@ containing a value of this type.
         public static final int lessons_widget_4_2_zqlogo=0x7f0600d8;
         public static final int listMode=0x7f060011;
         public static final int load_more_view=0x7f0600fd;
-        public static final int main=0x7f06012e;
+        public static final int main=0x7f060136;
         /**  Used with View#setTag(int) to specify a position for the active view. 
          */
         public static final int mdActiveViewPosition=0x7f06000c;
@@ -2573,6 +2583,7 @@ containing a value of this type.
         public static final int md__menu=0x7f06000a;
         public static final int md__translationX=0x7f06000d;
         public static final int md__translationY=0x7f06000e;
+        public static final int mintext=0x7f06010a;
         public static final int news_all_ListView=0x7f0600fc;
         public static final int news_all_ListView_progressBar=0x7f0600fb;
         public static final int news_content_news_author_TextView=0x7f0600e9;
@@ -2603,62 +2614,64 @@ containing a value of this type.
         public static final int rotatedown=0x7f06002b;
         public static final int rotateup=0x7f06002a;
         public static final int scrollView=0x7f06006c;
+        public static final int seekbar_hour=0x7f060107;
+        public static final int seekbar_min=0x7f060108;
         public static final int showCustom=0x7f060017;
         public static final int showHome=0x7f060014;
         public static final int showTitle=0x7f060016;
-        public static final int splash_img=0x7f060107;
+        public static final int splash_img=0x7f06010f;
         public static final int stack=0x7f060027;
         public static final int standard=0x7f060021;
         public static final int stroke=0x7f06001f;
-        public static final int swipe=0x7f060108;
+        public static final int swipe=0x7f060110;
         public static final int tabMode=0x7f060012;
         public static final int tablet=0x7f060022;
-        public static final int test_n=0x7f060106;
-        public static final int test_s=0x7f060105;
         public static final int top=0x7f060004;
         public static final int triangle=0x7f060001;
-        public static final int umeng_common_notification=0x7f06010d;
-        public static final int umeng_common_notification_controller=0x7f06010a;
-        public static final int umeng_common_progress_bar=0x7f06010f;
-        public static final int umeng_common_progress_text=0x7f060109;
-        public static final int umeng_common_rich_notification_cancel=0x7f06010c;
-        public static final int umeng_common_rich_notification_continue=0x7f06010b;
-        public static final int umeng_common_title=0x7f06010e;
-        public static final int umeng_fb_back=0x7f060111;
-        public static final int umeng_fb_contact_header=0x7f060110;
-        public static final int umeng_fb_contact_info=0x7f060113;
-        public static final int umeng_fb_contact_update_at=0x7f060114;
-        public static final int umeng_fb_conversation_contact_entry=0x7f060116;
-        public static final int umeng_fb_conversation_header=0x7f060115;
-        public static final int umeng_fb_conversation_list_wrapper=0x7f060117;
-        public static final int umeng_fb_conversation_umeng_logo=0x7f06011c;
-        public static final int umeng_fb_list_reply_header=0x7f06011d;
-        public static final int umeng_fb_reply_content=0x7f06011b;
-        public static final int umeng_fb_reply_content_wrapper=0x7f060119;
-        public static final int umeng_fb_reply_date=0x7f06011e;
-        public static final int umeng_fb_reply_list=0x7f060118;
-        public static final int umeng_fb_save=0x7f060112;
-        public static final int umeng_fb_send=0x7f06011a;
-        public static final int umeng_update_content=0x7f060121;
-        public static final int umeng_update_id_cancel=0x7f060123;
-        public static final int umeng_update_id_close=0x7f060120;
-        public static final int umeng_update_id_ignore=0x7f060124;
-        public static final int umeng_update_id_ok=0x7f060122;
-        public static final int umeng_update_wifi_indicator=0x7f06011f;
+        public static final int umeng_common_notification=0x7f060115;
+        public static final int umeng_common_notification_controller=0x7f060112;
+        public static final int umeng_common_progress_bar=0x7f060117;
+        public static final int umeng_common_progress_text=0x7f060111;
+        public static final int umeng_common_rich_notification_cancel=0x7f060114;
+        public static final int umeng_common_rich_notification_continue=0x7f060113;
+        public static final int umeng_common_title=0x7f060116;
+        public static final int umeng_fb_back=0x7f060119;
+        public static final int umeng_fb_contact_header=0x7f060118;
+        public static final int umeng_fb_contact_info=0x7f06011b;
+        public static final int umeng_fb_contact_update_at=0x7f06011c;
+        public static final int umeng_fb_conversation_contact_entry=0x7f06011e;
+        public static final int umeng_fb_conversation_header=0x7f06011d;
+        public static final int umeng_fb_conversation_list_wrapper=0x7f06011f;
+        public static final int umeng_fb_conversation_umeng_logo=0x7f060124;
+        public static final int umeng_fb_list_reply_header=0x7f060125;
+        public static final int umeng_fb_reply_content=0x7f060123;
+        public static final int umeng_fb_reply_content_wrapper=0x7f060121;
+        public static final int umeng_fb_reply_date=0x7f060126;
+        public static final int umeng_fb_reply_list=0x7f060120;
+        public static final int umeng_fb_save=0x7f06011a;
+        public static final int umeng_fb_send=0x7f060122;
+        public static final int umeng_update_content=0x7f060129;
+        public static final int umeng_update_id_cancel=0x7f06012b;
+        public static final int umeng_update_id_close=0x7f060128;
+        public static final int umeng_update_id_ignore=0x7f06012c;
+        public static final int umeng_update_id_ok=0x7f06012a;
+        public static final int umeng_update_wifi_indicator=0x7f060127;
         public static final int underline=0x7f060002;
         public static final int useLogo=0x7f060013;
+        public static final int view1=0x7f060106;
+        public static final int view2=0x7f06010d;
         public static final int viewflow=0x7f0600f7;
         public static final int viewflowindic=0x7f0600f9;
         public static final int viewtext=0x7f0600f8;
-        public static final int wifi_RelativeLayout=0x7f060125;
-        public static final int wifi_TextView01=0x7f060127;
-        public static final int wifi_TextView02=0x7f06012a;
-        public static final int wifi_bottom=0x7f06012d;
-        public static final int wifi_cmdLogin_Button=0x7f06012b;
-        public static final int wifi_title=0x7f06012c;
-        public static final int wifi_txtAccount_EditText=0x7f060126;
-        public static final int wifi_txtAccount_more_Button=0x7f060128;
-        public static final int wifi_txtPassword_EditText=0x7f060129;
+        public static final int wifi_RelativeLayout=0x7f06012d;
+        public static final int wifi_TextView01=0x7f06012f;
+        public static final int wifi_TextView02=0x7f060132;
+        public static final int wifi_bottom=0x7f060135;
+        public static final int wifi_cmdLogin_Button=0x7f060133;
+        public static final int wifi_title=0x7f060134;
+        public static final int wifi_txtAccount_EditText=0x7f06012e;
+        public static final int wifi_txtAccount_more_Button=0x7f060130;
+        public static final int wifi_txtPassword_EditText=0x7f060131;
         public static final int wrap_content=0x7f06000f;
         public static final int zoomin=0x7f060028;
         public static final int zoomout=0x7f060029;

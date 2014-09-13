@@ -291,6 +291,9 @@
     <!-- 黑色 -->
     <color name="alpha">#00000000</color>
     <!-- 透明色 -->
+    
+    <color name="red_unpress">#be232b</color>
+    <color name="red_pressed">#a1161d</color>
 
     <color name="List_Title_color">#222222</color>
     <color name="List_Time_color">#777777</color>

@@ -1,22 +1,163 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
-   	<Button
-   	    android:id="@+id/test_s"
-   	    android:layout_width="wrap_content"
-   	    android:layout_height="wrap_content"
-   	    android:text="静音" />
+    	<RelativeLayout
+    	    android:layout_width="fill_parent"
+    	    android:layout_height="wrap_content"
+    	    android:layout_margin="12dip"
+    	    android:background="#ffffff" >
 
-   	<Button
-   	    android:id="@+id/test_n"
-   	    android:layout_width="wrap_content"
-   	    android:layout_height="wrap_content"
-   	    android:layout_alignParentLeft="true"
-   	    android:layout_below="@+id/test_s"
-   	    android:text="非静音" />
+    	    <LinearLayout
+    	        android:id="@+id/LinearLayout1"
+    	        android:layout_width="fill_parent"
+    	        android:layout_height="wrap_content"
+    	        android:layout_marginLeft="5dip"
+    	        android:layout_toRightOf="@+id/view1"
+    	        android:orientation="vertical" >
 
-</RelativeLayout>
+    	        <TextView
+    	            android:layout_width="fill_parent"
+    	            android:layout_height="wrap_content"
+    	            android:text="静音时间长度"
+    	            android:textSize="23sp"
+    	            android:layout_margin="5dip"
+    	            android:textColor="#858585" />
+    	        
+    	        <View
+    	            android:layout_width="fill_parent"
+    	            android:layout_height="2dip"
+    	            android:background="#c3c3c3"
+    	            android:layout_marginTop="3dip"
+    	            android:layout_marginBottom="10dip" />
+    	       
+    	        <TextView
+    	            android:layout_width="fill_parent"
+    	            android:layout_height="wrap_content"
+    	            android:textColor="#858585"
+    	            android:textSize="15sp"
+    	            android:text="hour:" />
+    	        <SeekBar
+    	            android:id="@+id/seekbar_hour"
+    	            android:layout_width="fill_parent"
+    	            android:layout_height="wrap_content"
+    	            android:layout_marginBottom="5dip"
+    	            android:max="23"
+    	            android:progress="0" />
+    	        
+    	        <TextView
+    	            android:layout_width="fill_parent"
+    	            android:layout_height="wrap_content"
+    	            android:textSize="15sp"
+    	            android:textColor="#858585"
+    	            android:text="minute:" />
+    	        <SeekBar
+    	            android:id="@+id/seekbar_min"
+    	            android:layout_width="fill_parent"
+    	            android:layout_height="wrap_content"
+    	            android:layout_marginBottom="5dip"
+    	            android:max="59"
+    	            android:progress="0" />
+    	        
+    	         <TextView
+    	            android:id="@+id/hourtext"
+    	            android:layout_width="match_parent"
+    	            android:layout_height="wrap_content"
+    	            android:textColor="#858585"
+    	            android:text="0 小时" />
+    	         <TextView
+    	             android:id="@+id/mintext"
+    	             android:layout_width="match_parent"
+    	             android:layout_height="wrap_content"
+    	             android:textColor="#858585"
+    	             android:text="0 分钟" />
+    	         <TextView
+    	             android:layout_width="match_parent"
+    	             android:layout_height="wrap_content"
+    	             android:textColor="#858585"
+    	             android:text="后结束静音" />
+    	         
+    	         <View
+    	            android:layout_width="fill_parent"
+    	            android:layout_height="2dip"
+    	            android:background="#84d2ee"
+    	            android:layout_marginTop="3dip" />
+    	         
+    	         <Button
+    	             android:id="@+id/button_set_after_time"
+    	             android:layout_width="fill_parent"
+    	             android:layout_height="wrap_content"
+    	             android:background="@drawable/ringer_button"
+    	             android:textColor="#858585"
+    	             android:text="确 定" />
+
+    	    </LinearLayout>
+
+    	    <View
+    	        android:id="@+id/view1"
+    	        android:layout_width="8dip"
+    	        android:layout_height="wrap_content"
+    	        android:layout_alignBottom="@+id/LinearLayout1"
+    	        android:layout_alignParentLeft="true"
+    	        android:layout_alignParentTop="true"
+    	        android:background="@color/red_unpress" />
+
+    	</RelativeLayout>
+    	
+    	
+    	<RelativeLayout
+    	    android:layout_width="fill_parent"
+    	    android:layout_height="wrap_content"
+    	    android:layout_margin="12dip"
+    	    android:background="#ffffff" >
+
+    	    <LinearLayout
+    	        android:id="@+id/LinearLayout2"
+    	        android:layout_width="fill_parent"
+    	        android:layout_height="wrap_content"
+    	        android:layout_marginLeft="5dip"
+    	        android:layout_toRightOf="@+id/view2"
+    	        android:orientation="vertical" >
+    	         
+    	        <TextView
+    	            android:layout_width="fill_parent"
+    	            android:layout_height="wrap_content"
+    	            android:text="上课自动静音"
+    	            android:textSize="23sp"
+    	            android:layout_margin="5dip"
+    	            android:textColor="#858585" />
+    	        
+    	        <View
+    	            android:layout_width="fill_parent"
+    	            android:layout_height="2dip"
+    	            android:background="#c3c3c3"
+    	            android:layout_marginTop="3dip"
+    	            android:layout_marginBottom="10dip" />
+    	         
+    	        <CheckBox
+    	            android:id="@+id/checkbox_set_auto_time"
+    	            android:layout_width="fill_parent"
+    	            android:layout_height="wrap_content"
+    	            android:text=" 上课自动静音功能开启"
+    	            android:textColor="#858585"
+    	            android:textSize="15sp"
+    	            android:layout_marginBottom="5dip"
+    	            android:checked="false" />
+
+    	    </LinearLayout>
+
+    	    <View
+    	        android:id="@+id/view2"
+    	        android:layout_width="8dip"
+    	        android:layout_height="wrap_content"
+    	        android:layout_alignBottom="@+id/LinearLayout2"
+    	        android:layout_alignParentLeft="true"
+    	        android:layout_alignParentTop="true"
+    	        android:background="#065999" />
+
+    	</RelativeLayout>
+    	
+</LinearLayout>

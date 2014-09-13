@@ -73,9 +73,9 @@ public class RingerTools
 		CharSequence contentTitle = "定时静音";
 		CharSequence contentText = null;
 		if (mu)
-			contentText = "静音";
+			contentText = "开启静音";
 		else
-			contentText = "铃声";
+			contentText = "关闭静音";
 		
 		Intent notificationIntent = new Intent(context, MainActivity.class);
 		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
