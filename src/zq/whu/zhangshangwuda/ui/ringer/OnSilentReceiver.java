@@ -12,7 +12,9 @@ public class OnSilentReceiver extends BroadcastReceiver
 	{
 		RingerTools rt = new RingerTools(context);
 		rt.initAudioManager();
+		rt.initNotificationManager();
 		rt.setSilent(true);
-		Toast.makeText(context, "开启静音", Toast.LENGTH_SHORT).show();
+		rt.showNotification(true, 1);
+		//Toast.makeText(context, "开启静音", Toast.LENGTH_SHORT).show();
 	}
 }

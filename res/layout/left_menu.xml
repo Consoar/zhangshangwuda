@@ -46,7 +46,7 @@
             style="@style/MenuDrawer.Widget.Title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableLeft="@drawable/left_menu_wifi"
+            android:drawableLeft="@drawable/left_menu_ringer"
             android:text="@string/LeftMenu_Ringer" />
 
         <TextView
