@@ -148,6 +148,11 @@ import com.umeng.analytics.MobclickAgent;
 					rt.setAfterTimeNoSilent(after_time_hour, after_time_min);
 					rt.showNotification(true, 0);
 				}
+//				else
+//				{
+//					ToastUtil.showToast(getActivity(), "取消定时静音");
+//					rt.cancelAfterTimeNoSilent();
+//				}
 			}
 		});
 		

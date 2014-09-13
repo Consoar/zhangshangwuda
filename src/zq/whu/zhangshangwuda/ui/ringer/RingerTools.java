@@ -65,6 +65,16 @@ public class RingerTools
 		mAlarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), sender);
 	}
 	
+//	public void cancelAfterTimeNoSilent()
+//	{
+//		Intent i = new Intent(context, OffSilentReceiver.class);
+//		i.putExtra("isAfter", "yes");
+//		PendingIntent sender = PendingIntent.getBroadcast(context, 22, i, PendingIntent.FLAG_CANCEL_CURRENT);
+//		cleanNotification(0);
+//		setSilent(false);
+//		mAlarmManager.cancel(sender);
+//	}
+	
 	public ArrayList<TimeOfLessons> getTimes()
 	{
 		ArrayList<TimeOfLessons> times = new ArrayList<TimeOfLessons>();
@@ -137,7 +147,6 @@ public class RingerTools
 			mAlarmManager.cancel(PendingIntent.getBroadcast(context, 23, intent_off, PendingIntent.FLAG_CANCEL_CURRENT));
 			mAlarmManager.cancel(PendingIntent.getBroadcast(context, 23, intent_on, PendingIntent.FLAG_CANCEL_CURRENT));
 			cleanNotification(1);
-			setSilent(false);
 		}
 	}
 	
