@@ -2,11 +2,13 @@
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import zq.whu.zhangshangwuda.ui.news.NewsContentActivity;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,7 +19,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.MotionEvent;
-import android.widget.ImageView;
 
 public class SplashScreen extends Activity {
 
@@ -49,6 +50,27 @@ public class SplashScreen extends Activity {
 
 	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		XGPushClickedResult clickedResult = XGPushManager.onActivityStarted(this);
+		if (clickedResult != null){
+			String customContent = clickedResult.getCustomContent();
+			if (customContent != null && customContent.length() != 0){
+				JSONObject jsonObject;
+				try {
+					jsonObject = new JSONObject(customContent);
+					String href = jsonObject.getString("href");
+					Intent intent = new Intent(this, NewsContentActivity.class);
+					intent.putExtra("href", href);
+					startActivity(intent);
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+	
 	private final TimerTask task = new TimerTask() {
 		@Override
 		public void run() {
@@ -63,6 +85,7 @@ public class SplashScreen extends Activity {
 
 		}
 	};
+	
 	private final Handler timerHandler = new Handler() {
 		public void handleMessage(Message msg) {
 			switch (msg.arg1) {
