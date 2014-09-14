@@ -12,7 +12,17 @@ public class OffSilentReceiver extends BroadcastReceiver
 	{
 		RingerTools rt = new RingerTools(context);
 		rt.initAudioManager();
+		rt.initNotificationManager();
 		rt.setSilent(false);
-		Toast.makeText(context, "关闭静音", Toast.LENGTH_SHORT).show();
+		
+		if (intent.getStringExtra("isAfter").equals("yes"))
+		{
+			rt.cleanNotification(0);
+		}
+		else
+		{
+			rt.showNotification(false, 1);
+		}
+		//Toast.makeText(context, "关闭静音", Toast.LENGTH_SHORT).show();
 	}
 }

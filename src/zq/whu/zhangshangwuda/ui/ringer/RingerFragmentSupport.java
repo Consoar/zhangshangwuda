@@ -5,6 +5,8 @@ import zq.whu.zhangshangwuda.tools.LessonsTool;
 import zq.whu.zhangshangwuda.ui.MainActivity;
 import zq.whu.zhangshangwuda.ui.MyApplication;
 import zq.whu.zhangshangwuda.ui.R;
+import zq.whu.zhangshangwuda.views.toast.ToastUtil;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -23,7 +25,7 @@ import android.widget.Toast;
 
 import com.umeng.analytics.MobclickAgent;
 
-public class RingerFragmentSupport extends BaseSherlockFragment
+@SuppressLint("WorldReadableFiles") public class RingerFragmentSupport extends BaseSherlockFragment
 {
 	private static final String mpagename = "RingerFragment";
 	private View rootView;
@@ -65,6 +67,7 @@ public class RingerFragmentSupport extends BaseSherlockFragment
 	/**
 	 * 初始化
 	 */
+	@SuppressWarnings("deprecation")
 	private void init()
 	{        
 		rt = new RingerTools(getActivity());
@@ -79,19 +82,11 @@ public class RingerFragmentSupport extends BaseSherlockFragment
         
         set_auto_time.setChecked(preferences.getBoolean("ringer_check", false));
         
+        rt.initAudioManager();
         rt.initAlarmManager();
         rt.initNotificationManager();
         
         initListener();
-        /////////////////////////////////////////////////////////////
-//        List<Map<String, String>> mp = LessonsDb.getInstance(getActivity()).getLocalLessonsList();
-//        
-//        for (int i = 0; i < mp.size(); i++)
-//        {
-//        	Map<String, String> li = mp.get(i);
-//        	System.out.println("mp[" + i + "]--->" + mp.get(i).toString());
-//        }
-        ////////////////////////////////////////////////////////////
 	}
 	
 	
@@ -106,6 +101,7 @@ public class RingerFragmentSupport extends BaseSherlockFragment
 			public void onProgressChanged(SeekBar arg0, int arg1, boolean arg2) 
 			{
 				text_hour.setText(arg1 + " 小时");
+				after_time_hour = arg1;
 			}
 
 			@Override
@@ -124,6 +120,7 @@ public class RingerFragmentSupport extends BaseSherlockFragment
 			public void onProgressChanged(SeekBar seekBar, int progress,boolean fromUser) 
 			{
 				text_min.setText(progress + " 分钟");
+				after_time_min =  progress;
 			}
 
 			@Override
@@ -141,7 +138,21 @@ public class RingerFragmentSupport extends BaseSherlockFragment
 			@Override
 			public void onClick(View arg0) 
 			{
-				Toast.makeText(getActivity(), "chilc", Toast.LENGTH_SHORT).show();
+				if (after_time_hour != 0 || after_time_min != 0)
+				{
+					ToastUtil.showToast(getActivity(), "开始静音至" + after_time_hour + "小时" 
+							+ after_time_min + "分钟后");
+//					Toast.makeText(getActivity(), "开始静音至" + after_time_hour + "小时" 
+//							+ after_time_min + "分钟后", Toast.LENGTH_SHORT).show();
+					rt.setSilent(true);
+					rt.setAfterTimeNoSilent(after_time_hour, after_time_min);
+					rt.showNotification(true, 0);
+				}
+//				else
+//				{
+//					ToastUtil.showToast(getActivity(), "取消定时静音");
+//					rt.cancelAfterTimeNoSilent();
+//				}
 			}
 		});
 		
@@ -150,9 +161,12 @@ public class RingerFragmentSupport extends BaseSherlockFragment
 			@Override
 			public void onCheckedChanged(CompoundButton arg0, boolean arg1) 
 			{
-				Toast.makeText(getSherlockActivity(), "change" + arg1, Toast.LENGTH_SHORT).show();
+				ToastUtil.showToast(getActivity(), arg1 ? "开启自动静音": "关闭自动静音");
+//				Toast.makeText(getSherlockActivity(), arg1 ? "开启自动静音": "关闭自动静音",
+//						Toast.LENGTH_SHORT).show();
 				editor.putBoolean("ringer_check", arg1);
 				editor.commit();
+				rt.setTimeOfSilent(arg1);
 			}
 		});
 	}
