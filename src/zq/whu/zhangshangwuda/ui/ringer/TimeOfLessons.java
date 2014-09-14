@@ -8,9 +8,41 @@ public class TimeOfLessons
 	private int end_min = 0;
 	private int day = 0;
 	
+	public TimeOfLessons(int sh, int sm, int eh, int em, int d)
+	{
+		start_hour = sh;
+		start_min = sm;
+		end_hour = eh;
+		end_min = em;
+		day = d;
+	}
+	
 	public TimeOfLessons(int start_lesson, int end_lesson, int lday)
 	{
-		this.day = lday;
+		switch (lday)
+		{
+		case 7:
+			day = 1;
+			break;
+		case 1:
+			day = 2;
+			break;
+		case 2:
+			day = 3;
+			break;
+		case 3:
+			day = 4;
+			break;
+		case 4:
+			day = 5;
+			break;
+		case 5:
+			day = 6;
+			break;
+		case 6:
+			day = 7;
+			break;
+		}
 		
 		switch (start_lesson)
 		{

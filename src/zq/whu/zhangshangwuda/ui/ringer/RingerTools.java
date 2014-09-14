@@ -6,6 +6,7 @@ import java.util.Map;
 
 import zq.whu.zhangshangwuda.db.LessonsDb;
 import zq.whu.zhangshangwuda.ui.MainActivity;
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -14,6 +15,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import zq.whu.zhangshangwuda.ui.R;
+import zq.whu.zhangshangwuda.views.toast.ToastUtil;
 
 public class RingerTools 
 {
@@ -60,11 +62,12 @@ public class RingerTools
 		
 		Intent i = new Intent(context, OffSilentReceiver.class);
 		i.putExtra("isAfter", "yes");
-		PendingIntent sender = PendingIntent.getBroadcast(context, 22, i, PendingIntent.FLAG_CANCEL_CURRENT);
+		PendingIntent sender = PendingIntent.getBroadcast(context, 100, i, PendingIntent.FLAG_CANCEL_CURRENT);
 		
 		mAlarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), sender);
 	}
 	
+//  设置0时0分解除静音，弃用
 //	public void cancelAfterTimeNoSilent()
 //	{
 //		Intent i = new Intent(context, OffSilentReceiver.class);
@@ -73,6 +76,22 @@ public class RingerTools
 //		cleanNotification(0);
 //		setSilent(false);
 //		mAlarmManager.cancel(sender);
+//	}
+	
+//  测试方法，弃用
+//	public ArrayList<TimeOfLessons> test()
+//	{
+//		ArrayList<TimeOfLessons> time = new ArrayList<TimeOfLessons>();
+//		
+//		time.add(new TimeOfLessons(12, 40, 12, 41, 1));
+//		time.add(new TimeOfLessons(12, 42, 12, 43, 1));
+//		time.add(new TimeOfLessons(12, 44, 12, 45, 1));
+//		time.add(new TimeOfLessons(12, 46, 12, 47, 1));
+//		time.add(new TimeOfLessons(12, 48, 12, 49, 1));
+//		time.add(new TimeOfLessons(12, 50, 12, 53, 1));
+//		time.add(new TimeOfLessons(12, 54, 12, 55, 1));
+//
+//		return null;
 //	}
 	
 	public ArrayList<TimeOfLessons> getTimes()
@@ -103,13 +122,21 @@ public class RingerTools
 		Calendar NOW_TIME = Calendar.getInstance();
 		NOW_TIME.setTimeInMillis(System.currentTimeMillis());
 		
+		ArrayList<TimeOfLessons> times = getTimes();
+		if (times == null || times.size() == 0)
+		{
+			ToastUtil.showToast((Activity)context, "需要登陆课程表功能才能用的 0 0");
+			return;
+		}
+		
 		if (mu)
 		{	
 			showNotification(false, 1);
-			ArrayList<TimeOfLessons> times = getTimes();
 			
-			for (TimeOfLessons tl: times)
+			
+			for (int i = 0; i < times.size(); i++)
 			{
+				TimeOfLessons tl = times.get(i);
 				Calendar tl_time = Calendar.getInstance();
 				tl_time.setTimeInMillis(System.currentTimeMillis());
 				tl_time.set(Calendar.DAY_OF_WEEK, tl.getDay());
@@ -122,11 +149,12 @@ public class RingerTools
 				}
 				
 				mAlarmManager.setRepeating(AlarmManager.RTC, tl_time.getTimeInMillis(), (7*24*60*60*1000),
-						PendingIntent.getBroadcast(context, 23, intent_on, PendingIntent.FLAG_CANCEL_CURRENT));
+						PendingIntent.getBroadcast(context, i, intent_on, PendingIntent.FLAG_CANCEL_CURRENT));
 			}
 			
-			for (TimeOfLessons tl: times)
+			for (int i = 0; i < times.size(); i++)
 			{
+				TimeOfLessons tl = times.get(i);
 				Calendar tl_time = Calendar.getInstance();
 				tl_time.setTimeInMillis(System.currentTimeMillis());
 				tl_time.set(Calendar.DAY_OF_WEEK, tl.getDay());
@@ -139,13 +167,16 @@ public class RingerTools
 				}
 				
 				mAlarmManager.setRepeating(AlarmManager.RTC, tl_time.getTimeInMillis(), (7*24*60*60*1000),
-						PendingIntent.getBroadcast(context, 23, intent_off, PendingIntent.FLAG_CANCEL_CURRENT));
+						PendingIntent.getBroadcast(context, i + times.size() + 1, intent_off, PendingIntent.FLAG_CANCEL_CURRENT));
 			}
 		}
 		else
 		{
-			mAlarmManager.cancel(PendingIntent.getBroadcast(context, 23, intent_off, PendingIntent.FLAG_CANCEL_CURRENT));
-			mAlarmManager.cancel(PendingIntent.getBroadcast(context, 23, intent_on, PendingIntent.FLAG_CANCEL_CURRENT));
+			for (int i = 0; i < times.size(); i++)
+			{
+				mAlarmManager.cancel(PendingIntent.getBroadcast(context, i + times.size() + 1, intent_off, PendingIntent.FLAG_CANCEL_CURRENT));
+				mAlarmManager.cancel(PendingIntent.getBroadcast(context, i, intent_on, PendingIntent.FLAG_CANCEL_CURRENT));
+			}
 			cleanNotification(1);
 		}
 	}
