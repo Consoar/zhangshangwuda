@@ -3,12 +3,13 @@
 import net.simonvt.menudrawer.MenuDrawer;
 import zq.whu.zhangshangwuda.base.BaseThemeFragmentActivityWithoutAnime;
 import zq.whu.zhangshangwuda.base.PreferenceHelper;
+import zq.whu.zhangshangwuda.tools.DataSharedPreferencesTool;
 import zq.whu.zhangshangwuda.tools.LessonsSharedPreferencesTool;
 import zq.whu.zhangshangwuda.tools.LessonsTool;
 import zq.whu.zhangshangwuda.tools.SettingSharedPreferencesTool;
-import zq.whu.zhangshangwuda.tools.SmileyPickerUtility;
 import zq.whu.zhangshangwuda.tools.StringUtils;
 import zq.whu.zhangshangwuda.ui.lessons.LessonsFragmentSupport;
+import zq.whu.zhangshangwuda.ui.news.NewsContentActivity;
 import zq.whu.zhangshangwuda.ui.news.NewsFragmentSupport;
 import zq.whu.zhangshangwuda.ui.ringer.RingerFragmentSupport;
 import zq.whu.zhangshangwuda.ui.wifi.WifiFragmentSupport;
@@ -24,6 +25,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.view.MenuItem;
 import com.umeng.analytics.MobclickAgent;
@@ -41,7 +43,8 @@ public class MainActivity extends BaseThemeFragmentActivityWithoutAnime {
 	private final static String TAB_TAG_HELP = "help";
 	private final static String TAB_TAG_FEED = "feed";
 	private final static String TAB_TAG_ABOUT = "about";
-	
+	private String href = null;
+	private boolean isShow = false;
 	private String mCurrentFragmentTag;
 	public MenuDrawer mMenuDrawer;
 	private FeedbackAgent agent;
@@ -63,12 +66,15 @@ public class MainActivity extends BaseThemeFragmentActivityWithoutAnime {
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
-		// System.out.println("onCreate");
+		//System.out.println("onCreate");
+		Intent intent = getIntent();
+		href = intent.getStringExtra("href");
 		super.onCreate(savedInstanceState);
 		init();
 		if (savedInstanceState != null) {
 			mCurrentFragmentTag = savedInstanceState
 					.getString(STATE_CURRENT_FRAGMENT);
+			//isShow = savedInstanceState.getBoolean("isShow");
 			selectItem(mCurrentFragmentTag);
 		} else {
 			initStartTab();
@@ -87,6 +93,7 @@ public class MainActivity extends BaseThemeFragmentActivityWithoutAnime {
 		// System.out.println("onSaveInstanceState");
 		super.onSaveInstanceState(outState);
 		outState.putString(STATE_CURRENT_FRAGMENT, mCurrentFragmentTag);
+		//outState.putBoolean("isShow", isShow);
 	}
 
 	private void init() {
@@ -103,9 +110,6 @@ public class MainActivity extends BaseThemeFragmentActivityWithoutAnime {
 	}
 
 	private void selectItem(String tab) {
-		// System.out.println("selectItem");
-		// System.out.println("tab " + tab);
-		// System.out.println("mCurrentFragmentTag " + mCurrentFragmentTag);
 		hideOtherFragment(tab);
 		mCurrentFragmentTag = tab;
 		attachFragment(mMenuDrawer.getContentContainer().getId(),
@@ -192,7 +196,6 @@ public class MainActivity extends BaseThemeFragmentActivityWithoutAnime {
 	}
 
 	private void initStartTab() {
-		// TODO Auto-generated method stub
 		String StartTab = SettingSharedPreferencesTool
 				.getStartTab(getApplication());
 		int StartTabNo = 1;
@@ -229,7 +232,6 @@ public class MainActivity extends BaseThemeFragmentActivityWithoutAnime {
 	}
 
 	private void initWeekTitle() {
-		// TODO Auto-generated method stub
 		String TermFirstDay = LessonsSharedPreferencesTool
 				.getTermFirstDay(this);
 		String[] splitStr = TermFirstDay.split("-");
@@ -245,7 +247,6 @@ public class MainActivity extends BaseThemeFragmentActivityWithoutAnime {
 	}
 
 	private void initLeftMenu() {
-		// TODO Auto-generated method stub
 		MenuScrollView msv = (MenuScrollView) mMenuDrawer.getMenuView();
 		msv.setOnScrollChangedListener(new MenuScrollView.OnScrollChangedListener() {
 			@Override
@@ -360,6 +361,29 @@ public class MainActivity extends BaseThemeFragmentActivityWithoutAnime {
 						startActivity(intent);
 					}
 				});
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if (BuildConfig.DEBUG) System.out.println("onResume "+" "+isShow);
+		/*if (!isShow){
+			isShow = DataSharedPreferencesTool.get_notifi_isShow(this);
+		}*/
+		if (href != null && !isShow){
+			isShow = true;
+			//DataSharedPreferencesTool.set_notifi_isShow(this, isShow);
+			Intent intent = new Intent(this, NewsContentActivity.class);
+			intent.putExtra("href", href);
+			startActivity(intent);
+		}
+	}
+
+	@Override
+	protected void onDestroy() {
+		if (BuildConfig.DEBUG) System.out.println("onDestroy");
+		//DataSharedPreferencesTool.set_notifi_isShow(this, false);
+		super.onDestroy();
 	}
 
 	// 截取按键动作

@@ -16,16 +16,22 @@ import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Debug;
 import android.os.Handler;
 import android.os.Message;
 import android.view.MotionEvent;
 
+import com.tencent.android.tpush.XGPushClickedResult;
+import com.tencent.android.tpush.XGPushConfig;
+import com.tencent.android.tpush.XGPushManager;
+
 public class SplashScreen extends Activity {
 
-	private final int SPLASH_DISPLAY_LENGHT = 1000; // 延迟1秒
+	private final int SPLASH_DISPLAY_LENGHT = 800; // 延迟0.8秒
 	private boolean _touched = false;
 	private Timer timer;
 	private long startTime;
+	private String href = null;
 	private SharedPreferences Mysettings;
 	private boolean firstRun = false;
 	String img[] = { "splash/1.jpg", "splash/2.jpg", "splash/3.jpg",
@@ -35,15 +41,12 @@ public class SplashScreen extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splash);
+		if (BuildConfig.DEBUG){
+			XGPushConfig.enableDebug(getApplicationContext(), true);
+		} else XGPushConfig.enableDebug(getApplicationContext(), false);
+		XGPushManager.registerPush(getApplicationContext());
 		getWindow().setBackgroundDrawable(null);
 		Mysettings = getSharedPreferences("User_Data", 0);
-		// Calendar cal = Calendar.getInstance();
-		// cal.setTime(new Date());
-		// int w = cal.get(Calendar.DAY_OF_WEEK) - 1;
-		// ((ImageView) findViewById(R.id.splash_img))
-		// .setImageBitmap(getImageFromAssetsFile(img[w - 1]));
-		// if (w <= 0)
-		// w = 7;
 		timer = new Timer(true);
 		startTime = System.currentTimeMillis();
 		timer.schedule(task, 0, 1);
@@ -56,19 +59,24 @@ public class SplashScreen extends Activity {
 		XGPushClickedResult clickedResult = XGPushManager.onActivityStarted(this);
 		if (clickedResult != null){
 			String customContent = clickedResult.getCustomContent();
+			//System.out.println("customContent ==> "+customContent);
 			if (customContent != null && customContent.length() != 0){
 				JSONObject jsonObject;
 				try {
 					jsonObject = new JSONObject(customContent);
-					String href = jsonObject.getString("href");
-					Intent intent = new Intent(this, NewsContentActivity.class);
-					intent.putExtra("href", href);
-					startActivity(intent);
+					href = jsonObject.getString("href");
 				} catch (JSONException e) {
 					e.printStackTrace();
+					href = null;
 				}
 			}
 		}
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		XGPushManager.onActivityStoped(this);
 	}
 	
 	private final TimerTask task = new TimerTask() {
@@ -92,10 +100,10 @@ public class SplashScreen extends Activity {
 			case 0:
 				Intent intent = new Intent();
 				intent.setClass(SplashScreen.this, MainActivity.class);
-				// overridePendingTransition(0, 0);
-				// intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+				if (href != null){
+					intent.putExtra("href",href);
+				}
 				finish();
-				// overridePendingTransition(0, 0);
 				startActivity(intent);
 				break;
 			}

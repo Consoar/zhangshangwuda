@@ -2,6 +2,7 @@
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 
 public class SettingSharedPreferencesTool {
 	public static boolean wifi_isRememberMe(Context c) {
@@ -51,4 +52,5 @@ public class SettingSharedPreferencesTool {
 				Constants.PREFS_NAME_APP_SETTING, 0);
 		return Mysettings.getBoolean("common_isViewPagerTX", true);
 	}
+	
 }

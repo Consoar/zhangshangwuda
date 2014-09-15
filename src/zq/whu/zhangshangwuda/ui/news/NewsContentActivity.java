@@ -19,6 +19,7 @@ import zq.whu.zhangshangwuda.tools.HtmlTool;
 import zq.whu.zhangshangwuda.tools.NewsTool;
 import zq.whu.zhangshangwuda.tools.StringUtils;
 import zq.whu.zhangshangwuda.tools.ThemeUtility;
+import zq.whu.zhangshangwuda.ui.BuildConfig;
 import zq.whu.zhangshangwuda.ui.R;
 import zq.whu.zhangshangwuda.views.toast.ToastUtil;
 import android.annotation.TargetApi;
@@ -113,7 +114,7 @@ public class NewsContentActivity extends BaseThemeSwipeBackSherlockActivity {
 		setContentView(R.layout.news_content);
 		Intent intent = getIntent();
 		href = intent.getStringExtra("href");
-		System.out.println("href=="+href);
+		if (BuildConfig.DEBUG) System.out.println("href=="+href);
 		// title = NoticeHtmlTool.getZqNoticesContentTitle(href);
 		// isSaveInLocal =
 		// LocalDataSharedPreferencesTool.news_isSaveInLocal(this);
