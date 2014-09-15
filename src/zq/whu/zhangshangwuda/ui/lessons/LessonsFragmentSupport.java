@@ -158,8 +158,8 @@ public class LessonsFragmentSupport extends BaseSherlockFragment {
 		// int nowWeek = 1;
  
 		String sWeekInfo=String.format(sWeekFormat,nowWeek); 
-		MainActivity.MainActivityActionbar.setSubtitle(sWeekInfo);		
-		
+		MainActivity.MainActivityActionbar.setSubtitle(sWeekInfo);
+		MyApplication.getInstance().setLessonsWeek(nowWeek);
 		if(nowWeek==0){
 			viewPager.setPagingEnabled(false);
 			viewPager.setCurrentItem(30);
@@ -177,6 +177,7 @@ public class LessonsFragmentSupport extends BaseSherlockFragment {
 				String sWeekInfo=String.format(sWeekFormat,arg0 + 1); 
 				MainActivity.MainActivityActionbar.setSubtitle(sWeekInfo);
 				MyApplication.getInstance().setLessonsWeek(arg0 + 1);
+				
 				if (arg0 + 1 != nowWeek) {
 					if (ACTIONBAR_MODEL != 1) {
 						ACTIONBAR_MODEL = 1;
