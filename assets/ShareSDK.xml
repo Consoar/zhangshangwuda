@@ -48,14 +48,14 @@
     -->
     
     <ShareSDK 
-        AppKey = "androidv1101"/> <!-- 修改成你在sharesdk后台注册的应用的appkey"-->
+        AppKey = "2f0d8e103d26"/> <!-- 修改成你在sharesdk后台注册的应用的appkey"-->
     
     <!-- ShareByAppClient标识是否使用微博客户端分享，默认是false -->
     <SinaWeibo
         Id="1"
         SortId="1"
-        AppKey="568898243"
-        AppSecret="38a4f8204cc784f81f9f0daaf31e02e3"
+        AppKey="1444170728"
+        AppSecret="cb88edef1ef509257522637a6027d006"
         RedirectUrl="http://www.sharesdk.cn"
         ShareByAppClient="true"
         Enable="true" />
@@ -72,8 +72,8 @@
     <QZone
         Id="3"
         SortId="6"
-        AppId="100371282"
-        AppKey="aed9b0303e3ed1e27bae87c33761161d"
+        AppId="1101051370"
+        AppKey="GQMObLhM1VBZSlSn"
         ShareByAppClient="true"
         Enable="true" />
     
@@ -92,29 +92,31 @@
     <Wechat
         Id="4"
         SortId="2"
-        AppId="wx4868b35061f87885"
+        AppId="wx2430a6a1460afc29"
+        AppSecert="b13332b33cd80c1897daf0716d6ff6bf"
         BypassApproval="true"
         Enable="true" />
     
     <WechatMoments
         Id="5"
         SortId="3"
-        AppId="wx4868b35061f87885"
+        AppId="wx2430a6a1460afc29"
+        AppSecert="b13332b33cd80c1897daf0716d6ff6bf"
         BypassApproval="true"
         Enable="true" />
         
 	<WechatFavorite
         Id="6"
         SortId="9"
-        AppId="wx4868b35061f87885"
+        AppId="wx2430a6a1460afc29"
+        AppSecert="b13332b33cd80c1897daf0716d6ff6bf"
         Enable="true" />
     
 	<!-- ShareByAppClient标识是否使用微博客户端分享，默认是false -->
 	<QQ
         Id="7"
         SortId="7"
-        AppId="100371282"
-        AppKey="aed9b0303e3ed1e27bae87c33761161d"
+        AppId="1101051370"
         ShareByAppClient="true"
         Enable="true" />
     
@@ -136,9 +138,9 @@
     <Renren
         Id="10"
         SortId="8"
-        AppId="226427"
-        ApiKey="fc5b8aed373c4c27a05b712acba0f8c3"
-        SecretKey="f29df781abdd4f49beca5a2194676ca4"
+        AppId="2081040"
+        ApiKey="d5105a06d1a14eddb9806016eb52c02e"
+        SecretKey="d456733f8f8147aea8c9481eb3080054"
         Enable="true" />
     
     <KaiXin

@@ -39,8 +39,12 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
+import cn.sharesdk.onekeyshare.ShareContentCustomizeCallback;
+import cn.sharesdk.sina.weibo.SinaWeibo;
+import cn.sharesdk.sina.weibo.SinaWeibo.ShareParams;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -267,6 +271,7 @@ public class NewsContentActivity extends BaseThemeSwipeBackSherlockActivity {
 		// 关闭sso授权
 		oks.disableSSOWhenAuthorize();
 
+		oks.setShareContentCustomizeCallback(new ShareContentCustomizeSinaWeibo());
 		// 分享时Notification的图标和文字
 		oks.setNotification(R.drawable.icon,
 				getString(R.string.app_name));
@@ -284,7 +289,8 @@ public class NewsContentActivity extends BaseThemeSwipeBackSherlockActivity {
 		}
 		oks.setText(sb.toString());
 		// imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
-		oks.setImageUrl(contentmap.get("image"));
+		if(!StringUtils.isEmpty(contentmap.get("image")) && StringUtils.isImageUrl(contentmap.get("image")))
+			oks.setImageUrl(contentmap.get("image"));
 		// url仅在微信（包括好友和朋友圈）中使用
 		oks.setUrl(contentmap.get("href"));
 		// comment是我对这条分享的评论，仅在人人网和QQ空间使用
@@ -302,5 +308,31 @@ public class NewsContentActivity extends BaseThemeSwipeBackSherlockActivity {
 	// News tnews = new News(href, title, time, content);
 	// NewsDb.getInstance(NewsContentActivity.this).insert(tnews);
 	// }
+	
+	 /**
+	  * 快捷分享自定义-新浪微博
+	  *
+	  */
+	 class ShareContentCustomizeSinaWeibo implements ShareContentCustomizeCallback {
+
+			@Override
+			public void onShare(Platform platform,
+					cn.sharesdk.framework.Platform.ShareParams paramsToShare) {
+				// TODO Auto-generated method stub
+                if (SinaWeibo.NAME.equals(platform.getName())) {
+                    StringBuilder sb = new StringBuilder(contentmap.get("title"));
+                    sb.append("\n");
+                    Document doc = Jsoup.parse(contentmap.get("content"));
+            		Elements contents = doc.getElementsByTag("p");
+            		for (Element content : contents) {
+            			sb.append(content.text()).append("\n");
+            		}
+                    sb.delete(80, sb.length()-1).append("...\n")
+                    .append("更多：").append(contentmap.get("href"));
+                    paramsToShare.setText(sb.toString());
+            }
+			}
+
+	 }
 
 }

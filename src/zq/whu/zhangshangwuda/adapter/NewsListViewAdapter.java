@@ -123,7 +123,7 @@ public class NewsListViewAdapter extends BaseAdapter {
 				.getColor(R.attr.newsItemTextColor));
 		listItemView.time.setText(news.get("time"));
 		listItemView.href.setText(news.get("href"));
-		if (!StringUtils.isEmpty(news.get("image")))
+		if (!StringUtils.isEmpty(news.get("image")) && StringUtils.isImageUrl(news.get("image")))
 			MyApplication.getInstance().mImageLoader.displayImage(
 					DisplayTool.getSmallImageUrl(context, news.get("image")), listItemView.image);
 		else
