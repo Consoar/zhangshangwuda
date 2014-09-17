@@ -124,4 +124,10 @@
     <string name="course_management">课程管理</string>
     <string name="Lessons_choose_course">请选择课程</string>
 
+    <string name="start_tabs_news">新闻</string>
+    <string name="start_tabs_lessons">课程表</string>
+    <string name="start_tabs_wifi">无线网</string>
+    <string name="start_tabs_ringer">定时静音</string>
+    <string name="theme_tabs_light">白版</string>
+    <string name="theme_tabs_black">黑版</string>
 </resources>

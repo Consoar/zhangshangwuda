@@ -5,11 +5,13 @@
         <item>新闻</item>
         <item>课程表</item>
         <item>无线网</item>
+		<item>定时静音</item>
     </string-array>
     <string-array name="start_tabs_value">
         <item>news</item>
         <item>lessons</item>
         <item>wifi</item>
+		<item>ringer</item>
     </string-array>
     <string-array name="theme_tabs">
         <item>白版</item>
