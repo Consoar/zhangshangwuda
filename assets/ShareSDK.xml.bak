@@ -141,7 +141,7 @@
         AppId="2081040"
         ApiKey="d5105a06d1a14eddb9806016eb52c02e"
         SecretKey="d456733f8f8147aea8c9481eb3080054"
-        Enable="false" />
+        Enable="true" />
     
     <KaiXin
         Id="11"
