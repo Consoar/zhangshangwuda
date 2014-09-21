@@ -66,34 +66,7 @@ public class RingerTools
 		
 		mAlarmManager.set(AlarmManager.RTC, calendar.getTimeInMillis(), sender);
 	}
-	
-//  设置0时0分解除静音，弃用
-//	public void cancelAfterTimeNoSilent()
-//	{
-//		Intent i = new Intent(context, OffSilentReceiver.class);
-//		i.putExtra("isAfter", "yes");
-//		PendingIntent sender = PendingIntent.getBroadcast(context, 22, i, PendingIntent.FLAG_CANCEL_CURRENT);
-//		cleanNotification(0);
-//		setSilent(false);
-//		mAlarmManager.cancel(sender);
-//	}
-	
-//  测试方法，弃用
-//	public ArrayList<TimeOfLessons> test()
-//	{
-//		ArrayList<TimeOfLessons> time = new ArrayList<TimeOfLessons>();
-//		
-//		time.add(new TimeOfLessons(12, 40, 12, 41, 1));
-//		time.add(new TimeOfLessons(12, 42, 12, 43, 1));
-//		time.add(new TimeOfLessons(12, 44, 12, 45, 1));
-//		time.add(new TimeOfLessons(12, 46, 12, 47, 1));
-//		time.add(new TimeOfLessons(12, 48, 12, 49, 1));
-//		time.add(new TimeOfLessons(12, 50, 12, 53, 1));
-//		time.add(new TimeOfLessons(12, 54, 12, 55, 1));
-//
-//		return null;
-//	}
-	
+		
 	public ArrayList<TimeOfLessons> getTimes()
 	{
 		ArrayList<TimeOfLessons> times = new ArrayList<TimeOfLessons>();
@@ -227,7 +200,8 @@ public class RingerTools
 		notification.flags = Notification.FLAG_NO_CLEAR;
 		
 		Intent notificationIntent = new Intent(context, MainActivity.class);
-		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, 0);
+		notificationIntent.putExtra("page", "ringer");
+		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 		notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
 		
 		mNotificationManager.notify(id, notification);

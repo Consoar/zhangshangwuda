@@ -79,6 +79,7 @@ public class MainActivity extends BaseThemeFragmentActivityWithoutAnime {
 		} else {
 			initStartTab();
 		}
+		
 		getWindow().setBackgroundDrawable(null);
 	}
 
@@ -207,6 +208,11 @@ public class MainActivity extends BaseThemeFragmentActivityWithoutAnime {
 			StartTabNo = 3;
 		if (StartTab.equals("ringer"))
 			StartTabNo = 5;
+		if (getIntent().getStringExtra("page") != null)
+		{
+			if (getIntent().getStringExtra("page").equals("ringer"))
+				StartTabNo = 5;
+		}
 		switch (StartTabNo) {
 		case 1:
 			mMenuDrawer.setActiveView(findViewById(R.id.left_menu_news));
@@ -247,6 +253,7 @@ public class MainActivity extends BaseThemeFragmentActivityWithoutAnime {
 	}
 
 	private void initLeftMenu() {
+		
 		MenuScrollView msv = (MenuScrollView) mMenuDrawer.getMenuView();
 		msv.setOnScrollChangedListener(new MenuScrollView.OnScrollChangedListener() {
 			@Override
