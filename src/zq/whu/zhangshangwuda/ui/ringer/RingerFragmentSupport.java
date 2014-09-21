@@ -1,6 +1,9 @@
 package zq.whu.zhangshangwuda.ui.ringer;
 
+import java.util.Calendar;
+
 import zq.whu.zhangshangwuda.base.BaseSherlockFragment;
+import zq.whu.zhangshangwuda.base.PreferenceHelper;
 import zq.whu.zhangshangwuda.tools.LessonsTool;
 import zq.whu.zhangshangwuda.ui.MainActivity;
 import zq.whu.zhangshangwuda.ui.MyApplication;
@@ -8,6 +11,7 @@ import zq.whu.zhangshangwuda.ui.R;
 import zq.whu.zhangshangwuda.views.toast.ToastUtil;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -21,7 +25,6 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.umeng.analytics.MobclickAgent;
 
@@ -35,7 +38,7 @@ import com.umeng.analytics.MobclickAgent;
 	private CheckBox set_auto_time;
 	private SharedPreferences preferences;
 	private SharedPreferences.Editor editor;
-	
+	private Calendar now_time;
 	private RingerTools rt;
 	
 	private int after_time_hour = 0;
@@ -51,7 +54,11 @@ import com.umeng.analytics.MobclickAgent;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	{
-		rootView = MyApplication.getLayoutInflater().inflate(R.layout.ringer, container, false);
+		int mTheme = PreferenceHelper.getTheme(getActivity());
+		if (mTheme == R.style.MyLightTheme)
+			rootView = MyApplication.getLayoutInflater().inflate(R.layout.ringer, container, false);
+		else
+			rootView = MyApplication.getLayoutInflater().inflate(R.layout.ringer_dark, container, false);
 		return rootView;
 	}
 	
@@ -70,6 +77,8 @@ import com.umeng.analytics.MobclickAgent;
 	@SuppressWarnings("deprecation")
 	private void init()
 	{        
+		now_time = Calendar.getInstance();
+		//now_time.setTimeInMillis(System.currentTimeMillis());
 		rt = new RingerTools(getActivity());
 		preferences = getActivity().getSharedPreferences("Data", Context.MODE_WORLD_READABLE);
 		editor = preferences.edit();
@@ -87,8 +96,52 @@ import com.umeng.analytics.MobclickAgent;
         rt.initNotificationManager();
         
         initListener();
+        threadForSeekBar();
 	}
 	
+	private void threadForSeekBar()
+	{
+		new Thread()
+        {
+        	public void run()
+        	{
+        		while (true)
+        		{
+        			initSeekBar();
+            		try 
+            		{
+    					sleep(60 * 1000);
+    				} 
+            		catch (InterruptedException e) 
+            		{
+    					e.printStackTrace();
+    				}
+        		}
+        	}
+        }.start();
+	}
+	
+	private void initSeekBar()
+	{
+		long set_time = preferences.getLong("set_time", 0);
+		if (set_time != 0)
+		{
+			now_time.setTimeInMillis(System.currentTimeMillis() - set_time);
+			System.out.println(System.currentTimeMillis() - set_time);
+			int set_hour = preferences.getInt("set_hour", 0);
+			int set_min = preferences.getInt("set_min", 0);
+			
+			long time = System.currentTimeMillis() - set_time;  //已经经历的时间
+			int past_hour = (int)(time/(60 * 60 * 1000));
+			int past_min = (int)((time - past_hour * 60 * 60 * 1000)/(60 * 1000));
+			
+			System.out.println("past_hour--->" + past_hour);
+			System.out.println("past_min--->" + past_min);
+			
+			seekBar_hour.setProgress(set_hour - past_hour);
+			seekBar_min.setProgress(set_min - past_min);
+		}
+	}
 	
 	/**
 	 * 设置监听器
@@ -140,6 +193,10 @@ import com.umeng.analytics.MobclickAgent;
 			{
 				if (after_time_hour != 0 || after_time_min != 0)
 				{
+					editor.putLong("set_time", System.currentTimeMillis());
+					editor.putInt("set_hour", after_time_hour); //设定几小时后
+					editor.putInt("set_min", after_time_min);   //设定几分钟后
+					editor.commit();
 					ToastUtil.showToast(getActivity(), "开始静音至" + after_time_hour + "小时" 
 							+ after_time_min + "分钟后");
 //					Toast.makeText(getActivity(), "开始静音至" + after_time_hour + "小时" 
@@ -148,11 +205,13 @@ import com.umeng.analytics.MobclickAgent;
 					rt.setAfterTimeNoSilent(after_time_hour, after_time_min);
 					rt.showNotification(true, 0);
 				}
-//				else
-//				{
-//					ToastUtil.showToast(getActivity(), "取消定时静音");
-//					rt.cancelAfterTimeNoSilent();
-//				}
+				else
+				{
+					ToastUtil.showToast(getActivity(), "关闭定时静音");
+					Intent i = new Intent(getActivity(), OffSilentReceiver.class);
+					i.putExtra("isAfter", "yes");
+					getActivity().sendBroadcast(i);
+				}
 			}
 		});
 		
