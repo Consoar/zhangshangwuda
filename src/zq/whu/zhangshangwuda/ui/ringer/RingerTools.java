@@ -170,6 +170,24 @@ public class RingerTools
 		}
 	}
 	
+	public void showNotificationByTime(int hour, int min)
+	{
+		Notification notification;
+		CharSequence contentTitle = "定时静音";
+		CharSequence contentText = hour + "小时" + min + "分钟后结束静音";
+		notification = new Notification(R.drawable.ringer_notification_silent, "定时静音", System.currentTimeMillis());
+		
+		notification.flags = Notification.FLAG_ONGOING_EVENT;
+		notification.flags = Notification.FLAG_NO_CLEAR;
+		
+		Intent notificationIntent = new Intent(context, MainActivity.class);
+		notificationIntent.putExtra("page", "ringer");
+		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+		notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
+		
+		mNotificationManager.notify(0, notification);
+	}
+	
 	/**
 	 * 显示notification 以及 是否静音(mu)
 	 * @param mu

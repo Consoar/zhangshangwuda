@@ -199,11 +199,9 @@ import com.umeng.analytics.MobclickAgent;
 					editor.commit();
 					ToastUtil.showToast(getActivity(), "开始静音至" + after_time_hour + "小时" 
 							+ after_time_min + "分钟后");
-//					Toast.makeText(getActivity(), "开始静音至" + after_time_hour + "小时" 
-//							+ after_time_min + "分钟后", Toast.LENGTH_SHORT).show();
 					rt.setSilent(true);
 					rt.setAfterTimeNoSilent(after_time_hour, after_time_min);
-					rt.showNotification(true, 0);
+					rt.showNotificationByTime(after_time_hour, after_time_min);
 				}
 				else
 				{
