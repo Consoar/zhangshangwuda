@@ -183,11 +183,13 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity {
 			// R.string.Loading_Tip), true, true);// 显示ProgressBar
 			if (YZMbm != null) {
 				LoginButton.setEnabled(false);
+				ToastUtil.showToast(LessonsLoginActivity.this, "正在获取课表请稍候~",10000);
 				new Thread(new LogInThread()).start();
 			} else {
 				ToastUtil.showToast(LessonsLoginActivity.this, "要先连上网哦~");
 				new Thread(new refreshYZMThread()).start();
 			}
+			
 		}
 	}
 
