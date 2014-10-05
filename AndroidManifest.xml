@@ -103,6 +103,7 @@
             android:logo="@drawable/menu_logo"
             android:screenOrientation="user"
             android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity android:name=".GuideActivity" />
         <activity android:name=".news.NewsFragmentSupport" />
         <activity android:name=".news.NewsContentActivity" />
         <activity android:name=".news.TouchImageViewActivity" />
