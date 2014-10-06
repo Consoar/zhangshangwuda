@@ -21,6 +21,19 @@
             android:title="选择主题" >
         </ListPreference>
     </PreferenceCategory>
+    
+    <PreferenceCategory android:title="静音设置" >
+        <ListPreference
+            android:defaultValue="silent"
+            android:dialogTitle="模式"
+            android:entries="@array/ringer_mode"
+            android:entryValues="@array/ringer_mode_value"
+            android:key="ringer_mode"
+            android:summary="设置手机静音or震动"
+            android:title="静音模式" >
+        </ListPreference>
+    </PreferenceCategory>
+    
     <PreferenceCategory android:title="WIFI相关设置" >
         <CheckBoxPreference
             android:defaultValue="true"

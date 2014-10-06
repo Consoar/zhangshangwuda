@@ -32,6 +32,10 @@ import com.umeng.analytics.MobclickAgent;
 import com.umeng.fb.FeedbackAgent;
 import com.umeng.update.UmengUpdateAgent;
 
+/**
+ * 2014/10/7 弃用 
+ * MainActivity 改为 MainActivityTAB
+ */
 public class MainActivity extends BaseThemeFragmentActivityWithoutAnime {
 	public static int mDrawerState = 0;
 	private static final String STATE_CURRENT_FRAGMENT = "MainActivity_Tab";

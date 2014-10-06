@@ -98,6 +98,12 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".MainActivityTAB"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:logo="@drawable/menu_logo"
+            android:screenOrientation="user"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
             android:name=".MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:logo="@drawable/menu_logo"

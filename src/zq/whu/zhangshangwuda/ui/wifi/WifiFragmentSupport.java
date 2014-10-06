@@ -3,9 +3,7 @@
 import java.io.IOException;
 import java.security.KeyStore;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -37,24 +35,18 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-import com.actionbarsherlock.app.SherlockFragment;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.Window;
-import com.umeng.analytics.MobclickAgent;
-
 import zq.whu.zhangshangwuda.adapter.DropMenuAdapter;
-import zq.whu.zhangshangwuda.base.UmengSherlockFragmentActivity;
 import zq.whu.zhangshangwuda.db.WifiDb;
 import zq.whu.zhangshangwuda.entity.WifiAccount;
 import zq.whu.zhangshangwuda.tools.BosCrypto;
 import zq.whu.zhangshangwuda.tools.Constants;
 import zq.whu.zhangshangwuda.tools.LessonsTool;
-import zq.whu.zhangshangwuda.ui.MainActivity;
+import zq.whu.zhangshangwuda.ui.AboutActivity;
+import zq.whu.zhangshangwuda.ui.HelpActivity;
+import zq.whu.zhangshangwuda.ui.MainActivityTAB;
 import zq.whu.zhangshangwuda.ui.MyApplication;
 import zq.whu.zhangshangwuda.ui.R;
+import zq.whu.zhangshangwuda.ui.SettingActivity;
 import zq.whu.zhangshangwuda.views.DropPopMenu;
 import zq.whu.zhangshangwuda.views.toast.ToastUtil;
 import android.app.AlertDialog;
@@ -69,7 +61,6 @@ import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.FragmentManager;
 import android.text.format.Formatter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -77,17 +68,25 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.SimpleAdapter;
-import android.widget.Toast;
+
+import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+import com.umeng.analytics.MobclickAgent;
 
 public class WifiFragmentSupport extends SherlockFragment {
 	private static final String mPageName = "WifiFragment";
+	private final int MENU_GROUP = 1;
 	private static final int MENU_LOGOFF = Menu.FIRST;
+	private final int MENU_SETTING = Menu.FIRST + 1;
+	private final int MENU_HELP = Menu.FIRST + 2;
+	private final int MENU_FEEDBACK = Menu.FIRST + 3;
+	private final int MENU_ABOUT = Menu.FIRST + 4;
 	private View rootView;
 	private Button LoginButton;
 	private Button LogoutButton;
@@ -107,20 +106,36 @@ public class WifiFragmentSupport extends SherlockFragment {
 	private List<WifiAccount> templist = new ArrayList<WifiAccount>();
 
 	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		menu.add(Menu.NONE, MENU_LOGOFF, 1,
-				getResources().getString(R.string.logoff))
-				.setIcon(R.drawable.ic_menu_logoff)
-				.setShowAsAction(
-						MenuItem.SHOW_AS_ACTION_IF_ROOM
-								| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) 
+	{
+		menu.add(MENU_GROUP, MENU_LOGOFF, MENU_LOGOFF, getResources().getString(R.string.logoff));
+		menu.add(MENU_GROUP, MENU_SETTING, MENU_SETTING, getResources().getString(R.string.LeftMenu_Setting));
+		menu.add(MENU_GROUP, MENU_HELP, MENU_HELP, getResources().getString(R.string.LeftMenu_Help));
+		menu.add(MENU_GROUP, MENU_FEEDBACK, MENU_FEEDBACK, getResources().getString(R.string.LeftMenu_FeedBack)); 
+		menu.add(MENU_GROUP, MENU_ABOUT, MENU_ABOUT, getResources().getString(R.string.LeftMenu_About)); 
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		Intent intent = new Intent();
 		switch (item.getItemId()) {
 		case MENU_LOGOFF:
 			new Thread(new LogOutThread()).start();
+			return true;
+		case MENU_SETTING:
+			intent.setClass(getActivity(),SettingActivity.class);
+			startActivity(intent);
+			return true;
+		case MENU_HELP:
+			intent.setClass(getActivity(),HelpActivity.class);
+			startActivity(intent);
+			return true;
+		case MENU_FEEDBACK:
+			MainActivityTAB.agent.startFeedbackActivity();
+			return true;
+		case MENU_ABOUT:
+			intent.setClass(getActivity(),AboutActivity.class);
+			startActivity(intent);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -160,7 +175,7 @@ public class WifiFragmentSupport extends SherlockFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		int nowWeek = LessonsTool.getNowWeek(getActivity());
-		MainActivity.MainActivityActionbar.setSubtitle("第"
+		MainActivityTAB.MainActivityActionBar.setSubtitle("第"
 				+ String.valueOf(nowWeek) + "周");
 		if (isCheckNetwork()) {
 			CheckNetwork();

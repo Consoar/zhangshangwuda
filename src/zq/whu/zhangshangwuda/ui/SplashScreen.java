@@ -61,7 +61,7 @@ public class SplashScreen extends Activity {
 			switch (msg.what) {
 			case SWITCH_MAINACTIVITY:
 				Intent mIntent = new Intent();
-				mIntent.setClass(SplashScreen.this, MainActivity.class);
+				mIntent.setClass(SplashScreen.this, MainActivityTAB.class);
 				SplashScreen.this.startActivity(mIntent);
 				SplashScreen.this.finish();
 				break;
@@ -149,7 +149,7 @@ public class SplashScreen extends Activity {
 			switch (msg.arg1) {
 			case 0:
 				Intent intent = new Intent();
-				intent.setClass(SplashScreen.this, MainActivity.class);
+				intent.setClass(SplashScreen.this, MainActivityTAB.class);
 				if (href != null) {
 					intent.putExtra("href", href);
 				}
