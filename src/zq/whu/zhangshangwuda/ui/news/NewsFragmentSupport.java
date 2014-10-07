@@ -15,14 +15,18 @@ import zq.whu.zhangshangwuda.tools.DisplayTool;
 import zq.whu.zhangshangwuda.tools.LessonsTool;
 import zq.whu.zhangshangwuda.tools.NewsTool;
 import zq.whu.zhangshangwuda.tools.SettingSharedPreferencesTool;
-import zq.whu.zhangshangwuda.ui.MainActivity;
+import zq.whu.zhangshangwuda.ui.AboutActivity;
+import zq.whu.zhangshangwuda.ui.HelpActivity;
+import zq.whu.zhangshangwuda.ui.MainActivityTAB;
 import zq.whu.zhangshangwuda.ui.MyApplication;
 import zq.whu.zhangshangwuda.ui.R;
+import zq.whu.zhangshangwuda.ui.SettingActivity;
 import zq.whu.zhangshangwuda.ui.news.fragment.NewsFragmentBase;
 import zq.whu.zhangshangwuda.views.ViewFlowViewPager;
 import zq.whu.zhangshangwuda.views.toast.ToastUtil;
 import zq.whu.zhangshangwuda.views.viewpager.JazzyViewPager.TransitionEffect;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -44,6 +48,11 @@ import com.viewpagerindicator.TabPageIndicator;
 
 public class NewsFragmentSupport extends BaseSherlockFragment {
 	private static final String mPageName = "NewsFragment";
+	private final int MENU_GROUP = 1;
+	private final int MENU_SETTING = Menu.FIRST + 1;
+	private final int MENU_HELP = Menu.FIRST + 2;
+	private final int MENU_FEEDBACK = Menu.FIRST + 3;
+	private final int MENU_ABOUT = Menu.FIRST + 4;
 	private static final int MENU_REFRESH = Menu.FIRST;
 	private ViewFlowViewPager viewPager;
 	private ArrayList<String> InitListTab = new ArrayList<String>();
@@ -67,13 +76,13 @@ public class NewsFragmentSupport extends BaseSherlockFragment {
 	 * @param inflater
 	 */
 	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		menu.add(Menu.NONE, MENU_REFRESH, 1,
-				getResources().getString(R.string.refresh))
-				.setIcon(R.drawable.ic_menu_refresh)
-				.setShowAsAction(
-						MenuItem.SHOW_AS_ACTION_IF_ROOM
-								| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) 
+	{
+		menu.add(MENU_GROUP, MENU_REFRESH, MENU_REFRESH, getResources().getString(R.string.refresh));
+		menu.add(MENU_GROUP, MENU_SETTING, MENU_SETTING, getResources().getString(R.string.LeftMenu_Setting));
+		menu.add(MENU_GROUP, MENU_HELP, MENU_HELP, getResources().getString(R.string.LeftMenu_Help));
+		menu.add(MENU_GROUP, MENU_FEEDBACK, MENU_FEEDBACK, getResources().getString(R.string.LeftMenu_FeedBack)); 
+		menu.add(MENU_GROUP, MENU_ABOUT, MENU_ABOUT, getResources().getString(R.string.LeftMenu_About)); 
 	}
 
 	/**
@@ -83,6 +92,7 @@ public class NewsFragmentSupport extends BaseSherlockFragment {
 	 */
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		Intent intent = new Intent();
 		switch (item.getItemId()) {
 		case MENU_REFRESH:
 			SherlockFragment fragment = getFragmentByPosition(viewPager
@@ -90,6 +100,21 @@ public class NewsFragmentSupport extends BaseSherlockFragment {
 			if (fragment != null) {
 				fragment.onOptionsItemSelected(item);
 			}
+			return true;
+		case MENU_SETTING:
+			intent.setClass(getActivity(),SettingActivity.class);
+			startActivity(intent);
+			return true;
+		case MENU_HELP:
+			intent.setClass(getActivity(),HelpActivity.class);
+			startActivity(intent);
+			return true;
+		case MENU_FEEDBACK:
+			MainActivityTAB.agent.startFeedbackActivity();
+			return true;
+		case MENU_ABOUT:
+			intent.setClass(getActivity(),AboutActivity.class);
+			startActivity(intent);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
@@ -142,7 +167,7 @@ public class NewsFragmentSupport extends BaseSherlockFragment {
 		super.onActivityCreated(savedInstanceState);
 		
 		int nowWeek = LessonsTool.getNowWeek(getActivity());
-		MainActivity.MainActivityActionbar.setSubtitle("第"
+		MainActivityTAB.MainActivityActionBar.setSubtitle("第"
 				+ String.valueOf(nowWeek) + "周");
 		viewPager = (ViewFlowViewPager) rootView.findViewById(R.id.pager);
 		viewPager.setOffscreenPageLimit(1);

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import zq.whu.zhangshangwuda.db.LessonsDb;
+import zq.whu.zhangshangwuda.tools.SettingSharedPreferencesTool;
 import zq.whu.zhangshangwuda.ui.MainActivity;
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -86,7 +87,7 @@ public class RingerTools
 		return times;
 	}
 	
-	public void setTimeOfSilent(boolean mu)
+	public boolean setTimeOfSilent(boolean mu)
 	{
 		Intent intent_off = new Intent(context, OffSilentReceiver.class);
 		intent_off.putExtra("isAfter", "no");
@@ -99,7 +100,7 @@ public class RingerTools
 		if (times == null || times.size() == 0)
 		{
 			ToastUtil.showToast((Activity)context, "需要登陆课程表功能才能用的 0 0");
-			return;
+			return false;
 		}
 		
 		if (mu)
@@ -152,6 +153,7 @@ public class RingerTools
 			}
 			cleanNotification(1);
 		}
+		return true;
 	}
 	
 	/**
@@ -160,9 +162,13 @@ public class RingerTools
 	 */
 	public void setSilent(boolean mu)
 	{
+		String RingerMode = SettingSharedPreferencesTool.getRingerMode(context);
 		if (mu)
 		{
-			mAudioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+			if (RingerMode.equals("silent"))
+				mAudioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
+			else
+				mAudioManager.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
 		}
 		else
 		{

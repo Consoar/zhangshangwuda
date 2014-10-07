@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+	
+    <string-array name="ringer_mode">
+        <item>静音</item>
+        <item>震动</item>
+    </string-array>
+    <string-array name="ringer_mode_value">
+        <item>silent</item>
+        <item>vibrate</item>
+    </string-array>
     <string-array name="start_tabs">
         <item>新闻</item>
         <item>课程表</item>
