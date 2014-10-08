@@ -5,6 +5,7 @@ import java.util.Calendar;
 import zq.whu.zhangshangwuda.base.BaseSherlockFragment;
 import zq.whu.zhangshangwuda.base.PreferenceHelper;
 import zq.whu.zhangshangwuda.tools.LessonsTool;
+import zq.whu.zhangshangwuda.tools.SettingSharedPreferencesTool;
 import zq.whu.zhangshangwuda.ui.AboutActivity;
 import zq.whu.zhangshangwuda.ui.HelpActivity;
 import zq.whu.zhangshangwuda.ui.MainActivityTAB;

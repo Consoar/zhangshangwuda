@@ -52,6 +52,12 @@ public class SettingSharedPreferencesTool {
 				Constants.PREFS_NAME_APP_SETTING, 0);
 		return Mysettings.getString("ringer_mode", "silent");
 	}
+	
+	public static String getRingerAfterMode(Context c) {
+		SharedPreferences Mysettings = c.getSharedPreferences(
+				Constants.PREFS_NAME_APP_SETTING, 0);
+		return Mysettings.getString("ringer_after_mode", "recover");
+	}
 
 	public static Boolean common_isViewPagerTX(Context c) {
 		SharedPreferences Mysettings = c.getSharedPreferences(

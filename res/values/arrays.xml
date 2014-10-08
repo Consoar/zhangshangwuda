@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	
+    <string-array name="ringer_after_mode">
+        <item>声音</item>
+        <item>震动</item>
+        <item>之前状态</item>
+    </string-array>
+    <string-array name="ringer_after_mode_value">
+        <item>normal</item>
+        <item>vibrate</item>
+        <item>recover</item>
+    </string-array>
+    
     <string-array name="ringer_mode">
         <item>静音</item>
         <item>震动</item>
