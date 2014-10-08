@@ -7,6 +7,9 @@ import java.util.Map;
 import zq.whu.zhangshangwuda.db.LessonsDb;
 import zq.whu.zhangshangwuda.tools.SettingSharedPreferencesTool;
 import zq.whu.zhangshangwuda.ui.MainActivity;
+import zq.whu.zhangshangwuda.ui.MainActivityTAB;
+import zq.whu.zhangshangwuda.ui.R;
+import zq.whu.zhangshangwuda.views.toast.ToastUtil;
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.Notification;
@@ -15,8 +18,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
-import zq.whu.zhangshangwuda.ui.R;
-import zq.whu.zhangshangwuda.views.toast.ToastUtil;
 
 public class RingerTools 
 {
@@ -186,7 +187,7 @@ public class RingerTools
 		notification.flags = Notification.FLAG_ONGOING_EVENT;
 		notification.flags = Notification.FLAG_NO_CLEAR;
 		
-		Intent notificationIntent = new Intent(context, MainActivity.class);
+		Intent notificationIntent = new Intent(context, MainActivityTAB.class);
 		notificationIntent.putExtra("page", "ringer");
 		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 		notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
@@ -223,7 +224,7 @@ public class RingerTools
 		notification.flags = Notification.FLAG_ONGOING_EVENT;
 		notification.flags = Notification.FLAG_NO_CLEAR;
 		
-		Intent notificationIntent = new Intent(context, MainActivity.class);
+		Intent notificationIntent = new Intent(context, MainActivityTAB.class);
 		notificationIntent.putExtra("page", "ringer");
 		PendingIntent contentIntent = PendingIntent.getActivity(context, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 		notification.setLatestEventInfo(context, contentTitle, contentText, contentIntent);
