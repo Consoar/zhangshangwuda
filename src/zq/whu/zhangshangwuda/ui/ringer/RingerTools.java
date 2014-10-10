@@ -6,7 +6,6 @@ import java.util.Map;
 
 import zq.whu.zhangshangwuda.db.LessonsDb;
 import zq.whu.zhangshangwuda.tools.SettingSharedPreferencesTool;
-import zq.whu.zhangshangwuda.ui.MainActivity;
 import zq.whu.zhangshangwuda.ui.MainActivityTAB;
 import zq.whu.zhangshangwuda.ui.R;
 import zq.whu.zhangshangwuda.views.toast.ToastUtil;
@@ -17,6 +16,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 
 public class RingerTools 
@@ -25,10 +25,14 @@ public class RingerTools
 	private AudioManager mAudioManager;
 	private NotificationManager mNotificationManager;
 	private Context context;
+	private SharedPreferences preferences;
+	private SharedPreferences.Editor editor;
 	
 	public RingerTools(Context ctx)
 	{
 		this.context = ctx;
+		preferences = context.getSharedPreferences("Data", Context.MODE_WORLD_READABLE);
+		editor = preferences.edit();
 	}
 	
 	public void initAlarmManager()
@@ -166,6 +170,9 @@ public class RingerTools
 		String RingerMode = SettingSharedPreferencesTool.getRingerMode(context);
 		if (mu)
 		{
+			editor.putInt("modebefore", mAudioManager.getRingerMode());
+			editor.commit();
+			System.out.println("mode ===>" + SettingSharedPreferencesTool.getRingerAfterMode(context));
 			if (RingerMode.equals("silent"))
 				mAudioManager.setRingerMode(AudioManager.RINGER_MODE_SILENT);
 			else
@@ -173,7 +180,13 @@ public class RingerTools
 		}
 		else
 		{
-			mAudioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+			String RingerAfterMode = SettingSharedPreferencesTool.getRingerAfterMode(context);
+			if (RingerAfterMode.equals("normal"))
+				mAudioManager.setRingerMode(AudioManager.RINGER_MODE_NORMAL);
+			else if (RingerAfterMode.equals("vibrate"))
+				mAudioManager.setRingerMode(AudioManager.RINGER_MODE_VIBRATE);
+			else
+				mAudioManager.setRingerMode(preferences.getInt("modebefore", AudioManager.RINGER_MODE_NORMAL));
 		}
 	}
 	
