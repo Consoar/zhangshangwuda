@@ -37,10 +37,10 @@
             android:text="@string/LeftMenu_Wifi" />
         
         <RadioButton
-            android:id="@+id/rb_ringer"
+            android:id="@+id/rb_find"
             style="@style/tab_buttom_light"
-            android:drawableTop="@drawable/ringer_tab_light"
-            android:text="@string/LeftMenu_Ringer" />
+            android:drawableTop="@drawable/find_tab_light"
+            android:text="@string/tab_find" />
         
     </RadioGroup>
  

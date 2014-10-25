@@ -113,6 +113,7 @@
         <activity android:name=".news.NewsFragmentSupport" />
         <activity android:name=".news.NewsContentActivity" />
         <activity android:name=".news.TouchImageViewActivity" />
+        <activity android:name=".find.FindContentActivity" />
         <activity
             android:name=".lessons.LessonsLoginActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />

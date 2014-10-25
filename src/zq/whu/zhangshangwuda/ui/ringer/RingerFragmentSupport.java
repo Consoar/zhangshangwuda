@@ -5,13 +5,10 @@ import java.util.Calendar;
 import zq.whu.zhangshangwuda.base.BaseSherlockFragment;
 import zq.whu.zhangshangwuda.base.PreferenceHelper;
 import zq.whu.zhangshangwuda.tools.LessonsTool;
-import zq.whu.zhangshangwuda.tools.SettingSharedPreferencesTool;
-import zq.whu.zhangshangwuda.ui.AboutActivity;
-import zq.whu.zhangshangwuda.ui.HelpActivity;
 import zq.whu.zhangshangwuda.ui.MainActivityTAB;
 import zq.whu.zhangshangwuda.ui.MyApplication;
 import zq.whu.zhangshangwuda.ui.R;
-import zq.whu.zhangshangwuda.ui.SettingActivity;
+import zq.whu.zhangshangwuda.ui.find.FindContentActivity;
 import zq.whu.zhangshangwuda.views.toast.ToastUtil;
 import android.content.Context;
 import android.content.Intent;
@@ -28,9 +25,9 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 import android.widget.TextView;
+
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
 import com.umeng.analytics.MobclickAgent;
 
 public class RingerFragmentSupport extends BaseSherlockFragment
@@ -58,36 +55,7 @@ public class RingerFragmentSupport extends BaseSherlockFragment
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) 
 	{
-		menu.add(MENU_GROUP, MENU_SETTING, MENU_SETTING, getResources().getString(R.string.LeftMenu_Setting));
-		menu.add(MENU_GROUP, MENU_HELP, MENU_HELP, getResources().getString(R.string.LeftMenu_Help));
-		menu.add(MENU_GROUP, MENU_FEEDBACK, MENU_FEEDBACK, getResources().getString(R.string.LeftMenu_FeedBack)); 
-		menu.add(MENU_GROUP, MENU_ABOUT, MENU_ABOUT, getResources().getString(R.string.LeftMenu_About)); 
-	}
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item)
-	{
-		Intent intent = new Intent();
-		switch (item.getItemId())
-		{
-		case MENU_SETTING:
-			intent.setClass(getActivity(),SettingActivity.class);
-			startActivity(intent);
-			return true;
-		case MENU_HELP:
-			intent.setClass(getActivity(),HelpActivity.class);
-			startActivity(intent);
-			return true;
-		case MENU_FEEDBACK:
-			MainActivityTAB.agent.startFeedbackActivity();
-			return true;
-		case MENU_ABOUT:
-			intent.setClass(getActivity(),AboutActivity.class);
-			startActivity(intent);
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
+
 	}
 	
 	@Override
@@ -113,7 +81,8 @@ public class RingerFragmentSupport extends BaseSherlockFragment
 	{
 		super.onActivityCreated(savedInstanceState);
 		int nowWeek = LessonsTool.getNowWeek(getActivity());
-		MainActivityTAB.MainActivityActionBar.setSubtitle("第" + nowWeek + "周");
+		FindContentActivity.FindActivityActionBar.setSubtitle("第" + nowWeek + "周");
+		FindContentActivity.FindActivityActionBar.setTitle(R.string.Ringer);
 		init();
 	}
 	

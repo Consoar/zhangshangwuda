@@ -130,4 +130,10 @@
     <string name="start_tabs_ringer">定时静音</string>
     <string name="theme_tabs_light">白版</string>
     <string name="theme_tabs_black">黑版</string>
+    
+    <!-- Find -->
+    <string name="function">拓展功能</string>
+    <string name="tab_find">发现</string>
+    <string name="Find">发现</string>
+    
 </resources>

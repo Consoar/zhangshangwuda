@@ -79,10 +79,6 @@ public class NewsFragmentSupport extends BaseSherlockFragment {
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) 
 	{
 		menu.add(MENU_GROUP, MENU_REFRESH, MENU_REFRESH, getResources().getString(R.string.refresh));
-		menu.add(MENU_GROUP, MENU_SETTING, MENU_SETTING, getResources().getString(R.string.LeftMenu_Setting));
-		menu.add(MENU_GROUP, MENU_HELP, MENU_HELP, getResources().getString(R.string.LeftMenu_Help));
-		menu.add(MENU_GROUP, MENU_FEEDBACK, MENU_FEEDBACK, getResources().getString(R.string.LeftMenu_FeedBack)); 
-		menu.add(MENU_GROUP, MENU_ABOUT, MENU_ABOUT, getResources().getString(R.string.LeftMenu_About)); 
 	}
 
 	/**
@@ -100,21 +96,6 @@ public class NewsFragmentSupport extends BaseSherlockFragment {
 			if (fragment != null) {
 				fragment.onOptionsItemSelected(item);
 			}
-			return true;
-		case MENU_SETTING:
-			intent.setClass(getActivity(),SettingActivity.class);
-			startActivity(intent);
-			return true;
-		case MENU_HELP:
-			intent.setClass(getActivity(),HelpActivity.class);
-			startActivity(intent);
-			return true;
-		case MENU_FEEDBACK:
-			MainActivityTAB.agent.startFeedbackActivity();
-			return true;
-		case MENU_ABOUT:
-			intent.setClass(getActivity(),AboutActivity.class);
-			startActivity(intent);
 			return true;
 		default:
 			return super.onOptionsItemSelected(item);
