@@ -3,11 +3,13 @@ package zq.whu.zhangshangwuda.ui;
 import zq.whu.zhangshangwuda.base.BaseThemeFragmentActivityWithoutAnime;
 import zq.whu.zhangshangwuda.base.PreferenceHelper;
 import zq.whu.zhangshangwuda.tools.SettingSharedPreferencesTool;
+import zq.whu.zhangshangwuda.ui.find.FindContentActivity;
 import zq.whu.zhangshangwuda.ui.find.FindFragmentSupport;
 import zq.whu.zhangshangwuda.ui.lessons.LessonsFragmentSupport;
 import zq.whu.zhangshangwuda.ui.news.NewsContentActivity;
 import zq.whu.zhangshangwuda.ui.news.NewsFragmentSupport;
 import zq.whu.zhangshangwuda.ui.wifi.WifiFragmentSupport;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
@@ -220,6 +222,18 @@ public class MainActivityTAB extends BaseThemeFragmentActivityWithoutAnime
 			StartTabNo = 3;
 		if (StartTab.equals("find"))
 			StartTabNo = 4;
+		
+		if (getIntent().getStringExtra("page") != null)
+		{
+			if (getIntent().getStringExtra("page").equals("ringer"))
+			{
+				Intent i = new Intent();
+				i.setClass(MainActivityTAB.this, FindContentActivity.class);
+				i.putExtra("TAB", FindFragmentSupport.TABS[0]);
+				startActivity(i);
+				overridePendingTransition(R.anim.slide_right_in, R.anim.slide_left_out);
+			}
+		}
 		
 		switch (StartTabNo) 
 		{
