@@ -3,11 +3,13 @@ package zq.whu.zhangshangwuda.ui;
 import zq.whu.zhangshangwuda.base.BaseThemeFragmentActivityWithoutAnime;
 import zq.whu.zhangshangwuda.base.PreferenceHelper;
 import zq.whu.zhangshangwuda.tools.SettingSharedPreferencesTool;
+import zq.whu.zhangshangwuda.ui.find.FindContentActivity;
+import zq.whu.zhangshangwuda.ui.find.FindFragmentSupport;
 import zq.whu.zhangshangwuda.ui.lessons.LessonsFragmentSupport;
 import zq.whu.zhangshangwuda.ui.news.NewsContentActivity;
 import zq.whu.zhangshangwuda.ui.news.NewsFragmentSupport;
-import zq.whu.zhangshangwuda.ui.ringer.RingerFragmentSupport;
 import zq.whu.zhangshangwuda.ui.wifi.WifiFragmentSupport;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
@@ -33,7 +35,7 @@ public class MainActivityTAB extends BaseThemeFragmentActivityWithoutAnime
 	private final static String TAB_TAG_NEWS = "news";
 	private final static String TAB_TAG_LESSONS = "lessons";
 	private final static String TAB_TAG_WIFI = "wifi";
-	private final static String TAB_TAG_RINGER = "ringer";
+	private final static String TAB_TAG_FIND = "find";
 	private final static int CONTENT_TAB = R.id.tab_content;
 	
 	public static ActionBar MainActivityActionBar;
@@ -45,7 +47,7 @@ public class MainActivityTAB extends BaseThemeFragmentActivityWithoutAnime
 	private FragmentManager mFragmentManager;
 	private FragmentTransaction mFragmentTransaction;
 	private RadioGroup mRadioGroup;
-	private RadioButton rb_news, rb_lessons, rb_wifi, rb_ringer;
+	private RadioButton rb_news, rb_lessons, rb_wifi, rb_find;
 	
 	protected void onCreate(Bundle savedInstanceState) 
 	{
@@ -87,7 +89,7 @@ public class MainActivityTAB extends BaseThemeFragmentActivityWithoutAnime
 		rb_news = (RadioButton)findViewById(R.id.rb_news);
 		rb_lessons = (RadioButton)findViewById(R.id.rb_lessons);
 		rb_wifi = (RadioButton)findViewById(R.id.rb_wifi);
-		rb_ringer = (RadioButton)findViewById(R.id.rb_ringer);
+		rb_find = (RadioButton)findViewById(R.id.rb_find);
 		
 		mRadioGroup.setOnCheckedChangeListener(new OnCheckedChangeListener()
 		{
@@ -111,8 +113,8 @@ public class MainActivityTAB extends BaseThemeFragmentActivityWithoutAnime
 				}
 				else
 				{
-					selectItem(TAB_TAG_RINGER);
-					getSupportActionBar().setTitle(R.string.Ringer);
+					selectItem(TAB_TAG_FIND);
+					getSupportActionBar().setTitle(R.string.Find);
 				}
 			}
 		});
@@ -134,8 +136,8 @@ public class MainActivityTAB extends BaseThemeFragmentActivityWithoutAnime
 			hideFragment(getFragment(TAB_TAG_LESSONS));
 		if (!tab.equals(TAB_TAG_WIFI))
 			hideFragment(getFragment(TAB_TAG_WIFI));
-		if (!tab.equals(TAB_TAG_RINGER))
-			hideFragment(getFragment(TAB_TAG_RINGER));
+		if (!tab.equals(TAB_TAG_FIND))
+			hideFragment(getFragment(TAB_TAG_FIND));
 	}
 	
 	protected void attachFragment(int layout, Fragment f, String tag) 
@@ -190,8 +192,8 @@ public class MainActivityTAB extends BaseThemeFragmentActivityWithoutAnime
 			{
 				f = new WifiFragmentSupport();
 			}
-			if (tag.equals("ringer"))
-				f = new RingerFragmentSupport();
+			if (tag.equals("find"))
+				f = new FindFragmentSupport();
 		}
 		return f;
 	}
@@ -218,13 +220,21 @@ public class MainActivityTAB extends BaseThemeFragmentActivityWithoutAnime
 			StartTabNo = 2;
 		if (StartTab.equals("wifi"))
 			StartTabNo = 3;
-		if (StartTab.equals("ringer"))
+		if (StartTab.equals("find"))
 			StartTabNo = 4;
+		
 		if (getIntent().getStringExtra("page") != null)
 		{
 			if (getIntent().getStringExtra("page").equals("ringer"))
-				StartTabNo = 4;
+			{
+				Intent i = new Intent();
+				i.setClass(MainActivityTAB.this, FindContentActivity.class);
+				i.putExtra("TAB", FindFragmentSupport.TABS[0]);
+				startActivity(i);
+				overridePendingTransition(R.anim.slide_right_in, R.anim.slide_left_out);
+			}
 		}
+		
 		switch (StartTabNo) 
 		{
 		case 1:
@@ -240,8 +250,8 @@ public class MainActivityTAB extends BaseThemeFragmentActivityWithoutAnime
 			getSupportActionBar().setTitle(R.string.Wifi);
 			break;
 		case 4:
-			rb_ringer.setChecked(true);
-			getSupportActionBar().setTitle(R.string.Ringer);
+			rb_find.setChecked(true);
+			getSupportActionBar().setTitle("FIND");///////////////////
 			break;
 		}
 	}
