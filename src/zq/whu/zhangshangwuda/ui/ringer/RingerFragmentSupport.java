@@ -231,14 +231,13 @@ public class RingerFragmentSupport extends BaseSherlockFragment
 			public void onCheckedChanged(CompoundButton arg0, boolean arg1) 
 			{
 				ToastUtil.showToast(getActivity(), arg1 ? "开启自动静音": "关闭自动静音");
-//				Toast.makeText(getSherlockActivity(), arg1 ? "开启自动静音": "关闭自动静音",
-//						Toast.LENGTH_SHORT).show();
-				editor.putBoolean("ringer_check", arg1);
-				editor.commit();
-				if (!rt.setTimeOfSilent(arg1))
+				boolean IsOn = rt.setTimeOfSilent(arg1);
+				if (!IsOn)
 				{
 					set_auto_time.setChecked(false);
 				}
+				editor.putBoolean("ringer_check", IsOn);
+				editor.commit();
 			}
 		});
 	}
