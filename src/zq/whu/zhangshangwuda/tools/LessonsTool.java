@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -63,67 +66,96 @@ public class LessonsTool {
 		return list;
 	}
 
-	public static List<Map<String, String>> getLessonsList(Context context,
-			String html) {
-		Document doc = null;
-		thtml = html;
-		if (StringUtils.isEmpty(html)) {
-			return null;
-		}
-		doc = Jsoup.parse(thtml);
-		if (doc == null) {
-			return null;
-		}
-
+	public static List<Map<String, String>> getLessonsList(Context context, String html) 
+	{
 		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
-		Elements lessons = doc.select("tr[align=center]");
-		for (Element lesson : lessons) {
-			Elements times = lesson.select("td[width=113]");
-			int weekday = 0;
-			for (Element time : times) {
-				String tinfo = time.text();
-				if (tinfo.length() < 2) {
-					++weekday;
-					continue;
-				} else {
-					Map<String, String> map = new HashMap<String, String>();
-					Integer tid = LessonsSharedPreferencesTool
-							.getLessonsId(context);
-					++tid;
-					LessonsSharedPreferencesTool.setLessonsId(context, tid);
-					// 设置课程ID
-					map.put("id", String.valueOf(tid));
-					// 提取课程名
-					map.put("name", lesson.select("td[width=80]").text());
-					// 提取教师名
-					map.put("teacher", lesson.select("td[width=52]").text());
-					// 提取第几星期上课
-					++weekday;
-					map.put("day", Integer.toString(weekday));
-					// 提取起止周数
-					int tpos = tinfo.indexOf("周");
-					map.put("ste", tinfo.substring(0, tpos));
-					// 提取每几周
-					tinfo = tinfo.substring(tpos + 3);
-					map.put("mjz", tinfo.substring(0, 1));
-					// 提取第几节上课
-					tinfo = tinfo.substring(4);
-					tpos = tinfo.indexOf("节");
-					map.put("time", tinfo.substring(0, tpos));
-					// 提取上课地点
-					if (tinfo.length() > tpos + 2) {
-						tinfo = tinfo.substring(tpos + 2);
-						map.put("place", tinfo.substring(0));
-					} else {
-						map.put("place", "");
-					}
-					// 提取备注信息
-					map.put("other", lesson.select("td[width=100]").text());
-					list.add(map);
+		try 
+		{
+			JSONArray jsonArray = new JSONArray(html);
+			for (int i = 0; i < jsonArray.length(); i++)		//info
+			{
+				JSONObject jsonObject = jsonArray.getJSONObject(i);
+				String tid = jsonObject.getString("indentifier");	//id of course
+				String name = jsonObject.getString("name");			//name
+				String instructor = jsonObject.getString("instructor");		//teacher
+				String credits = jsonObject.getString("credits");	//credits
+				String grade = jsonObject.getString("grade");
+				String retake = jsonObject.getString("retake");
+				String type = jsonObject.getString("type");
+				String major = jsonObject.getString("major");
+				String note = jsonObject.getString("note");
+				String status = jsonObject.getString("status");
+				JSONArray lessons = jsonObject.getJSONArray("lessons");
+				for (int j = 0; j < lessons.length(); j++)		//lessons
+				{
+					
 				}
 			}
+		} 
+		catch (JSONException e) 
+		{
+			e.printStackTrace();
 		}
 		return list;
+//		Document doc = null;
+//		thtml = html;
+//		if (StringUtils.isEmpty(html)) {
+//			return null;
+//		}
+//		doc = Jsoup.parse(thtml);
+//		if (doc == null) {
+//			return null;
+//		}
+//
+//		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
+//		Elements lessons = doc.select("tr[align=center]");
+//		for (Element lesson : lessons) {
+//			Elements times = lesson.select("td[width=113]");
+//			int weekday = 0;
+//			for (Element time : times) {
+//				String tinfo = time.text();
+//				if (tinfo.length() < 2) {
+//					++weekday;
+//					continue;
+//				} else {
+//					Map<String, String> map = new HashMap<String, String>();
+//					Integer tid = LessonsSharedPreferencesTool
+//							.getLessonsId(context);
+//					++tid;
+//					LessonsSharedPreferencesTool.setLessonsId(context, tid);
+//					// 设置课程ID
+//					map.put("id", String.valueOf(tid));
+//					// 提取课程名
+//					map.put("name", lesson.select("td[width=80]").text());
+//					// 提取教师名
+//					map.put("teacher", lesson.select("td[width=52]").text());
+//					// 提取第几星期上课
+//					++weekday;
+//					map.put("day", Integer.toString(weekday));
+//					// 提取起止周数
+//					int tpos = tinfo.indexOf("周");
+//					map.put("ste", tinfo.substring(0, tpos));
+//					// 提取每几周
+//					tinfo = tinfo.substring(tpos + 3);
+//					map.put("mjz", tinfo.substring(0, 1));
+//					// 提取第几节上课
+//					tinfo = tinfo.substring(4);
+//					tpos = tinfo.indexOf("节");
+//					map.put("time", tinfo.substring(0, tpos));
+//					// 提取上课地点
+//					if (tinfo.length() > tpos + 2) {
+//						tinfo = tinfo.substring(tpos + 2);
+//						map.put("place", tinfo.substring(0));
+//					} else {
+//						map.put("place", "");
+//					}
+//					// 提取备注信息
+//					map.put("other", lesson.select("td[width=100]").text());
+//					list.add(map);
+//				}
+//			}
+//		}
+//		return list;
 	}
 
 	public static List<Map<String, String>> washLessonsByWeek(

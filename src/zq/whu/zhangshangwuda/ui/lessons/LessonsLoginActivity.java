@@ -71,11 +71,11 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity
 	private ImageView bottomImg;
 
 	/**
-	 * 在获取课表之前要首先调用这个函数来获取最新课表到服务器
+	 * 在获取课表之前要首先调用这个函数来获取最新课表到服务器 || 可能最长要等待6s
 	 * @return statusCode	info
 	 * 			0			请求成功
-	 * 			1			请求方式必须为POST
-	 * 			2			请求数据不完整
+	 * 			1			请求方式必须为POST		不会出现
+	 * 			2			请求数据不完整			不会出现
 	 * 			3			人工验证码错误，尝试重新提交
 	 * 			4			学号/密码 错误
 	 * 			5			未知错误
@@ -137,9 +137,9 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity
 	/**
 	 * 在调用完update后调用这个函数
 	 * @return statuscode		info
-	 * 			1				请求方式为post
-	 * 			2				请求数据不完整
-	 * 			3				需要先调用update / 未完成uodate
+	 * 			1				请求方式为post		不会出现
+	 * 			2				请求数据不完整		不会出现
+	 * 			3				需要先调用update / 未完成update
 	 * 			4				密码错误 / 过期， 需要首先调用update
 	 * 			other			课程信息，用JSONObject包装
 	 */
@@ -237,7 +237,6 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity
 		@Override
 		public void onClick(View v) 
 		{
-			// TODO Auto-generated method stub
 			SaveConfig();
 			Account = AccountView.getText().toString();
 			Password = PasswordView.getText().toString();
@@ -245,46 +244,7 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity
 			new Thread(new LogInThread()).start();
 		}
 	}
-//	public void addLessonsScoreToDb(String url, String cookie)
-//	{
-//		HttpClient httpClient = new DefaultHttpClient();
-//		HttpGet get=new HttpGet(QueryStuScore);
-//		get.setHeader( "Cookie" , cookie);
-//		String content=null;
-//		try 
-//		{
-//			HttpResponse response = httpClient.execute(get);
-//			if (response.getStatusLine().getStatusCode() == 200)
-//			{
-//				HttpEntity httpEntity = response.getEntity();
-//				content = EntityUtils.toString(httpEntity, "GBK");
-//			}			
-//		}
-//		catch (ClientProtocolException e) 
-//		{
-//			e.printStackTrace();
-//		} 
-//		catch (IOException e) 
-//		{
-//			e.printStackTrace();
-//		}
-//		catch (ParseException e)
-//		{
-//			e.printStackTrace();
-//		}
-//		finally
-//		{
-//			get.abort(); 
-//			httpClient.getConnectionManager().shutdown();
-//		}
-//        GetScoreTools courses=new GetScoreTools(content);
-//        courses.parse();
-//        CourseDataUtil courseDataUtil=new CourseDataUtil(this);
-//        courseDataUtil.deleteAllCourseScoreData();		            
-//        courseDataUtil.addCourseScoreData(courses.getList());
-//        courseDataUtil.close();
-//        courseDataUtil=null;        
-//	}
+	
 	public void findViews() 
 	{
 		AccountView = (EditText) findViewById(R.id.lessons_txtAccount_EditText);
@@ -372,7 +332,6 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity
 		@Override
 		public void handleMessage(Message msg) 
 		{
-			// TODO Auto-generated method stub
 			LoginButton.setEnabled(true);
 			if (msg.arg1 == 0) 
 			{
@@ -403,7 +362,65 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity
 		@Override
 		public void run() 
 		{
+			Message msg = LogInHandler.obtainMessage();
+			String statusCode = null;
+			String lessons = null;
+			int NUM = 0;
 			
+			while(true)
+			{
+				//LoadingBar
+				statusCode = LoginUpdate();		//begin wait
+				if (statusCode.equals("4"))
+				{
+					msg.what = 1;
+					break;
+				}
+				else if (statusCode.equals("5"))
+				{
+					msg.what = 3;
+					break;
+				}
+				else if (statusCode.equals("3"))
+				{
+					continue;
+				}
+				else if (statusCode.equals("0"))
+				{
+					//update succeed
+					lessons = LoginGet();		//get lessons
+					NUM++;
+					if (NUM >= 3)				//the call number of LoginGet
+					{
+						msg.what = 3;
+						break;
+					}
+					if (lessons.equals("3") || lessons.equals("4"))
+					{
+						continue;
+					}
+					else 						//get succeed
+					{
+						msg.what = 0;
+						 List<Map<String, String>> list = new ArrayList<Map<String, String>>();
+						 
+						 String TermFirstDay = MobclickAgent.getConfigParams(LessonsLoginActivity.this, "term_firstday");
+						 if (TermFirstDay != "")
+						 {
+							 LessonsSharedPreferencesTool.setTermFirstDay(LessonsLoginActivity.this, TermFirstDay);
+						 }
+						 
+						 
+						 
+					}
+				}
+				else 
+				{
+					msg.what = 3;
+					break;
+				}
+			}
+			LogInHandler.sendMessage(msg);		
 		}
 	}
 }
