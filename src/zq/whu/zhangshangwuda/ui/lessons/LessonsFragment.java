@@ -69,8 +69,8 @@ public class LessonsFragment extends BaseSherlockFragment {
 	private static int ccolor = -1;
 	private List<Map<String, String>> lessonsList;
 	private boolean isShowNowLessons;
-	private String colors[] = { "#EEFFFF", "#33B5E5", "#AA66CC", "#99CC00",
-			"#FFBB33", "#FF4444" };
+	private String colors[] = { "#F4F5F5", "#BA68C8", "#F36C60", "#91A7FF",
+			"#4DB6AC", "#A1887F" };
 	private int mPageNumber;
 	private List<String> PdList = new ArrayList<String>();
 	private double lessonsWidth, lessonsHeight;
@@ -111,6 +111,7 @@ public class LessonsFragment extends BaseSherlockFragment {
 				.lessons_isShowNowLessons(getActivity());
 		calLessonsWidth();
 		calLessonsHeight();
+		System.out.println("Show Lessons");
 		showLessons();
 	}
 
@@ -205,6 +206,7 @@ public class LessonsFragment extends BaseSherlockFragment {
 	public void showLessons() {
 		// nowWeek = LessonsTool.getNowWeek(getActivity());
 		nowWeek = mPageNumber + 1;
+		System.out.println("showLessons --> nowWeek" + nowWeek);
 		// getSupportActionBar().setSubtitle("第" + String.valueOf(nowWeek) +
 		// "周");
 		for (int i = 1; i <= 7; ++i) {
@@ -241,9 +243,8 @@ public class LessonsFragment extends BaseSherlockFragment {
 		PdList.clear();
 		lessonsList = LessonsDb.getInstance(getActivity()).getLessonsByDay(
 				Integer.toString(day));
-		lessonsList = LessonsTool.sortLessonsByTime(lessonsList);
-		// 处理课程
 		int size = lessonsList.size();
+		
 		String tstring = null, sbegin, send, stime, name, time, place, id;
 		int a, b, t;
 		t = 1;
@@ -305,8 +306,7 @@ public class LessonsFragment extends BaseSherlockFragment {
 					PdList.add(StrPd);
 			}
 			ccolor++;
-			setClass(tday, id, String.valueOf(day), name, place, time, stime, b
-					- a + 1, ccolor, flag);
+			setClass(tday, id, String.valueOf(day), name, place, time, stime, b - a + 1, ccolor, flag);
 			t = b + 1;
 		}
 		if (t < 13)

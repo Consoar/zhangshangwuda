@@ -69,6 +69,7 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity
 	private static String updateURL = "http://115.29.17.73:8001/courses/data/update.json";
 	private static String getURL = "http://115.29.17.73:8001/courses/data/get.json";
 	private ImageView bottomImg;
+	private ProgressDialog progressDialog;
 
 	/**
 	 * 在获取课表之前要首先调用这个函数来获取最新课表到服务器 || 可能最长要等待6s
@@ -241,6 +242,7 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity
 			Account = AccountView.getText().toString();
 			Password = PasswordView.getText().toString();
 			ToastUtil.showToast(LessonsLoginActivity.this, "正在获取课表请稍候~",10000);
+			progressDialog = ProgressDialog.show(LessonsLoginActivity.this, "Loading...", "正在获取课表", true, false);
 			new Thread(new LogInThread()).start();
 		}
 	}
@@ -333,6 +335,7 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity
 		public void handleMessage(Message msg) 
 		{
 			LoginButton.setEnabled(true);
+			progressDialog.dismiss();
 			if (msg.arg1 == 0) 
 			{
 				LessonsSharedPreferencesTool.setLessonsHave(
@@ -369,8 +372,7 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity
 			
 			while(true)
 			{
-				//LoadingBar
-				statusCode = LoginUpdate();		//begin wait
+				statusCode = LoginUpdate();
 				if (statusCode.equals("4"))
 				{
 					msg.what = 1;
@@ -387,10 +389,9 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity
 				}
 				else if (statusCode.equals("0"))
 				{
-					//update succeed
-					lessons = LoginGet();		//get lessons
+					lessons = LoginGet();
 					NUM++;
-					if (NUM >= 3)				//the call number of LoginGet
+					if (NUM >= 3)
 					{
 						msg.what = 3;
 						break;
@@ -399,19 +400,42 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity
 					{
 						continue;
 					}
-					else 						//get succeed
+					else
 					{
 						msg.what = 0;
-						 List<Map<String, String>> list = new ArrayList<Map<String, String>>();
+						List<Map<String, String>> list = new ArrayList<Map<String, String>>();
 						 
-						 String TermFirstDay = MobclickAgent.getConfigParams(LessonsLoginActivity.this, "term_firstday");
-						 if (TermFirstDay != "")
-						 {
-							 LessonsSharedPreferencesTool.setTermFirstDay(LessonsLoginActivity.this, TermFirstDay);
-						 }
-						 
-						 
-						 
+						String TermFirstDay = MobclickAgent.getConfigParams(LessonsLoginActivity.this, "term_firstday");
+						if (TermFirstDay != "")
+						{
+							LessonsSharedPreferencesTool.setTermFirstDay(LessonsLoginActivity.this, TermFirstDay);
+						}
+
+						list = LessonsTool.getLessonsList(getApplicationContext(), lessons);
+						if (list.size() != 0)
+							LessonsDb.getInstance(getApplicationContext()).deleteAll();
+						Lessons tlessons = new Lessons();
+						for (int i = 0; i < list.size(); i++) 
+						{
+							Map<String, String> tmap = new HashMap<String, String>();
+							tmap = list.get(i);
+							tlessons.setId(tmap.get("id"));
+							tlessons.setName(tmap.get("name"));
+							tlessons.setDay(tmap.get("day"));
+							tlessons.setSte(tmap.get("ste"));
+							tlessons.setMjz(tmap.get("mjz"));
+							tlessons.setTime(tmap.get("time"));
+							tlessons.setPlace(tmap.get("place"));
+							tlessons.setTeacher(tmap.get("teacher"));
+							tlessons.setOther(tmap.get("other"));
+							LessonsDb.getInstance(LessonsLoginActivity.this).insert(tlessons);
+						}
+						CourseDataUtil courseDataUtil = new CourseDataUtil(LessonsLoginActivity.this);
+				        courseDataUtil.deleteAllCourseScoreData();		            
+				        courseDataUtil.addCourseScoreData(list);
+				        courseDataUtil.close();
+				        courseDataUtil=null; 
+						break;
 					}
 				}
 				else 

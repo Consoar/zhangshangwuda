@@ -93,6 +93,7 @@ public class LessonsDb extends LessonsDBUtil {
 	 */
 	public List<Map<String, String>> getLessonsByDay(String day) {
 		ArrayList<Map<String, String>> list = new ArrayList<Map<String, String>>();
+		ArrayList<Map<String, String>> alist = new ArrayList<Map<String, String>>();
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.query(TABLE_NAME, null, "day = ?",
 				new String[] { String.valueOf(day) }, null, null, null);
@@ -121,7 +122,20 @@ public class LessonsDb extends LessonsDBUtil {
 			cursor = null;
 			db.close();
 		}
-		return list;
+		
+		for (int i = 0; i < 13; i++)
+		{
+			for (int j = 0; j < list.size(); j++)
+			{
+				Map<String, String> aMap = list.get(j);
+				if (Integer.parseInt(aMap.get("time").substring(0, aMap.get("time").indexOf("-"))) == i)
+				{
+					alist.add(aMap);
+				}
+			}
+		}
+		
+		return alist;
 	}
 
 	/**

@@ -19,76 +19,80 @@ import android.database.sqlite.SQLiteDatabase;
 public class LessonsTool {
 	public static String thtml = "";
 
-	public static List<Map<String, String>> sortLessonsByTime(
-			List<Map<String, String>> list) {
-		// 消除无法解析的错误课程信息
-		int tsize = list.size();
-		for (int i = 0; i < tsize; ++i) {
-			Map<String, String> map = new HashMap<String, String>();
-			map = list.get(i);
-			if (!checkStr(map.get("ste")) || !checkStr(map.get("time"))
-					|| !StringUtils.isNumeric(map.get("day"))) {
-				list.remove(i);
-				i--;
-				tsize--;
-			}
+	private static String parseWeekDay(String day)
+	{
+		if (day.equals("一"))
+		{
+			return "1";
 		}
-		int size = list.size();
-		Map<String, String> tmap = new HashMap<String, String>();
-		for (int i = 0; i < size; ++i) {
-			if (list.get(i).get("place").length() < 4) {
-				list.get(i).put("place", list.get(i).get("other"));
-			}
-			// +",每"+list.get(i).get("mjz")+"周"
-			list.get(i).put(
-					"time",
-					list.get(i).get("time") + "节," + list.get(i).get("ste")
-							+ "周");
+		else if (day.equals("二"))
+		{
+			return "2";
 		}
-		for (int i = 0; i < size - 1; ++i)
-			for (int j = i + 1; j <= size - 1; ++j) {
-				// 获取第i个元素是第几节课
-				String tstring = list.get(i).get("time");
-				int k = tstring.indexOf("-");
-				tstring = tstring.substring(0, k);
-				int a = StringUtils.toInt(tstring);
-				// 获取第j个元素是第几节课
-				tstring = list.get(j).get("time");
-				k = tstring.indexOf("-");
-				tstring = tstring.substring(0, k);
-				int b = StringUtils.toInt(tstring);
-				if (a > b) {
-					tmap = list.get(i);
-					list.set(i, list.get(j));
-					list.set(j, tmap);
-				}
-			}
-		return list;
+		else if (day.equals("三"))
+		{
+			return "3";
+		}
+		else if (day.equals("四"))
+		{
+			return "4";
+		}
+		else if (day.equals("五"))
+		{
+			return "5";
+		}
+		else if (day.equals("六"))
+		{
+			return "6";
+		}
+		else 
+		{
+			return "7";
+		}
 	}
-
+	
 	public static List<Map<String, String>> getLessonsList(Context context, String html) 
 	{
 		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
 		try 
 		{
 			JSONArray jsonArray = new JSONArray(html);
-			for (int i = 0; i < jsonArray.length(); i++)		//info
+			for (int i = 0; i < jsonArray.length(); i++)
 			{
 				JSONObject jsonObject = jsonArray.getJSONObject(i);
-				String tid = jsonObject.getString("indentifier");	//id of course
+				String tid = jsonObject.getString("indentifier");	//id
+				String college = jsonObject.getString("college");	//学院
 				String name = jsonObject.getString("name");			//name
-				String instructor = jsonObject.getString("instructor");		//teacher
-				String credits = jsonObject.getString("credits");	//credits
-				String grade = jsonObject.getString("grade");
-				String retake = jsonObject.getString("retake");
-				String type = jsonObject.getString("type");
-				String major = jsonObject.getString("major");
-				String note = jsonObject.getString("note");
-				String status = jsonObject.getString("status");
+				String instructor = jsonObject.getString("instructor");		//老师
+				String credits = jsonObject.getString("credits");	//学分
+				String grade = jsonObject.getString("grade");		//成绩
+				String retake = jsonObject.getString("retake");		//
+				String type = jsonObject.getString("type");			//课程类型
+				String major = jsonObject.getString("major");		//专业
+				String note = jsonObject.getString("note");			//备注
+				String status = jsonObject.getString("status");		//缴费状态
 				JSONArray lessons = jsonObject.getJSONArray("lessons");
-				for (int j = 0; j < lessons.length(); j++)		//lessons
+
+				for (int j = 0; j < lessons.length(); j++)
 				{
+					JSONObject lesson = lessons.getJSONObject(j);
+					Map<String, String> map = new HashMap<String, String>();
+					map.put("id", tid);
+					map.put("name", name);
+					map.put("teacher", instructor);
+					map.put("day", parseWeekDay(lesson.getString("weekday")));
+					map.put("ste", lesson.getString("weekFrom") + "-" + lesson.getString("weekTo"));
+					map.put("mjz", lesson.getString("repeats"));
+					map.put("time", lesson.getString("classBegin") + "-" + lesson.getString("classOver") + "节");
+					map.put("place", lesson.getString("location"));
+					map.put("other", note);
 					
+					map.put("academy", college);
+					map.put("credit", credits);
+					map.put("type", type);
+					map.put("major", major);
+					map.put("score", grade);
+					list.add(map);
 				}
 			}
 		} 
@@ -97,6 +101,8 @@ public class LessonsTool {
 			e.printStackTrace();
 		}
 		return list;
+		
+		/////////////////////////////////////////////
 //		Document doc = null;
 //		thtml = html;
 //		if (StringUtils.isEmpty(html)) {
@@ -137,10 +143,12 @@ public class LessonsTool {
 //					map.put("ste", tinfo.substring(0, tpos));
 //					// 提取每几周
 //					tinfo = tinfo.substring(tpos + 3);
+		/////////////
 //					map.put("mjz", tinfo.substring(0, 1));
 //					// 提取第几节上课
 //					tinfo = tinfo.substring(4);
 //					tpos = tinfo.indexOf("节");
+		////
 //					map.put("time", tinfo.substring(0, tpos));
 //					// 提取上课地点
 //					if (tinfo.length() > tpos + 2) {
