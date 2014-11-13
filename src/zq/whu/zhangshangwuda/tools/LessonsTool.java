@@ -51,9 +51,12 @@ public class LessonsTool {
 		}
 	}
 	
-	public static List<Map<String, String>> getLessonsList(Context context, String html) 
+	public static List<List<Map<String, String>>> getLessonsList(Context context, String html) 
 	{
+		//我也不想用这个奇葩的数据结构不过貌似这样最简单了 = =
+		List<List<Map<String, String>>> qList = new ArrayList<List<Map<String, String>>>();
 		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
+		List<Map<String, String>> alist = new ArrayList<Map<String, String>>();
 		try 
 		{
 			JSONArray jsonArray = new JSONArray(html);
@@ -73,6 +76,22 @@ public class LessonsTool {
 				String status = jsonObject.getString("status");		//缴费状态
 				JSONArray lessons = jsonObject.getJSONArray("lessons");
 
+				//筛选出只有成绩的课程，作为绩点显示，丢弃掉既没有lessons又没有成绩的课程
+				if (lessons.length() == 0 && !grade.equals(""))
+				{
+					Map<String, String> amap = new HashMap<String, String>();
+					amap.put("id", tid);
+					amap.put("name", name);
+					amap.put("type", type);
+					amap.put("credit", credits);
+					amap.put("academy", college);
+					amap.put("major", major);
+					amap.put("teacher", instructor);
+					amap.put("score", grade);
+					
+					alist.add(amap);
+				}
+				//有lessons的课程，作为课程表显示
 				for (int j = 0; j < lessons.length(); j++)
 				{
 					JSONObject lesson = lessons.getJSONObject(j);
@@ -92,15 +111,18 @@ public class LessonsTool {
 					map.put("type", type);
 					map.put("major", major);
 					map.put("score", grade);
+					
 					list.add(map);
 				}
 			}
+			qList.add(list);
+			qList.add(alist);
 		} 
 		catch (JSONException e) 
 		{
 			e.printStackTrace();
 		}
-		return list;
+		return qList;
 		
 		/////////////////////////////////////////////
 //		Document doc = null;

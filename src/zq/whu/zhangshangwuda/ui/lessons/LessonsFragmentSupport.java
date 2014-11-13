@@ -116,7 +116,6 @@ public class LessonsFragmentSupport extends BaseSherlockFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		// System.out.println("LessonsFragmentSupport_onCreate");
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
 		regBroadcastRecv();
@@ -125,7 +124,6 @@ public class LessonsFragmentSupport extends BaseSherlockFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// System.out.println("LessonsFragmentSupport_onCreateView");
 		application = (MyApplication) getActivity().getApplication();
 		rootView = inflater.inflate(R.layout.lessons_viewpager, container,
 				false);
@@ -140,7 +138,6 @@ public class LessonsFragmentSupport extends BaseSherlockFragment {
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
-		// System.out.println("LessonsFragmentSupport_onActivityCreated");
 		super.onActivityCreated(savedInstanceState);
 		lessonsHave = LessonsSharedPreferencesTool
 				.getLessonsHave(getActivity());

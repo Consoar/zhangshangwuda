@@ -102,7 +102,6 @@ public class LessonsFragment extends BaseSherlockFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		// System.out.println("NewsFragmentCommon_onActivityCreated");
 		displayWidth = MyApplication.getDisplayWidth();
 		displayHeight = MyApplication.getDisplayHeight();
 		densityDpi = MyApplication.getDensityDpi();
@@ -111,7 +110,6 @@ public class LessonsFragment extends BaseSherlockFragment {
 				.lessons_isShowNowLessons(getActivity());
 		calLessonsWidth();
 		calLessonsHeight();
-		System.out.println("Show Lessons");
 		showLessons();
 	}
 
@@ -124,7 +122,6 @@ public class LessonsFragment extends BaseSherlockFragment {
 		int leftWidth = dip2px(getSherlockActivity(), 20);
 		lessonsWidth = lessonsWidth - leftWidth;
 		lessonsWidth = lessonsWidth / 7;
-		// System.out.println("lessonsWidthDP "
 		// + px2dip(getSherlockActivity(), Math.round(lessonsWidth)));
 		if (px2dip(getSherlockActivity(), Math.round(lessonsWidth)) > minClassWidth) {
 			minClassWidth = (int) Math.round(lessonsWidth);
@@ -146,7 +143,6 @@ public class LessonsFragment extends BaseSherlockFragment {
 		// lessonsHeight = lessonsHeight - actionbarHeight - titleHeight
 		// - statusBarHeight;
 		// lessonsHeight = lessonsHeight / 5.5;
-		// System.out.println("lessonsHeightDP "+px2dip(getSherlockActivity(),
 		// Math.round(lessonsHeight)));
 		// if (px2dip(getSherlockActivity(), Math.round(lessonsHeight)) >
 		// minClassWidth) {
@@ -206,7 +202,6 @@ public class LessonsFragment extends BaseSherlockFragment {
 	public void showLessons() {
 		// nowWeek = LessonsTool.getNowWeek(getActivity());
 		nowWeek = mPageNumber + 1;
-		System.out.println("showLessons --> nowWeek" + nowWeek);
 		// getSupportActionBar().setSubtitle("第" + String.valueOf(nowWeek) +
 		// "周");
 		for (int i = 1; i <= 7; ++i) {

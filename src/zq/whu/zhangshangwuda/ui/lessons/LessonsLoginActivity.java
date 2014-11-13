@@ -56,6 +56,9 @@ import android.widget.ImageView;
 import com.actionbarsherlock.view.MenuItem;
 import com.umeng.analytics.MobclickAgent;
 
+/**
+ * 如果你想不开了，就尝试着理解下面的代码吧！
+ */
 public class LessonsLoginActivity extends SwipeBackSherlockActivity 
 {
 	private final String UPDATE_SUCCESS = "0";
@@ -241,8 +244,9 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity
 			SaveConfig();
 			Account = AccountView.getText().toString();
 			Password = PasswordView.getText().toString();
-			ToastUtil.showToast(LessonsLoginActivity.this, "正在获取课表请稍候~",10000);
-			progressDialog = ProgressDialog.show(LessonsLoginActivity.this, "Loading...", "正在获取课表", true, false);
+			//ToastUtil.showToast(LessonsLoginActivity.this, "正在获取课表请稍候~",10000);
+			progressDialog = ProgressDialog.show(LessonsLoginActivity.this, "正在获取课表 (; ´_ゝ`)",
+					"你造么\n之所以不用输入验证码是因为\n我们有专门帮你输验证码的部门哟ヘ(￣ω￣ヘ)", true, false);
 			new Thread(new LogInThread()).start();
 		}
 	}
@@ -373,27 +377,35 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity
 			while(true)
 			{
 				statusCode = LoginUpdate();
+				
 				if (statusCode.equals("4"))
 				{
-					msg.what = 1;
+					msg.arg1 = 1;
 					break;
 				}
 				else if (statusCode.equals("5"))
 				{
-					msg.what = 3;
+					msg.arg1 = 3;
 					break;
 				}
 				else if (statusCode.equals("3"))
 				{
+					NUM++;
+					if (NUM >= 3)		//时间过长停止等待
+					{
+						msg.arg1 = 3;
+						break;
+					}
 					continue;
 				}
 				else if (statusCode.equals("0"))
 				{
 					lessons = LoginGet();
+					NUM = 0;
 					NUM++;
-					if (NUM >= 3)
+					if (NUM >= 3)		//控制循环次数，虽然这里不会出错 233333
 					{
-						msg.what = 3;
+						msg.arg1 = 3;
 						break;
 					}
 					if (lessons.equals("3") || lessons.equals("4"))
@@ -402,8 +414,10 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity
 					}
 					else
 					{
-						msg.what = 0;
+						msg.arg1 = 0;
+						List<List<Map<String, String>>> qList = new ArrayList<List<Map<String, String>>>();
 						List<Map<String, String>> list = new ArrayList<Map<String, String>>();
+						List<Map<String, String>> alist = new ArrayList<Map<String, String>>();
 						 
 						String TermFirstDay = MobclickAgent.getConfigParams(LessonsLoginActivity.this, "term_firstday");
 						if (TermFirstDay != "")
@@ -411,7 +425,10 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity
 							LessonsSharedPreferencesTool.setTermFirstDay(LessonsLoginActivity.this, TermFirstDay);
 						}
 
-						list = LessonsTool.getLessonsList(getApplicationContext(), lessons);
+						qList = LessonsTool.getLessonsList(getApplicationContext(), lessons);
+						list = qList.get(0);
+						alist = qList.get(1);
+						
 						if (list.size() != 0)
 							LessonsDb.getInstance(getApplicationContext()).deleteAll();
 						Lessons tlessons = new Lessons();
@@ -432,7 +449,7 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity
 						}
 						CourseDataUtil courseDataUtil = new CourseDataUtil(LessonsLoginActivity.this);
 				        courseDataUtil.deleteAllCourseScoreData();		            
-				        courseDataUtil.addCourseScoreData(list);
+				        courseDataUtil.addCourseScoreData(alist);
 				        courseDataUtil.close();
 				        courseDataUtil=null; 
 						break;
@@ -440,7 +457,7 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity
 				}
 				else 
 				{
-					msg.what = 3;
+					msg.arg1 = 3;
 					break;
 				}
 			}
