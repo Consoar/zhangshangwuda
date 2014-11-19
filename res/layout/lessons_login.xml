@@ -76,52 +76,11 @@
             android:textSize="18.0sp" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/lessons_YZM"
-        android:layout_width="240dp"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/lessons_RelativeLayout"
-        android:layout_below="@+id/lessons_RelativeLayout" >
-
-        <EditText
-            android:id="@+id/lessons_YZM_EditText"
-            android:layout_width="50dp"
-            android:layout_height="30dp"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@+id/lessons_YZMIMG_ImageView"
-            android:background="@color/alpha"
-            android:drawableBottom="@drawable/lessons_input_line"
-            android:saveEnabled="true"
-            android:singleLine="true"
-            android:textColor="?attr/newsContentTextColor" >
-        </EditText>
-
-        <TextView
-            android:id="@+id/lessons_YZMLable_TextView"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:layout_alignParentTop="true"
-            android:gravity="center_vertical"
-            android:text="验证码"
-            android:textColor="#A47642"
-            android:textSize="18.0sp" />
-
-        <ImageView
-            android:id="@+id/lessons_YZMIMG_ImageView"
-            android:layout_width="90dip"
-            android:layout_height="30dip"
-            android:layout_alignParentRight="true"
-            android:layout_alignTop="@+id/lessons_YZM_EditText"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="20dp" />
-    </RelativeLayout>
-
     <Button
         android:id="@+id/lessons_cmdLogin_Button"
         android:layout_width="240dp"
         android:layout_height="36dp"
-        android:layout_below="@+id/lessons_YZM"
+        android:layout_below="@+id/lessons_RelativeLayout"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="10dp"
         android:background="@drawable/lessons_login_btn"

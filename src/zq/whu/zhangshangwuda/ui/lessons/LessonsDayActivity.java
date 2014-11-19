@@ -103,7 +103,6 @@ public class LessonsDayActivity extends BaseThemeSwipeBackSherlockActivity {
 
 		lessonsList = LessonsDb.getInstance(this).getLessonsByDay(
 				Integer.toString(tday));
-		lessonsList = LessonsTool.sortLessonsByTime(lessonsList);
 		if (time != null && time.length() > 0) {
 			for (Iterator it = lessonsList.iterator(); it.hasNext();) {
 				Map<String, String> str = (Map<String, String>) it.next();
