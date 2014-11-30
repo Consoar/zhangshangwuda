@@ -77,7 +77,7 @@ public class LessonsTool {
 				JSONArray lessons = jsonObject.getJSONArray("lessons");
 
 				//筛选出只有成绩的课程，作为绩点显示，丢弃掉既没有lessons又没有成绩的课程
-				if (lessons.length() == 0 && !grade.equals(""))
+				if (lessons.length() == 0 && !grade.equals("") && !grade.equals("0"))
 				{
 					Map<String, String> amap = new HashMap<String, String>();
 					amap.put("id", tid);
