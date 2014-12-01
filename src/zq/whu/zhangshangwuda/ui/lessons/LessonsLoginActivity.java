@@ -359,7 +359,11 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity
 			}
 			if (msg.arg1 == 3) 
 			{
-				ToastUtil.showToast(LessonsLoginActivity.this,"由于不可抗拒的原因失败了...");
+				ToastUtil.showToast(LessonsLoginActivity.this, "由于不可抗拒的原因失败了...");
+			}
+			if (msg.arg1 == 5)
+			{
+				ToastUtil.showToast(LessonsLoginActivity.this, "你真的插好网线了嘛！（欸？");
 			}
 		}
 	};
@@ -377,6 +381,12 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity
 			while(true)
 			{
 				statusCode = LoginUpdate();
+				
+				if (statusCode == null)
+				{
+					msg.arg1 = 5;
+					break;
+				}
 				
 				if (statusCode.equals("4"))
 				{
