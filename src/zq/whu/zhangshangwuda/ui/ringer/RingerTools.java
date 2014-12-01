@@ -85,11 +85,21 @@ public class RingerTools
         	String tstring = li.get("time");
         	
         	int tstart = Integer.parseInt(tstring.substring(0, tstring.indexOf("-")));
-        	int tend = Integer.parseInt(tstring.substring(tstring.indexOf("-") + 1));
+        	int tend = Integer.parseInt(tstring.substring(tstring.indexOf("-") + 1, tstring.indexOf("-") + 2));
         	
         	times.add(new TimeOfLessons(tstart, tend, Integer.parseInt(li.get("day"))));
         }
 		return times;
+	}
+	
+	private int getDayOfWeek(int d)
+	{
+		int day = d + 1;
+		if (day == 8)
+		{
+			day = 1;
+		}
+		return day;
 	}
 	
 	public boolean setTimeOfSilent(boolean mu)
@@ -157,6 +167,7 @@ public class RingerTools
 				mAlarmManager.cancel(PendingIntent.getBroadcast(context, i, intent_on, PendingIntent.FLAG_CANCEL_CURRENT));
 			}
 			cleanNotification(1);
+			return false;
 		}
 		return true;
 	}
