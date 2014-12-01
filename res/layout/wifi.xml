@@ -70,14 +70,14 @@
                 android:saveEnabled="true"
                 android:textColor="?attr/newsContentTextColor" />
 
-            <ImageView
-                android:id="@+id/wifi_txtAccount_more_Button"
+            <!-- <ImageView
+                android:id="@+id/wifi_txt_Account_more_Button"
                 android:layout_width="30dip"
                 android:layout_height="fill_parent"
                 android:layout_alignBottom="@+id/wifi_txtPassword_EditText"
                 android:layout_toRightOf="@+id/wifi_txtPassword_EditText"
                 android:src="@drawable/lessons_item_more"
-                android:visibility="gone" />
+                android:visibility="gone" /> -->
 
             <TextView
                 android:id="@+id/wifi_TextView02"
