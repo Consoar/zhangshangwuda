@@ -129,7 +129,7 @@ public class LessonsTool {
 					map.put("day", parseWeekDay(lesson.getString("weekday")));
 					map.put("ste", lesson.getString("weekFrom") + "-" + lesson.getString("weekTo"));
 					map.put("mjz", lesson.getString("repeats"));
-					map.put("time", lesson.getString("classBegin") + "-" + lesson.getString("classOver") + "节");
+					map.put("time", lesson.getString("classBegin") + "-" + lesson.getString("classOver"));
 					map.put("place", lesson.getString("location"));
 					map.put("other", note);
 					

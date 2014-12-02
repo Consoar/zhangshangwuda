@@ -238,6 +238,7 @@ public class LessonsFragment extends BaseSherlockFragment {
 		PdList.clear();
 		lessonsList = LessonsDb.getInstance(getActivity()).getLessonsByDay(Integer.toString(day));
 		lessonsList = LessonsTool.sortLessonsByTime(lessonsList);
+		
 		int size = lessonsList.size();
 		
 		String tstring = null, sbegin, send, stime, name, time, place, id;
