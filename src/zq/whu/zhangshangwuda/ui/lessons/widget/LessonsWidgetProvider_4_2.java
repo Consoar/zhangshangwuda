@@ -87,6 +87,7 @@ public class LessonsWidgetProvider_4_2 extends AppWidgetProvider {
 	public void getlessonsList(Context context, int k) {
 		lessonsList_4_2 = LessonsDb.getInstance(context).getLessonsByDay(
 				Integer.toString(k));
+		lessonsList_4_2 = LessonsTool.sortLessonsByTime(lessonsList_4_2);
 		for (int i = 0; i < lessonsList_4_2.size(); ++i) {
 			String tstring = lessonsList_4_2.get(i).get("name");
 			if (tstring.indexOf(" ") > 0)
