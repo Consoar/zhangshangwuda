@@ -152,10 +152,14 @@ public class NewsFragmentSupport extends BaseSherlockFragment {
 				+ String.valueOf(nowWeek) + "周");
 		viewPager = (ViewFlowViewPager) rootView.findViewById(R.id.pager);
 		viewPager.setOffscreenPageLimit(1);
-		if (SettingSharedPreferencesTool.common_isViewPagerTX(getActivity())) {
+		/**
+		 * 开启动画的话点击tab切换pager的时候动画会卡在一半的地方，暂未找到原因，
+		 *而教务部换新版， 所以先只能禁用动画了，以后找到的时候再回来改
+		 */
+/*		if (SettingSharedPreferencesTool.common_isViewPagerTX(getActivity())) {
 			viewPager.setFadeEnabled(true);
 			viewPager.setTransitionEffect(TransitionEffect.Tablet);
-		}
+		}*/
 		try {
 			tempList = NewsTool.getNewsCategoryFromCache(URL_CATEGORY);
 			if(tempList == null){

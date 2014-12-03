@@ -111,12 +111,16 @@
             android:title="自动加载更多" />
     </PreferenceCategory>
     <PreferenceCategory android:title="其他设置" >
-        <CheckBoxPreference
+        <!-- /**
+		 * 开启动画的话点击tab切换pager的时候动画会卡在一半的地方，暂未找到原因，
+		 *而教务部换新版， 所以先只能禁用动画了，以后找到的时候再回来改
+		 */ -->
+        <!-- <CheckBoxPreference
             android:defaultValue="true"
             android:enabled="true"
             android:key="common_isViewPagerTX"
             android:summary="是否开启课表/新闻滑动切换特效(需重启本软件)"
-            android:title="开启切换特效" />
+            android:title="开启切换特效" /> -->
 
         <PreferenceScreen
             android:key="common_update"
