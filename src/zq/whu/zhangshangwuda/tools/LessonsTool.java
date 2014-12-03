@@ -19,6 +19,33 @@ import android.database.sqlite.SQLiteDatabase;
 public class LessonsTool {
 	public static String thtml = "";
 
+	public static List<Map<String, String>> sortLessonsByTime(List<Map<String, String>> list)
+	{
+		int size = list.size();
+
+		//整理格式 输出time为: 1-2节，1-2周
+		Map<String, String> tmap = new HashMap<String, String>();
+		for (int i = 0; i < size; i++)
+		{
+			//获取准确上课地点
+			if (list.get(i).get("place").length() < 4) 
+			{
+				list.get(i).put("place", list.get(i).get("other"));
+			}
+			String time = list.get(i).get("time");
+			
+			if (time.indexOf("节") == -1)
+			{
+				list.get(i).put("time", list.get(i).get("time") + "节，" + list.get(i).get("ste") + "周");
+			}
+			else 
+			{
+				list.get(i).put("time", list.get(i).get("time") + "，" + list.get(i).get("ste") + "周");
+			}
+		}
+		return list;
+	}
+	
 	private static String parseWeekDay(String day)
 	{
 		if (day.equals("一"))
@@ -102,7 +129,7 @@ public class LessonsTool {
 					map.put("day", parseWeekDay(lesson.getString("weekday")));
 					map.put("ste", lesson.getString("weekFrom") + "-" + lesson.getString("weekTo"));
 					map.put("mjz", lesson.getString("repeats"));
-					map.put("time", lesson.getString("classBegin") + "-" + lesson.getString("classOver") + "节");
+					map.put("time", lesson.getString("classBegin") + "-" + lesson.getString("classOver"));
 					map.put("place", lesson.getString("location"));
 					map.put("other", note);
 					
