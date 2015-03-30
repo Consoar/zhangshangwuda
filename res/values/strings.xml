@@ -77,7 +77,7 @@
     <string name="Lessons_Add_other_hint">请在这里输入内容&#8230;</string>
     <!-- Ringer -->
     <string name="Ringer">定时静音</string>
-    
+
     <!-- Setting -->
     <string name="Setting">设置</string>
     <!-- Help -->
@@ -123,17 +123,19 @@
     <string name="LeftMenu_About">关于</string>
     <string name="course_management">课程管理</string>
     <string name="Lessons_choose_course">请选择课程</string>
-
     <string name="start_tabs_news">新闻</string>
     <string name="start_tabs_lessons">课程表</string>
     <string name="start_tabs_wifi">无线网</string>
     <string name="start_tabs_ringer">定时静音</string>
     <string name="theme_tabs_light">白版</string>
     <string name="theme_tabs_black">黑版</string>
-    
+
     <!-- Find -->
     <string name="function">拓展功能</string>
     <string name="tab_find">发现</string>
     <string name="Find">发现</string>
+    <string name="empty_classroom">空闲教室</string>
     
+    <string name="lessons_json_url">http://115.29.17.73:8001/lessons/get.json</string>
+
 </resources>

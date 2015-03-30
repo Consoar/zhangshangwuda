@@ -12,12 +12,12 @@
      distributed under the License is distributed on an "AS IS" BASIS,
      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
      See the License for the specific language governing permissions and
-     limitations under the License.
+     limitations under the License.
 -->
 
 <resources>
 
-       <declare-styleable name="ViewFlow">
+    <declare-styleable name="ViewFlow">
         <attr name="sidebuffer" format="integer" />
     </declare-styleable>
     <declare-styleable name="CircleFlowIndicator">
@@ -85,6 +85,15 @@
     <attr name="wifiLogoBG" format="reference" />
     <attr name="wifiPasswordBG" format="reference" />
     <attr name="pulldownlistview_arrow_BG" format="reference" />
-	<attr name="droppopmenu_delete_BG" format="reference" />
-	<attr name="droppopmenu_expand_BG" format="reference" />
+    <attr name="droppopmenu_delete_BG" format="reference" />
+    <attr name="droppopmenu_expand_BG" format="reference" />
+
+    <declare-styleable name="WheelGroup">
+        <attr name="wheelNumber" format="integer" />
+        <attr name="textSize" format="dimension" />
+        <attr name="additionalItemHeight" format="dimension" />
+        <attr name="valueTextColor" format="color" />
+        <attr name="leftIndicatorWidth" format="dimension" />
+    </declare-styleable>
+
 </resources>

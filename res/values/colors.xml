@@ -316,5 +316,7 @@
     <color name="actionbar_light">#DDDDDD</color>
     <color name="actionbar_black">#1c1c1c</color>
     <color name="holo_blue">#FF33E5B5</color>
-
+   
+     <color name="separator_color">#b9b9bb</color>
+    <color name="titlebat_bg_color">#e5e5e5</color>
 </resources>
