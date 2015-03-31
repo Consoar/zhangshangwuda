@@ -120,7 +120,7 @@ public class WifiFragmentSupport extends SherlockFragment {
 		Intent intent = new Intent();
 		switch (item.getItemId()) {
 		case MENU_LOGOFF:
-			new Thread(new LogOutThread()).start();
+			new Thread(new LogOutThread(this.LogOutHandler)).start();
 			return true;
 //		case MENU_SETTING:
 //			intent.setClass(getActivity(),SettingActivity.class);
@@ -595,32 +595,6 @@ public class WifiFragmentSupport extends SherlockFragment {
 		}
 
 	};
-
-	public class LogOutThread implements Runnable {
-
-		@Override
-		public void run() {
-			// TODO Auto-generated method stub
-			Message msg = LogOutHandler.obtainMessage();
-			HttpClient httpclient = new DefaultHttpClient();
-			HttpGet httpLogOff = new HttpGet(LogOutURL);
-			try {
-				HttpResponse httpResponse = httpclient.execute(httpLogOff);
-				if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-					String strResult = EntityUtils.toString(httpResponse
-							.getEntity());
-					msg.obj = (strResult);
-					msg.arg1 = 1;
-				}
-			} catch (ClientProtocolException e) {
-			} catch (IOException e) {
-			} catch (Exception e) {
-			} finally {
-				httpclient.getConnectionManager().shutdown();
-			}
-			LogOutHandler.sendMessage(msg);
-		}
-	}
 
 	public class OnlineThread implements Runnable {
 		@Override
