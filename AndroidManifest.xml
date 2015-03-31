@@ -80,6 +80,7 @@
             android:exported="true"
             android:persistent="true"
             android:process=":xg_service_v2" />
+
         <meta-data
             android:name="XG_V2_ACCESS_ID"
             android:value="2100046571" />
