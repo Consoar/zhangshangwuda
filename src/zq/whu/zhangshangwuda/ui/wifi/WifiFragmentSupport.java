@@ -108,7 +108,10 @@ public class WifiFragmentSupport extends SherlockFragment {
 	@Override
 	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) 
 	{
-		menu.add(MENU_GROUP, MENU_LOGOFF, MENU_LOGOFF, getResources().getString(R.string.logoff));
+		MenuItem item = 	menu.add(MENU_GROUP, MENU_LOGOFF, MENU_LOGOFF, 
+											getResources().getString(R.string.Wifi_logout));
+		item.setIcon(R.drawable.menu_logout);
+		item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS );
 //		menu.add(MENU_GROUP, MENU_SETTING, MENU_SETTING, getResources().getString(R.string.LeftMenu_Setting));
 //		menu.add(MENU_GROUP, MENU_HELP, MENU_HELP, getResources().getString(R.string.LeftMenu_Help));
 //		menu.add(MENU_GROUP, MENU_FEEDBACK, MENU_FEEDBACK, getResources().getString(R.string.LeftMenu_FeedBack)); 
@@ -120,6 +123,7 @@ public class WifiFragmentSupport extends SherlockFragment {
 		Intent intent = new Intent();
 		switch (item.getItemId()) {
 		case MENU_LOGOFF:
+			System.out.println("logout");
 			new Thread(new LogOutThread(this.LogOutHandler)).start();
 			return true;
 //		case MENU_SETTING:

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="zq.whu.zhangshangwuda.ui"
-    android:versionCode="30"
-    android:versionName="0.7.1.141201_Beta" >
+    android:versionCode="31"
+    android:versionName="0.7.2.150331_Beta" >
 
     <uses-sdk
         android:minSdkVersion="8"
