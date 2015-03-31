@@ -61,8 +61,8 @@ public class FindFragmentSupport extends BaseSherlockFragment {
 		addContent("  定时静音", TABS[0], R.drawable.ringer_tab_light,
 				R.drawable.ringer_tab_dark);
 		// Add your Fragment here.
-		addContent("   空教室", TABS[1], R.drawable.ic_ziqiang,
-				R.drawable.ic_back);
+		addContent("  空闲教室", TABS[1], R.drawable.classroom_tab_black,
+				R.drawable.classroom_tab_light);
 	}
 
 	// ////////////////////////////////////////////////////////////////////////////////
