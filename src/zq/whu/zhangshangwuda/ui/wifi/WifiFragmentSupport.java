@@ -72,6 +72,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
@@ -79,7 +80,7 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.umeng.analytics.MobclickAgent;
 
-public class WifiFragmentSupport extends SherlockFragment {
+public class WifiFragmentSupport extends SherlockFragment implements OnClickListener{
 	private static final String mPageName = "WifiFragment";
 	private final int MENU_GROUP = 1;
 	private static final int MENU_LOGOFF = Menu.FIRST;
@@ -104,47 +105,6 @@ public class WifiFragmentSupport extends SherlockFragment {
 	private DropMenuAdapter dropMenuAdapter;
 	private List<WifiAccount> list = new ArrayList<WifiAccount>();
 	private List<WifiAccount> templist = new ArrayList<WifiAccount>();
-
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) 
-	{
-		MenuItem item = 	menu.add(MENU_GROUP, MENU_LOGOFF, MENU_LOGOFF, 
-											getResources().getString(R.string.Wifi_logout));
-		item.setIcon(R.drawable.menu_logout);
-		item.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS );
-//		menu.add(MENU_GROUP, MENU_SETTING, MENU_SETTING, getResources().getString(R.string.LeftMenu_Setting));
-//		menu.add(MENU_GROUP, MENU_HELP, MENU_HELP, getResources().getString(R.string.LeftMenu_Help));
-//		menu.add(MENU_GROUP, MENU_FEEDBACK, MENU_FEEDBACK, getResources().getString(R.string.LeftMenu_FeedBack)); 
-//		menu.add(MENU_GROUP, MENU_ABOUT, MENU_ABOUT, getResources().getString(R.string.LeftMenu_About)); 
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		Intent intent = new Intent();
-		switch (item.getItemId()) {
-		case MENU_LOGOFF:
-			System.out.println("logout");
-			new Thread(new LogOutThread(this.LogOutHandler)).start();
-			return true;
-//		case MENU_SETTING:
-//			intent.setClass(getActivity(),SettingActivity.class);
-//			startActivity(intent);
-//			return true;
-//		case MENU_HELP:
-//			intent.setClass(getActivity(),HelpActivity.class);
-//			startActivity(intent);
-//			return true;
-//		case MENU_FEEDBACK:
-//			MainActivityTAB.agent.startFeedbackActivity();
-//			return true;
-//		case MENU_ABOUT:
-//			intent.setClass(getActivity(),AboutActivity.class);
-//			startActivity(intent);
-//			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}
 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
@@ -203,7 +163,9 @@ public class WifiFragmentSupport extends SherlockFragment {
 		PasswordView = (EditText) rootView
 				.findViewById(R.id.wifi_txtPassword_EditText);
 		LoginButton = (Button) rootView.findViewById(R.id.wifi_cmdLogin_Button);
-		LoginButton.setOnClickListener(new LoginButtonListener());
+		Button logout = (Button)rootView.findViewById(R.id.wifi_cmdLogout_Button);
+		logout.setOnClickListener(this);
+		LoginButton.setOnClickListener(this);
 		moreButton = (ImageButton) rootView
 				.findViewById(R.id.wifi_txtAccount_more_Button);
 		bottomImg = (ImageView) rootView.findViewById(R.id.wifi_bottom);
@@ -709,17 +671,33 @@ public class WifiFragmentSupport extends SherlockFragment {
 		}
 	}
 
-	class LoginButtonListener implements OnClickListener {
-
-		@Override
-		public void onClick(View v) {
-			// TODO Auto-generated method stub
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()){
+		case R.id.wifi_cmdLogout_Button:
+			new Thread(new LogOutThread(this.LogOutHandler)).start();
+			Toast.makeText(getActivity(), "下线中……", Toast.LENGTH_SHORT).show();
+			break;
+		case R.id.wifi_cmdLogin_Button:
 			SaveConfig();
 			Account = AccountView.getText().toString();
+			try {
+				Long.parseLong(Account);
+			} catch (Exception e) {
+				AccountView.setText("");
+				Toast.makeText(getActivity(), "请输入正确的学号哦~~", Toast.LENGTH_SHORT).show();
+				return;
+			}
+			if (Account.length() != 13 ){
+				AccountView.setText("");
+				Toast.makeText(getActivity(), "请输入正确的学号哦~~", Toast.LENGTH_SHORT).show();
+				return;
+			}
 			Password = PasswordView.getText().toString();
-			LoginButton.setText("登陆中……");
+			Toast.makeText(getActivity(), "登陆中……", Toast.LENGTH_SHORT).show();
 			new Thread(new OnlineThread()).start();
 			LoginButton.setEnabled(false);
+			break;
 		}
 	}
 }

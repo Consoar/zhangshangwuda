@@ -51,6 +51,7 @@
         android:id="@+id/expandableListView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
         android:layout_below="@id/place_lessons_view"
         android:background="#f8f8f4"
         android:groupIndicator="@drawable/elist_group_indicator" />
