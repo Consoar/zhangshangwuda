@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -36,14 +38,17 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
+import zq.whu.zhangshangwuda.tools.BosCrypto;
+import zq.whu.zhangshangwuda.tools.gif.CommonUtil;
+import zq.whu.zhangshangwuda.tools.gif.GifHelper.GifFrame;
+import zq.whu.zhangshangwuda.tools.gif.PlayGifTask;
+import zq.whu.zhangshangwuda.ui.R;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.Intent.ShortcutIconResource;
 import android.graphics.Rect;
 import android.net.DhcpInfo;
 import android.net.wifi.WifiInfo;
@@ -51,19 +56,11 @@ import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.Parcelable;
 import android.text.format.Formatter;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.Toast;
 import android.widget.ImageView.ScaleType;
-import zq.whu.zhangshangwuda.tools.BosCrypto;
-import zq.whu.zhangshangwuda.tools.gif.CommonUtil;
-import zq.whu.zhangshangwuda.tools.gif.GifHelper.GifFrame;
-import zq.whu.zhangshangwuda.tools.gif.PlayGifTask;
-import zq.whu.zhangshangwuda.ui.R;
+import android.widget.Toast;
 
 public class OneKeyWifi extends Activity {
 	private FrameLayout bg;
@@ -74,7 +71,7 @@ public class OneKeyWifi extends Activity {
 	private static String LogInURL = "https://wlan.whu.edu.cn/portal/login";
 	private String Account = null;
 	private String Password = null;
-
+	private final int HAVE_LOG_OUT = 0x0001001;
 	public void CheckNetwork() {
 		wifiManager = (WifiManager) OneKeyWifi.this
 				.getSystemService(Context.WIFI_SERVICE);
@@ -83,7 +80,9 @@ public class OneKeyWifi extends Activity {
 					R.string.Wifi_Request_Message));
 		}
 	}
-
+	private Timer timer;
+	private int timerNum = 0;
+			
 	public boolean GetWifiStatus() {
 		return wifiManager.isWifiEnabled();
 	}
@@ -94,7 +93,6 @@ public class OneKeyWifi extends Activity {
 				.setCancelable(false)
 				.setPositiveButton("确定", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
-						// put your code here
 						Intent wifiSettingsIntent = new Intent(
 								"android.settings.WIFI_SETTINGS");
 						startActivity(wifiSettingsIntent);
@@ -103,7 +101,6 @@ public class OneKeyWifi extends Activity {
 				})
 				.setNegativeButton("取消", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface dialog, int id) {
-						// put your code here
 						dialog.cancel();
 						finish();
 					}
@@ -123,7 +120,6 @@ public class OneKeyWifi extends Activity {
 			Account = BosCrypto.decrypt(BosCrypto.Excalibur, str1);
 			Password = BosCrypto.decrypt(BosCrypto.Excalibur, str2);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		wifiManager = (WifiManager) OneKeyWifi.this
@@ -158,10 +154,50 @@ public class OneKeyWifi extends Activity {
 		mGifTask.start();
 	}
 
+	class TestHaveLogOut extends Thread{
+
+		
+
+		@Override
+		public void run() {
+			HttpClient client = new DefaultHttpClient();
+			HttpGet httpGet = new HttpGet("http://m.baidu.com/");
+			try {
+				HttpResponse response = client.execute(httpGet);
+				HttpEntity entity=response.getEntity();
+				String result=EntityUtils.toString(entity,"utf-8");
+				if (!result.contains("百度")) {
+					Message msg = new Message();
+					msg.arg1 = HAVE_LOG_OUT;
+					LogOutHandler.sendMessage(msg);
+				}
+			} catch (ClientProtocolException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			super.run();
+		}		
+	}
+	
+	Handler LogOutHandler = new Handler() {
+
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.arg1){
+			case HAVE_LOG_OUT:
+				Toast.makeText(OneKeyWifi.this, "下线成功啦~~",
+					Toast.LENGTH_SHORT).show();
+				timer.cancel();
+				break;
+				}
+			}
+	};
+	
 	public class OnlineThread implements Runnable {
 		@Override
 		public void run() {
-			// TODO Auto-generated method stub
 			Message msg = OnlineHandler.obtainMessage();
 			String strResult = null;
 			List<NameValuePair> pairs = new ArrayList<NameValuePair>();
@@ -241,25 +277,32 @@ public class OneKeyWifi extends Activity {
 
 		@Override
 		public void handleMessage(Message msg) {
-			// TODO Auto-generated method stub
-			// Toast.makeText(MainActivity.this, temp,
-			// Toast.LENGTH_SHORT).show();
 			if (msg.arg1 == 0) {
 				Toast.makeText(OneKeyWifi.this, "哈哈！验证成功啦~", Toast.LENGTH_SHORT)
 						.show();
-			}
-
-			if (msg.arg1 == 1) {
+			} else 	if (msg.arg1 == 1) {
 				String strtemp = (String) msg.obj;
-				Toast.makeText(OneKeyWifi.this, strtemp, Toast.LENGTH_SHORT)
-						.show();
-			}
-
-			if (msg.arg1 == 2) {
+				//System.out.println(strtemp);
+				if (strtemp.contains("同名无线用户已在线")) {
+					new Thread(new LogOutThread(LogOutHandler)).start();
+					timer = new Timer(true);
+					timerNum = 0;
+					timer.schedule(new TimerTask() {
+						@Override
+						public void run() {
+							timerNum++;
+							if (timerNum > 3) timer.cancel();
+							new TestHaveLogOut().start();
+						}
+					}, 1400, 1000);
+				} else {
+					Toast.makeText(OneKeyWifi.this, strtemp, Toast.LENGTH_SHORT)
+					.show();
+				}
+			}	else	if (msg.arg1 == 2) {
 				Toast.makeText(OneKeyWifi.this, "服务器不搭理我T_T",
 						Toast.LENGTH_SHORT).show();
-			}
-			if (msg.arg1 == 3) {
+			}  else if (msg.arg1 == 3) {
 				Toast.makeText(OneKeyWifi.this, "网络错误啦……服务器不理我了T_T",
 						Toast.LENGTH_SHORT).show();
 			}

@@ -38,7 +38,7 @@
     <string name="Wifi_strInputPasswordHint">输入密码吧</string>
     <string name="Wifi_strAccountInputLabel">帐  号</string>
     <string name="Wifi_strPasswordInputLabel">密  码</string>
-    <string name="Wifi_logout">注销</string>
+    <string name="Wifi_logout">下线</string>
     <string name="Wifi_login">登陆</string>
     <string name="Wifi_Exit">退出程序</string>
     <string name="Wifi_Detail">查看详情</string>
@@ -101,13 +101,13 @@
     <string name="About_App_Name">掌上武大</string>
     <string name="About_App_Description">        本应用更多功能不断开发中，请继续关注自强学堂网站的后续升级和其他应用。\n
         希望获得最新的版本更新，或是bug反馈，功能建议，或是希望加入我们的团队？</string>
-    <string name="About_App_VersionName">版本号神马的:0.7.1.141201_Beta</string>
+    <string name="About_App_VersionName">版本号神马的:0.7.2.150331_Beta</string>
     <string name="About_App_Author">自强网出品</string>
     <string name="About_App_Other">        请关注或联系\n
         掌上武大微信帐号:zhangshangwuda\n
         人人网请搜索“掌上武大”\n
         新浪微博：@掌上武大 \n
-        自强学堂网站:www.ziqiang.net</string>
+        自强学堂网站:ziqiang.whu.edu.cn</string>
     <string name="About_App_Copyright">Copyright © 2012&#8211;2014 掌上武大. All Rights Reserved</string>
     <string name="About_App_BasedOn" />
     <!-- LeftMenu -->

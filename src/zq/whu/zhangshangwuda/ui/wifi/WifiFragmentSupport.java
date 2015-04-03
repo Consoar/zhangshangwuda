@@ -72,6 +72,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.view.Menu;
@@ -79,7 +80,7 @@ import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.umeng.analytics.MobclickAgent;
 
-public class WifiFragmentSupport extends SherlockFragment {
+public class WifiFragmentSupport extends SherlockFragment implements OnClickListener{
 	private static final String mPageName = "WifiFragment";
 	private final int MENU_GROUP = 1;
 	private static final int MENU_LOGOFF = Menu.FIRST;
@@ -104,43 +105,6 @@ public class WifiFragmentSupport extends SherlockFragment {
 	private DropMenuAdapter dropMenuAdapter;
 	private List<WifiAccount> list = new ArrayList<WifiAccount>();
 	private List<WifiAccount> templist = new ArrayList<WifiAccount>();
-
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) 
-	{
-		menu.add(MENU_GROUP, MENU_LOGOFF, MENU_LOGOFF, getResources().getString(R.string.logoff));
-//		menu.add(MENU_GROUP, MENU_SETTING, MENU_SETTING, getResources().getString(R.string.LeftMenu_Setting));
-//		menu.add(MENU_GROUP, MENU_HELP, MENU_HELP, getResources().getString(R.string.LeftMenu_Help));
-//		menu.add(MENU_GROUP, MENU_FEEDBACK, MENU_FEEDBACK, getResources().getString(R.string.LeftMenu_FeedBack)); 
-//		menu.add(MENU_GROUP, MENU_ABOUT, MENU_ABOUT, getResources().getString(R.string.LeftMenu_About)); 
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		Intent intent = new Intent();
-		switch (item.getItemId()) {
-		case MENU_LOGOFF:
-			new Thread(new LogOutThread()).start();
-			return true;
-//		case MENU_SETTING:
-//			intent.setClass(getActivity(),SettingActivity.class);
-//			startActivity(intent);
-//			return true;
-//		case MENU_HELP:
-//			intent.setClass(getActivity(),HelpActivity.class);
-//			startActivity(intent);
-//			return true;
-//		case MENU_FEEDBACK:
-//			MainActivityTAB.agent.startFeedbackActivity();
-//			return true;
-//		case MENU_ABOUT:
-//			intent.setClass(getActivity(),AboutActivity.class);
-//			startActivity(intent);
-//			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}
 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
@@ -199,7 +163,9 @@ public class WifiFragmentSupport extends SherlockFragment {
 		PasswordView = (EditText) rootView
 				.findViewById(R.id.wifi_txtPassword_EditText);
 		LoginButton = (Button) rootView.findViewById(R.id.wifi_cmdLogin_Button);
-		LoginButton.setOnClickListener(new LoginButtonListener());
+		Button logout = (Button)rootView.findViewById(R.id.wifi_cmdLogout_Button);
+		logout.setOnClickListener(this);
+		LoginButton.setOnClickListener(this);
 		moreButton = (ImageButton) rootView
 				.findViewById(R.id.wifi_txtAccount_more_Button);
 		bottomImg = (ImageView) rootView.findViewById(R.id.wifi_bottom);
@@ -596,32 +562,6 @@ public class WifiFragmentSupport extends SherlockFragment {
 
 	};
 
-	public class LogOutThread implements Runnable {
-
-		@Override
-		public void run() {
-			// TODO Auto-generated method stub
-			Message msg = LogOutHandler.obtainMessage();
-			HttpClient httpclient = new DefaultHttpClient();
-			HttpGet httpLogOff = new HttpGet(LogOutURL);
-			try {
-				HttpResponse httpResponse = httpclient.execute(httpLogOff);
-				if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-					String strResult = EntityUtils.toString(httpResponse
-							.getEntity());
-					msg.obj = (strResult);
-					msg.arg1 = 1;
-				}
-			} catch (ClientProtocolException e) {
-			} catch (IOException e) {
-			} catch (Exception e) {
-			} finally {
-				httpclient.getConnectionManager().shutdown();
-			}
-			LogOutHandler.sendMessage(msg);
-		}
-	}
-
 	public class OnlineThread implements Runnable {
 		@Override
 		public void run() {
@@ -731,17 +671,33 @@ public class WifiFragmentSupport extends SherlockFragment {
 		}
 	}
 
-	class LoginButtonListener implements OnClickListener {
-
-		@Override
-		public void onClick(View v) {
-			// TODO Auto-generated method stub
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()){
+		case R.id.wifi_cmdLogout_Button:
+			new Thread(new LogOutThread(this.LogOutHandler)).start();
+			Toast.makeText(getActivity(), "下线中……", Toast.LENGTH_SHORT).show();
+			break;
+		case R.id.wifi_cmdLogin_Button:
 			SaveConfig();
 			Account = AccountView.getText().toString();
+			try {
+				Long.parseLong(Account);
+			} catch (Exception e) {
+				AccountView.setText("");
+				Toast.makeText(getActivity(), "请输入正确的学号哦~~", Toast.LENGTH_SHORT).show();
+				return;
+			}
+			if (Account.length() != 13 ){
+				AccountView.setText("");
+				Toast.makeText(getActivity(), "请输入正确的学号哦~~", Toast.LENGTH_SHORT).show();
+				return;
+			}
 			Password = PasswordView.getText().toString();
-			LoginButton.setText("登陆中……");
+			Toast.makeText(getActivity(), "登陆中……", Toast.LENGTH_SHORT).show();
 			new Thread(new OnlineThread()).start();
 			LoginButton.setEnabled(false);
+			break;
 		}
 	}
 }
