@@ -40,6 +40,7 @@ public class WheelGroup extends LinearLayout {
 				R.styleable.WheelGroup_valueTextColor, 0xffff0000);
 		leftIndicatorWidth = typedArray.getDimension(
 				R.styleable.WheelGroup_leftIndicatorWidth, 15);
+		typedArray.recycle();
 		initView();
 
 	}

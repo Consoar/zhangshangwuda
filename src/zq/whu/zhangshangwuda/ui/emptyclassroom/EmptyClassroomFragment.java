@@ -385,8 +385,7 @@ public class EmptyClassroomFragment extends Fragment {
 				}
 				buildingWheelView.setAdapter(new WheelViewAdapter(
 						BUILDINGS_LIST.get(newValue), 3));
-				Log.i("haha", newValue + "!");
-
+				buildingWheelView.setCurrentItem(0);
 				break;
 			case 1:
 
