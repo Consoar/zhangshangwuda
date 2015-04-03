@@ -53,10 +53,10 @@ public class FindFragmentSupport extends BaseSherlockFragment {
 		} else if (TAB.equals(TABS[1])) {
 			return new EmptyClassroomFragment();
 		}
-
 		return null;
 	}
 
+	
 	private void addContents() {
 		addContent("  定时静音", TABS[0], R.drawable.ringer_tab_light,
 				R.drawable.ringer_tab_dark);

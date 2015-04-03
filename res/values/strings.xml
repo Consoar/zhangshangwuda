@@ -136,6 +136,5 @@
     <string name="Find">发现</string>
     <string name="empty_classroom">空闲教室</string>
     
-    <string name="lessons_json_url">http://115.29.17.73:8001/lessons/get.json</string>
 
 </resources>

@@ -55,42 +55,5 @@
         <item>Accordion</item>
     </string-array>
     
-     <string-array name="from_which_leseeon">
-        <item>第1节</item>
-        <item>第2节</item>
-        <item>第3节</item>
-        <item>第4节</item>
-        <item>第5节</item>
-        <item>第6节</item>
-        <item>第7节</item>
-        <item>第8节</item>
-        <item>第9节</item>
-        <item>第10节</item>
-        <item>第11节</item>
-        <item>第12节</item>
-        <item>第13节</item>
-    </string-array>
     
-    <string-array name="to_which_leseeon">
-        <item>到1节</item>
-        <item>到2节</item>
-        <item>到3节</item>
-        <item>到4节</item>
-        <item>到5节</item>
-        <item>到6节</item>
-        <item>到7节</item>
-        <item>到8节</item>
-        <item>到9节</item>
-        <item>到10节</item>
-        <item>到11节</item>
-        <item>到12节</item>
-        <item>到13节</item>
-    </string-array>
-    <string-array name="areas">
-        <item>1区</item>
-        <item>2区</item>
-        <item>3区</item>
-        <item>4区</item>
-        <item>国软</item>
-    </string-array>
 </resources>
