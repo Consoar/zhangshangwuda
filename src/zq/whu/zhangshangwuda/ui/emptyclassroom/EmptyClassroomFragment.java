@@ -44,6 +44,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 
 public class EmptyClassroomFragment extends Fragment {
 
+    
 	private static final String FILE_NAME = "info";
 	private static final String LESSONS_INFO_URL = "http://115.29.17.73:8001/lessons/get.json";
 	@ViewInject(R.id.rl_cancel_ok)
@@ -103,7 +104,11 @@ public class EmptyClassroomFragment extends Fragment {
 			{ "教一", "教三", "教四", "教五", "数", "新外", "枫", "法", "老外", "计" },
 			{ "一教", "十教", "十一教", "四教", "五教", "大创", }, { "教一", "教二", "附三" },
 			{ "一教", "二教", "三教", "五教", "六教", "七教" }, { "教学楼" } };
-
+	
+	private  String[] areasArray={"1区","2区","3区","4区","国软"};
+	private String[] fromLessonsArray={"第1节","第2节","第3节","第4节","第5节","第6节","第7节","第8节","第9节","第10节","第11节","第12节","第13节"};
+	private String[] toLessonsArray={"到1节","到2节","到3节","到4节","到5节","到6节","到7节","到8节","到9节","到10节","到11节","到12节","到13节"};
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -120,25 +125,16 @@ public class EmptyClassroomFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		/*
-		 * int nowWeek = LessonsTool.getNowWeek(getActivity());
-		 * FindContentActivity.FindActivityActionBar.setSubtitle("第" + nowWeek +
-		 * "周"); FindContentActivity.FindActivityActionBar
-		 * .setTitle(R.string.empty_classroom); initData();
-		 */
+		  int nowWeek = LessonsTool.getNowWeek(getActivity());
+		  FindContentActivity.FindActivityActionBar.setSubtitle("第" + nowWeek +
+		 "周"); FindContentActivity.FindActivityActionBar
+		 .setTitle(R.string.empty_classroom); initData();
+		 
 	}
 
-	@Override
-	public void onStart() {
-		super.onStart();
-		int nowWeek = LessonsTool.getNowWeek(getActivity());
-		FindContentActivity.FindActivityActionBar.setSubtitle("第" + nowWeek
-				+ "周");
-		FindContentActivity.FindActivityActionBar
-				.setTitle(R.string.empty_classroom);
-		initData();
-	}
+	
 
+	
 	private void initData() {
 		// 初始化字段
 		ALL_CLASSROOM_STATE_LIST = new ArrayList<List<List<Classroom>>>();
@@ -148,8 +144,7 @@ public class EmptyClassroomFragment extends Fragment {
 		buildingsList = new ArrayList<List<String>>();
 		allClassroomStateList = new ArrayList<List<List<Classroom>>>();
 		mContext = getActivity();
-		AREAS_LIST = Arrays.asList(mContext.getResources().getStringArray(
-				R.array.areas));
+		AREAS_LIST = Arrays.asList(areasArray);
 		for (int i = 0; i < buildingsArray.length; i++) {
 			BUILDINGS_LIST.add(Arrays.asList(buildingsArray[i]));
 		}
@@ -182,15 +177,13 @@ public class EmptyClassroomFragment extends Fragment {
 
 		fromWheelView = wheelContainer.get(2);
 		fromWheelView.setAdapter(new WheelViewAdapter(Arrays
-				.asList(getResources().getStringArray(
-						R.array.from_which_leseeon)), 4));
+				.asList(fromLessonsArray), 4));
 		fromWheelView.setId(2);
 		fromWheelView.addChangingListener(new WheeViewChanangeListener());
 
 		toWheelView = wheelContainer.get(3);
 		toWheelView.setAdapter(new WheelViewAdapter(
-				Arrays.asList(getResources().getStringArray(
-						R.array.to_which_leseeon)), 4));
+				Arrays.asList(toLessonsArray), 4));
 		toWheelView.setId(3);
 		toWheelView.addChangingListener(new WheeViewChanangeListener());
 	}
