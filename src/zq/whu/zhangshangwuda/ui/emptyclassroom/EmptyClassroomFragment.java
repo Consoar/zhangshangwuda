@@ -32,6 +32,7 @@ import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.ViewUtils;
@@ -44,7 +45,7 @@ import com.lidroid.xutils.view.annotation.ViewInject;
 public class EmptyClassroomFragment extends Fragment {
 
 	private static final String FILE_NAME = "info";
-
+	private static final String LESSONS_INFO_URL = "http://115.29.17.73:8001/lessons/get.json";
 	@ViewInject(R.id.rl_cancel_ok)
 	private RelativeLayout rlCancelOk;// 取消，确定按钮所在布局
 
@@ -55,12 +56,8 @@ public class EmptyClassroomFragment extends Fragment {
 	// 确定按钮
 	private Button btnOk;
 
-
-
 	@ViewInject(R.id.place_lessons_view)
 	private View placeLessonView;// 地点和时间的显示
-
-	
 
 	@ViewInject(R.id.ib_modify_place)
 	private ImageButton ibModiferPlace;// 修改地点按钮
@@ -123,12 +120,23 @@ public class EmptyClassroomFragment extends Fragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
+		/*
+		 * int nowWeek = LessonsTool.getNowWeek(getActivity());
+		 * FindContentActivity.FindActivityActionBar.setSubtitle("第" + nowWeek +
+		 * "周"); FindContentActivity.FindActivityActionBar
+		 * .setTitle(R.string.empty_classroom); initData();
+		 */
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
 		int nowWeek = LessonsTool.getNowWeek(getActivity());
 		FindContentActivity.FindActivityActionBar.setSubtitle("第" + nowWeek
 				+ "周");
-		FindContentActivity.FindActivityActionBar.setTitle(R.string.empty_classroom);
+		FindContentActivity.FindActivityActionBar
+				.setTitle(R.string.empty_classroom);
 		initData();
-
 	}
 
 	private void initData() {
@@ -146,7 +154,7 @@ public class EmptyClassroomFragment extends Fragment {
 			BUILDINGS_LIST.add(Arrays.asList(buildingsArray[i]));
 		}
 		String resultJson = SharedPreferencesUtils.getString(mContext,
-				FILE_NAME, getResources().getString(R.string.lessons_json_url));
+				FILE_NAME, LESSONS_INFO_URL);
 		if (!TextUtils.isEmpty(resultJson)) {
 			processData(resultJson);
 		}
@@ -228,7 +236,7 @@ public class EmptyClassroomFragment extends Fragment {
 	// 查寻某个时段全校教室的空闲情况 这个方法需在访问网络成功后调用，以保证数据的更新
 	public List<List<List<Classroom>>> getAllClassroomFreeTime(int from, int to) {
 		String json = SharedPreferencesUtils.getString(mContext, FILE_NAME,
-				getResources().getString(R.string.lessons_json_url));
+				LESSONS_INFO_URL);
 		EmptyClassroomInfo resultBean = GsonUtils.getBean(json,
 				EmptyClassroomInfo.class);
 		Map<String, TreeMap<String, TreeMap<String, List<String>>>> areasMap = resultBean
@@ -274,20 +282,16 @@ public class EmptyClassroomFragment extends Fragment {
 	// 访问网络获取数据
 	private void accessInternet() {
 		HttpUtils http = new HttpUtils();
-		http.send(HttpRequest.HttpMethod.GET,
-				getResources().getString(R.string.lessons_json_url),
+		http.send(HttpRequest.HttpMethod.GET, LESSONS_INFO_URL,
 				new RequestCallBack<String>() {
 					@Override
 					public void onSuccess(ResponseInfo<String> responseInfo) {
 						// 数据写入sp中缓存
-						SharedPreferencesUtils.putString(
-								mContext,
-								FILE_NAME,
-								getResources().getString(
-										R.string.lessons_json_url),
-								responseInfo.result);
+
+						SharedPreferencesUtils.putString(mContext, FILE_NAME,
+								LESSONS_INFO_URL, responseInfo.result);
 						processData(responseInfo.result);
-						
+
 					}
 
 					@Override
@@ -393,8 +397,6 @@ public class EmptyClassroomFragment extends Fragment {
 			case 2:
 				if (toWheelView.getCurrentItem() < newValue) {
 					toWheelView.setCurrentItem(newValue);
-					System.out.println("-----" + newValue);
-					Log.i("haha", newValue + "");
 				}
 				break;
 			case 3:
