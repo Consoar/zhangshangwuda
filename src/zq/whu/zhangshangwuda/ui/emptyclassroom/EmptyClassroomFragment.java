@@ -105,8 +105,10 @@ public class EmptyClassroomFragment extends Fragment {
 			{ "一教", "二教", "三教", "五教", "六教", "七教" }, { "教学楼" } };
 
 	private String[] areasArray = { "1区", "2区", "3区", "4区", "国软" };
+	
 	private String[] fromLessonsArray = { "第1节", "第2节", "第3节", "第4节", "第5节",
 			"第6节", "第7节", "第8节", "第9节", "第10节", "第11节", "第12节", "第13节" };
+	
 	private String[] toLessonsArray = { "到1节", "到2节", "到3节", "到4节", "到5节",
 			"到6节", "到7节", "到8节", "到9节", "到10节", "到11节", "到12节", "到13节" };
 
