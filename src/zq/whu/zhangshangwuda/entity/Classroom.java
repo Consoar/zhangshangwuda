@@ -1,13 +1,10 @@
 package zq.whu.zhangshangwuda.entity;
 
 import java.util.List;
-import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
-
-import android.R.integer;
 
 public class Classroom implements Comparable<Classroom> {
 	private String name;
@@ -74,7 +71,8 @@ public class Classroom implements Comparable<Classroom> {
 		for (; matcher.find();) {
 			String temp = matcher.group(1);
 			String noTail = temp.substring(0, temp.length() - 1);
-			if (StringUtils.countMatches(temp, separator) == 1) {
+			
+			if (countMatches(temp, separator) == 1) {
 				resultBuilder.append(noTail + "  ");
 			} else {
 				String fromNum = StringUtils.substringBefore(temp, separator);
@@ -86,6 +84,19 @@ public class Classroom implements Comparable<Classroom> {
 		return resultBuilder.toString();
 	}
 
+	int countMatches(String str, String sub){
+		int maxL = str.length() - sub.length() +1;
+		String temp;
+		int num = 0;
+		for (int i = 0; i < maxL; i++){
+			temp = str.substring(i,i+sub.length());
+			if (temp.equals(sub)) {
+				num ++;
+				i = i+sub.length()-1;
+			}
+		}
+		return num;
+	}
 	
 
 	@Override
