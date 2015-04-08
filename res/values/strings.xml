@@ -39,7 +39,7 @@
     <string name="Wifi_strAccountInputLabel">帐  号</string>
     <string name="Wifi_strPasswordInputLabel">密  码</string>
     <string name="Wifi_logout">下线</string>
-    <string name="Wifi_login">登陆</string>
+    <string name="Wifi_login">登录</string>
     <string name="Wifi_Exit">退出程序</string>
     <string name="Wifi_Detail">查看详情</string>
     <string name="Wifi_Logoff">强制注销</string>
@@ -62,7 +62,7 @@
     <string name="Lessons_strInputAccountHint">学号</string>
     <string name="Lessons_strInputPasswordHint">与教务系统密码相同</string>
     <string name="Lessons_logout">取消</string>
-    <string name="Lessons_login">登陆</string>
+    <string name="Lessons_login">登录</string>
     <string name="Lessons_widget_4_2">掌上武大会查课(4X2)</string>
     <string name="Lessons_widget_4_1">掌上武大会查课(4X1)</string>
     <!-- Lessons_Add -->
