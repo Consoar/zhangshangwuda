@@ -121,7 +121,14 @@
             android:key="common_isViewPagerTX"
             android:summary="是否开启课表/新闻滑动切换特效(需重启本软件)"
             android:title="开启切换特效" /> -->
-
+            
+		 <CheckBoxPreference
+            android:defaultValue="true"
+            android:enabled="true"
+            android:key="isReceiveInform"
+            android:summary="是否接收推送"
+            android:title="推送开关" />
+		 
         <PreferenceScreen
             android:key="common_update"
             android:title="检查更新" >

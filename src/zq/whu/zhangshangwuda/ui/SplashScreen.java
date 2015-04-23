@@ -8,6 +8,9 @@ import java.util.TimerTask;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import zq.whu.zhangshangwuda.tools.BosCrypto;
+import zq.whu.zhangshangwuda.tools.Constants;
+import zq.whu.zhangshangwuda.tools.SharedPreferencesUtils;
 import zq.whu.zhangshangwuda.ui.news.NewsContentActivity;
 import android.app.Activity;
 import android.content.Context;
@@ -20,6 +23,7 @@ import android.os.Bundle;
 import android.os.Debug;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.MotionEvent;
 
 import com.tencent.android.tpush.XGPushClickedResult;
@@ -55,7 +59,7 @@ public class SplashScreen extends Activity {
 	}
 
 	private final static int SWITCH_MAINACTIVITY = 1000;
-    private final static int SWITCH_GUIDACTIVITY = 1001;
+	private final static int SWITCH_GUIDACTIVITY = 1001;
 	public Handler mHandler = new Handler() {
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
@@ -80,26 +84,46 @@ public class SplashScreen extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.splash);
-		
-
 		boolean mFirst = isFirstEnter(SplashScreen.this, SplashScreen.this
 				.getClass().getName());
-//去掉引导页
-//		if (mFirst)
-//			mHandler.sendEmptyMessageDelayed(SWITCH_GUIDACTIVITY, 2000);
-//		else
-//		{
-			if (BuildConfig.DEBUG) {
-				XGPushConfig.enableDebug(getApplicationContext(), true);
-			} else
-				XGPushConfig.enableDebug(getApplicationContext(), false);
-			XGPushManager.registerPush(getApplicationContext());
-			getWindow().setBackgroundDrawable(null);
-			Mysettings = getSharedPreferences("User_Data", 0);
-			timer = new Timer(true);
-			startTime = System.currentTimeMillis();
-			timer.schedule(task, 0, 1);
-//		}
+		// 去掉引导页
+		// if (mFirst)
+		// mHandler.sendEmptyMessageDelayed(SWITCH_GUIDACTIVITY, 2000);
+		// else
+		// {
+		if (BuildConfig.DEBUG) {
+			XGPushConfig.enableDebug(getApplicationContext(), true);
+		} else {
+			XGPushConfig.enableDebug(getApplicationContext(), false);
+		}
+		//设置项中是否设置接收推送
+		boolean isReceiveInform = SharedPreferencesUtils.getBoolean(this,
+				Constants.PREFS_NAME_APP_SETTING, "isReceiveInform", true);
+		//从课程表登录拿到学号，但是这种实现方式，只有当用户重启应用加载
+		//SplashScreen时才能执行推送的绑定注册，并不能登录后立即
+		String studntNum = SharedPreferencesUtils.getString(this, "User_Data",
+				"lessons_Account", "");
+		if (isReceiveInform) {
+			if (!TextUtils.isEmpty(studntNum)) {
+				try {
+					studntNum = BosCrypto.decrypt(BosCrypto.Excalibur,
+							studntNum);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				//第二个参数acount不能为null
+				XGPushManager.registerPush(getApplicationContext(), studntNum);
+			} else {
+				XGPushManager.registerPush(getApplicationContext());
+			}
+		} else {
+			XGPushManager.unregisterPush(getApplicationContext());
+		}
+
+		getWindow().setBackgroundDrawable(null);
+		timer = new Timer(true);
+		startTime = System.currentTimeMillis();
+		timer.schedule(task, 0, 1);
 
 	}
 
