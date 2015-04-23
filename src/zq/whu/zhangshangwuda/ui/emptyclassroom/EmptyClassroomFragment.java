@@ -150,7 +150,7 @@ public class EmptyClassroomFragment extends Fragment {
 			BUILDINGS_LIST.add(Arrays.asList(buildingsArray[i]));
 		}
 		String resultJson = SharedPreferencesUtils.getString(mContext,
-				FILE_NAME, LESSONS_INFO_URL);
+				FILE_NAME, LESSONS_INFO_URL,"");
 		if (!TextUtils.isEmpty(resultJson)) {
 			processData(resultJson);
 		}
@@ -230,7 +230,7 @@ public class EmptyClassroomFragment extends Fragment {
 	// 查寻某个时段全校教室的空闲情况 这个方法需在访问网络成功后调用，以保证数据的更新
 	public List<List<List<Classroom>>> getAllClassroomFreeTime(int from, int to) {
 		String json = SharedPreferencesUtils.getString(mContext, FILE_NAME,
-				LESSONS_INFO_URL);
+				LESSONS_INFO_URL,"");
 		EmptyClassroomInfo resultBean = GsonUtils.getBean(json,
 				EmptyClassroomInfo.class);
 		Map<String, TreeMap<String, TreeMap<String, List<String>>>> areasMap = resultBean
