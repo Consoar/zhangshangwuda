@@ -305,9 +305,9 @@ public class LessonsLoginActivity extends SwipeBackSherlockActivity
 
 	public boolean isRememberMe() 
 	{
-		SharedPreferences Mysettings = LessonsLoginActivity.this
+		SharedPreferences mysettings = LessonsLoginActivity.this
 				.getSharedPreferences(Constants.PREFS_NAME_APP_SETTING, 0);
-		return Mysettings.getBoolean("lessons_isRememberMe", true);
+		return mysettings.getBoolean("lessons_isRememberMe", true);
 	}
 
 	public void InitConfig() 
