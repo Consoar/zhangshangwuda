@@ -5,19 +5,13 @@
     android:background="@null"
     android:orientation="vertical" >
 
-    <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:background="@null"
-        android:scrollbarStyle="outsideOverlay" >
-
         <LinearLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="@null"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp" >
 
             <LinearLayout
                 android:layout_width="fill_parent"
@@ -59,7 +53,7 @@
 	                    android:paddingLeft="6dp"
 	                    android:textColor="@color/darkgray"
 	                    android:textSize="15sp" />
-	               </LinearLayout>
+	            </LinearLayout>
 
                 <View
                      android:id="@+id/news_content_news_content_line"
@@ -69,14 +63,14 @@
                     android:visibility="gone"
                     android:paddingTop="10dp" />
             </LinearLayout>
+            
+            <WebView
+                android:id="@+id/news_content_webview_content"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:layerType="software"
+                android:visibility="gone"/>
 
-            <LinearLayout
-                android:id="@+id/news_content_news_content_LinearLayout"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:orientation="vertical" />
         </LinearLayout>
-    </ScrollView>
 
 </LinearLayout>

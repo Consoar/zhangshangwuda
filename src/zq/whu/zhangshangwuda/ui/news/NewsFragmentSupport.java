@@ -107,8 +107,6 @@ public class NewsFragmentSupport extends BaseSherlockFragment {
 		super.onCreate(savedInstanceState);
 		// System.out.println("NewsFragment_onCreate");
 		setHasOptionsMenu(true);
-		//设置DisplayTool中的Density以便获取图片时使用
-		DisplayTool.setDensity(NewsFragmentSupport.this);
 	}
 
 	@Override

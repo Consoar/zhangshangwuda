@@ -66,7 +66,7 @@
         AppKey="801307650"
         AppSecret="ae36f4ee3946e1cbb98d6965b0b2ff5c"
         RedirectUri="http://sharesdk.cn"
-        Enable="true" />
+        Enable="false" />
 
     <!-- ShareByAppClient标识是否使用微博客户端分享，默认是false -->
     <QZone
@@ -94,7 +94,7 @@
         SortId="2"
         AppId="wx2430a6a1460afc29"
         AppSecert="b13332b33cd80c1897daf0716d6ff6bf"
-        BypassApproval="true"
+        BypassApproval="false"
         Enable="true" />
     
     <WechatMoments
@@ -102,7 +102,7 @@
         SortId="3"
         AppId="wx2430a6a1460afc29"
         AppSecert="b13332b33cd80c1897daf0716d6ff6bf"
-        BypassApproval="true"
+        BypassApproval="false"
         Enable="true" />
         
 	<WechatFavorite
@@ -193,7 +193,7 @@
         ConsumerKey="dcde25dca105bcc36884ed4534dab940"
         ConsumerSecret="d98217b4020e7f1874263795f44838fe"
         RedirectUri="http://www.sharesdk.cn"
-        Enable="true" />
+        Enable="false" />
         
 	<SohuSuishenkan
         Id="18"
@@ -220,7 +220,7 @@
     	ConsumerKey="sharesdk-7807"
 		ConsumerSecret="d05bf86993836004"
 		ShareByAppClient="true"
-		Enable="true" />
+		Enable="false" />
     
     <LinkedIn
     	Id="20"

@@ -1,5 +1,6 @@
 package zq.whu.zhangshangwuda.tools;
 
+import zq.whu.zhangshangwuda.ui.MyApplication;
 import zq.whu.zhangshangwuda.ui.news.NewsFragmentSupport;
 import android.app.Activity;
 import android.content.Context;
@@ -9,14 +10,9 @@ import android.view.Display;
 
 public class DisplayTool {
 	private static DisplayMetrics displayMetrics;
-	private static int densitydpi;
 
 	public static boolean isTablet(Context context) {
 		return (context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) >= Configuration.SCREENLAYOUT_SIZE_LARGE;
-	}
-
-	public static void setDensity(NewsFragmentSupport newsFragmentSupport) {
-		densitydpi = newsFragmentSupport.getResources().getDisplayMetrics().densityDpi;
 	}
 	
 	public static int dip2px(Context context, float dpValue) {
@@ -57,6 +53,7 @@ public class DisplayTool {
 	public static String getMyImageUrl(String url) {
 		int scale;
 		StringBuffer sb = new StringBuffer(url);
+		int densitydpi = MyApplication.getDensityDpi();
 		if(densitydpi > 240)
 			scale = 640;
 		else if(densitydpi > 160)
@@ -98,7 +95,7 @@ public class DisplayTool {
 						.getDefaultDisplay();
 				DisplayMetrics metrics = new DisplayMetrics();
 				display.getMetrics(metrics);
-				this.displayMetrics = metrics;
+				displayMetrics = metrics;
 				return metrics;
 			} else {
 				// default screen is 800x480

@@ -164,7 +164,6 @@ public class NewsTool {
 			return null;
 		JSONArray arr = null;
 		arr = new JSONArray(jsonData);
-		// System.out.println(jsonData);
 		JSONObject temp = (JSONObject) arr.get(0);
 		Map<String, String> map = new HashMap<String, String>();
 		if(temp.getString("category").contains("广告"))
@@ -172,14 +171,13 @@ public class NewsTool {
 		else
 			map.put("category", temp.getString("category").trim());
 		map.put("content", temp.getString("content"));
-		// System.out.println(temp.getString("content"));
 		map.put("author", temp.getString("author"));
 		map.put("tag", temp.getString("tag"));
 		map.put("image", temp.getString("image"));
 		map.put("time", temp.getString("published"));
 		map.put("title", temp.getString("title"));
 		map.put("id", temp.getString("id"));
-		map.put("href", temp.getString("share_url"));
+		map.put("share_url", temp.getString("share_url"));
 		return map;
 	}
 

@@ -3,6 +3,7 @@
 import imid.swipebacklayout.lib.SwipeBackLayout;
 import org.htmlparser.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.json.JSONException;
@@ -13,6 +14,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import zq.whu.zhangshangwuda.base.BaseThemeSwipeBackSherlockActivity;
+import zq.whu.zhangshangwuda.base.PreferenceHelper;
 import zq.whu.zhangshangwuda.tools.Constants;
 import zq.whu.zhangshangwuda.tools.DisplayTool;
 import zq.whu.zhangshangwuda.tools.HtmlTool;
@@ -20,7 +22,9 @@ import zq.whu.zhangshangwuda.tools.NewsTool;
 import zq.whu.zhangshangwuda.tools.StringUtils;
 import zq.whu.zhangshangwuda.tools.ThemeUtility;
 import zq.whu.zhangshangwuda.ui.BuildConfig;
+import zq.whu.zhangshangwuda.ui.MyApplication;
 import zq.whu.zhangshangwuda.ui.R;
+import zq.whu.zhangshangwuda.ui.R.color;
 import zq.whu.zhangshangwuda.views.toast.ToastUtil;
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -35,16 +39,20 @@ import android.os.Message;
 import android.os.Vibrator;
 import android.text.Spanned;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 import cn.sharesdk.onekeyshare.ShareContentCustomizeCallback;
 import cn.sharesdk.sina.weibo.SinaWeibo;
 import cn.sharesdk.sina.weibo.SinaWeibo.ShareParams;
+import cn.sharesdk.wechat.friends.Wechat;
 
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
@@ -59,7 +67,7 @@ public class NewsContentActivity extends BaseThemeSwipeBackSherlockActivity {
 	private boolean isSaveInLocal, isAutoSaveInLocal;
 	private TextView titleTextView, anthorTextView, moreinfoTextView;
 	private View content_line;
-	private LinearLayout contentLinearLayout;
+	private WebView contentWebView;
 	private String title;
 	private String time;
 	private String href;
@@ -133,7 +141,7 @@ public class NewsContentActivity extends BaseThemeSwipeBackSherlockActivity {
 		titleTextView = (TextView) findViewById(R.id.news_content_news_title_TextView);
 		anthorTextView = (TextView) findViewById(R.id.news_content_news_author_TextView);
 		moreinfoTextView = (TextView) findViewById(R.id.news_content_news_moreinfo_TextView);
-		contentLinearLayout = (LinearLayout) findViewById(R.id.news_content_news_content_LinearLayout);
+		contentWebView = (WebView) findViewById(R.id.news_content_webview_content);
 		content_line = (View) findViewById(R.id.news_content_news_content_line);
 	}
 
@@ -197,7 +205,6 @@ public class NewsContentActivity extends BaseThemeSwipeBackSherlockActivity {
 				content_line.setVisibility(View.INVISIBLE);
 			} else {
 				content_line.setVisibility(View.VISIBLE);
-				contentLinearLayout.removeAllViews();
 				boolean showImage = isShowImage();
 				titleTextView.setText(contentmap.get("title"));
 				if(!StringUtils.isEmpty(contentmap.get("author")))
@@ -206,40 +213,47 @@ public class NewsContentActivity extends BaseThemeSwipeBackSherlockActivity {
 					anthorTextView.setText(contentmap.get("tag"));
 				moreinfoTextView.setText(contentmap.get("time"));
 				getSupportActionBar().setSubtitle(contentmap.get("category"));
-				Document doc = Jsoup.parse(contentmap.get("content"));
-				Elements contents = doc.getElementsByTag("p");
-				for (Element content : contents) {
-					if (showImage) {
-						Elements imgs = content.getElementsByTag("img");
-						for (Element img : imgs) {
-							ImageViewFromUrl pic = new ImageViewFromUrl(
-									NewsContentActivity.this);
-							String t = img.attr("width");
-							int pwidth = 200, pheight = 300;
-							if (!t.equals(""))
-								pwidth = Integer.parseInt(t);
-							t = img.attr("height");
-							if (!t.equals(""))
-								pheight = Integer.parseInt(t);
-							if (!StringUtils.isEmpty(img.absUrl("src")))
-								pic.load(DisplayTool.getMyImageUrl(img.absUrl("src")), pwidth, pheight);
-							contentLinearLayout.addView(pic);
+				Document documentNewsContent = Jsoup.parse(contentmap.get("content"));
+				//调整图片的尺寸
+				Elements pics = documentNewsContent.getElementsByTag("img");
+				for (Element pic : pics) {
+					if(showImage){
+						String picHref = pic.attr("src");
+						pic.attr("src", DisplayTool.getMyImageUrl(picHref));
+						double picWidth = Integer.parseInt(pic.attr("width"));
+						double picHeight = Integer.parseInt(pic.attr("height"));
+						double maxWidth = DisplayTool.px2dip(NewsContentActivity.this, 
+								MyApplication.getDisplayWidth()-DisplayTool.dip2px(NewsContentActivity.this, 48));
+						//宽高比例
+						double factorWidthOverHeight = picWidth / picHeight;	
+						if(picWidth > maxWidth){
+							picWidth = maxWidth;
+							picHeight = (int) (picWidth / factorWidthOverHeight);
+							pic.attr("width", picWidth + "");
+							pic.attr("height", picHeight + "");
 						}
-					}
-					if (!content.text().equals(Jsoup.parse("&nbsp;").text())) {
-						TextView tx = new TextView(NewsContentActivity.this);
-						if (VERSION.SDK_INT >= VERSION_CODES.HONEYCOMB) {
-							tx.setTextIsSelectable(true);
-						}
-						tx.setBackgroundDrawable(null);
-						tx.setText(content.text());
-						tx.setLineSpacing(3.0f, 1.5f);
-						tx.setTextSize(15);
-						tx.setTextColor(ThemeUtility
-								.getColor(R.attr.newsContentTextColor));
-						contentLinearLayout.addView(tx);
+					} else {
+						//不显示图片时把图片标签改成p标签
+						pic.tagName("p");
+						pic.removeAttr("src");
+						pic.removeAttr("width");
+						pic.removeAttr("height");
+						pic.append("<图片>(更改设置后显示)");
 					}
 				}
+				int mTheme = PreferenceHelper.getTheme(NewsContentActivity.this);
+				//黑版要用CSS把文字弄成白色的
+				if (mTheme != R.style.MyLightTheme){
+					Elements ps = documentNewsContent.getElementsByTag("p");
+					for (Element p : ps) {
+						p.attr("style", "color:#FFFFFF");
+					}
+				}
+				String htmlData = documentNewsContent.html();
+				//WebView的背景色要和background一致
+				contentWebView.setBackgroundColor(0x111111);
+				contentWebView.setVisibility(View.VISIBLE);
+				contentWebView.loadDataWithBaseURL(null, htmlData, "text/html", "utf-8", null);
 			}
 			setSupportProgressBarIndeterminateVisibility(false);
 		}
@@ -271,37 +285,58 @@ public class NewsContentActivity extends BaseThemeSwipeBackSherlockActivity {
 		// 关闭sso授权
 		oks.disableSSOWhenAuthorize();
 
-		oks.setShareContentCustomizeCallback(new ShareContentCustomizeSinaWeibo());
+		//新浪微博定制分享，有140字的字数限制
+		oks.setShareContentCustomizeCallback(new ShareContentCustomize());
+		
 		// 分享时Notification的图标和文字
-		oks.setNotification(R.drawable.icon,
-				getString(R.string.app_name));
-		// title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
+		oks.setNotification(R.drawable.icon, getString(R.string.app_name));
+		
+		// title标题，在印象笔记、邮箱、信息、微信（包括好友、朋友圈和收藏）、 
+		//易信（包括好友、朋友圈）、人人网和QQ空间使用，否则可以不提供
 		oks.setTitle(contentmap.get("title"));
+		
 		// titleUrl是标题的网络链接，仅在人人网和QQ空间使用
-		oks.setTitleUrl(contentmap.get("href"));
-		// text是分享文本，所有平台都需要这个字段
+		oks.setTitleUrl(contentmap.get("share_url"));
+		
+		// 构建分享文本，所有平台都需要这个字段
+		//标题、作者、时间
 		StringBuilder sb = new StringBuilder(contentmap.get("title"));
-		sb.append("\n");
+		sb.append("\n\n");
+		if(!StringUtils.isEmpty(contentmap.get("author")))
+			sb.append(contentmap.get("author"));
+		else
+			sb.append(contentmap.get("tag"));
+		sb.append(" ");
+		sb.append(contentmap.get("time"));
+		sb.append("\n\n");
+		
+		//直接抽离HTML
 		Document doc = Jsoup.parse(contentmap.get("content"));
 		Elements contents = doc.getElementsByTag("p");
 		for (Element content : contents) {
 			sb.append(content.text()).append("\n");
 		}
+		sb.append("\n   【来自 掌上武大 的分享】");
+		
+		//imageUrl是图片的网络路径，新浪微博、人人网、QQ空间和Linked-In支持此字段 
+		oks.setImageUrl(contentmap.get("image"));
+		
+		//text是分享文本
 		oks.setText(sb.toString());
-		// imagePath是图片的本地路径，Linked-In以外的平台都支持此参数
-		if(!StringUtils.isEmpty(contentmap.get("image")) && StringUtils.isImageUrl(contentmap.get("image")))
-			oks.setImageUrl(contentmap.get("image"));
-		// url仅在微信（包括好友和朋友圈）中使用
-		oks.setUrl(contentmap.get("href"));
-		// comment是我对这条分享的评论，仅在人人网和QQ空间使用
-		oks.setComment("我是测试评论文本");
+		
+		// url在微信（包括好友、朋友圈收藏）和易信（包括好友和朋友圈）中使用，否则可以不提供 
+		oks.setUrl(contentmap.get("share_url"));
+		
 		// site是分享此内容的网站名称，仅在QQ空间使用
 		oks.setSite(getString(R.string.app_name));
+		
 		// siteUrl是分享此内容的网站地址，仅在QQ空间使用
 		oks.setSiteUrl("http://www.ziqiang.net");
-
+		
 		// 启动分享GUI
 		oks.show(this);
+			
+			
 	}
 
 	// public void saveData() {
@@ -313,26 +348,25 @@ public class NewsContentActivity extends BaseThemeSwipeBackSherlockActivity {
 	  * 快捷分享自定义-新浪微博
 	  *
 	  */
-	 class ShareContentCustomizeSinaWeibo implements ShareContentCustomizeCallback {
-
-			@Override
-			public void onShare(Platform platform,
-					cn.sharesdk.framework.Platform.ShareParams paramsToShare) {
-				// TODO Auto-generated method stub
-                if (SinaWeibo.NAME.equals(platform.getName())) {
-                    StringBuilder sb = new StringBuilder(contentmap.get("title"));
-                    sb.append("\n");
-                    Document doc = Jsoup.parse(contentmap.get("content"));
-            		Elements contents = doc.getElementsByTag("p");
-            		for (Element content : contents) {
-            			sb.append(content.text()).append("\n");
-            		}
-                    sb.delete(80, sb.length()-1).append("...\n")
-                    .append("更多：").append(contentmap.get("href"));
-                    paramsToShare.setText(sb.toString());
-            }
-			}
-
+	 class ShareContentCustomize implements ShareContentCustomizeCallback {
+		 @Override
+		 public void onShare(Platform platform,
+				 cn.sharesdk.framework.Platform.ShareParams paramsToShare) {
+			 
+			 //定制新浪微博
+			 if (SinaWeibo.NAME.equals(platform.getName())) {
+				 StringBuilder sb = new StringBuilder(contentmap.get("title"));
+				 sb.append("\n");
+				 Document doc = Jsoup.parse(contentmap.get("content"));
+				 Elements contents = doc.getElementsByTag("p");
+				 for (Element content : contents) {
+					 sb.append(content.text()).append("\n");
+				 }
+				 sb.delete(80, sb.length()-1).append("...\n")
+				 .append("更多：").append(contentmap.get("share_url"));
+				 paramsToShare.setText(sb.toString());
+			 }
+		 }
 	 }
 
 }
