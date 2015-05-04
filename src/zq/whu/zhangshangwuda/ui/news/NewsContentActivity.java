@@ -220,8 +220,15 @@ public class NewsContentActivity extends BaseThemeSwipeBackSherlockActivity {
 					if(showImage){
 						String picHref = pic.attr("src");
 						pic.attr("src", DisplayTool.getMyImageUrl(picHref));
-						double picWidth = Integer.parseInt(pic.attr("width"));
-						double picHeight = Integer.parseInt(pic.attr("height"));
+						double picWidth;
+						double picHeight;
+						if(!pic.attr("width").equals("") && !pic.attr("height").equals("")){
+							picWidth = Integer.parseInt(pic.attr("width"));
+							picHeight = Integer.parseInt(pic.attr("height"));
+						} else {
+							picWidth = 450;
+							picHeight = 300;
+						}
 						double maxWidth = DisplayTool.px2dip(NewsContentActivity.this, 
 								MyApplication.getDisplayWidth()-DisplayTool.dip2px(NewsContentActivity.this, 48));
 						//宽高比例
