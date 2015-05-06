@@ -37,7 +37,7 @@ public class NewsFragmentCommon extends NewsFragmentBase {
 	public static final String URL = "URL";
 	public static final String TABNAME = "TABNAME";
 	private View rootView;
-	private String URL_MAIN = "http://news.ziqiang.net/api/article/?n=15&s=全部&p=";
+	private String URL_MAIN;
 	private String URL_ALL;
 	private String TAB_NAME;
 	private int page = 1;
@@ -236,14 +236,7 @@ public class NewsFragmentCommon extends NewsFragmentBase {
 						try {
 							lastpos = newsList.size();
 							tempList = NewsTool.getNewsList(URL_ALL);
-							if (tempList != null) {
-								if (TAB_NAME.contains("活动")) {
-									tempList = NewsTool.getNewsHDList(tempList);
-								}
-								if (TAB_NAME.contains("通知")) {
-									tempList = NewsTool.getNewsTZList(tempList);
-								}
-							} else {
+							if (tempList == null) {
 								loadMoreError = true;
 								--page;
 							}
@@ -275,14 +268,6 @@ public class NewsFragmentCommon extends NewsFragmentBase {
 						URL_ALL = URL_MAIN + page;
 						try {
 							tempList = NewsTool.getNewsList(URL_ALL);
-							if (tempList != null) {
-								if (TAB_NAME.contains("活动")) {
-									tempList = NewsTool.getNewsHDList(tempList);
-								}
-								if (TAB_NAME.contains("通知")) {
-									tempList = NewsTool.getNewsTZList(tempList);
-								}
-							}
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
@@ -303,14 +288,6 @@ public class NewsFragmentCommon extends NewsFragmentBase {
 						URL_ALL = URL_MAIN + page;
 						try {
 							tempList = NewsTool.getNewsListFromCache(URL_ALL);
-							if (tempList != null) {
-								if (TAB_NAME.contains("活动")) {
-									tempList = NewsTool.getNewsHDList(tempList);
-								}
-								if (TAB_NAME.contains("通知")) {
-									tempList = NewsTool.getNewsTZList(tempList);
-								}
-							}
 						} catch (JSONException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();

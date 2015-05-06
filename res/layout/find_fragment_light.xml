@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+    
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
+        
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+            
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dip"
+                android:layout_marginLeft="10dip"
+                android:text="@string/function"
+                android:textSize="15sp" />
+            
+            <zq.whu.zhangshangwuda.views.FindLinearLayout
+				android:id="@+id/findlinearlayout"
+				android:layout_width="fill_parent"
+				android:layout_height="match_parent"
+				android:orientation="vertical" >
+			</zq.whu.zhangshangwuda.views.FindLinearLayout>
+		
+        	<View
+            	android:layout_width="fill_parent"
+            	android:layout_height="2dip"
+            	android:layout_marginTop="20dip"
+            	android:background="#d7d7d7" />
+        	
+        	<Button
+        	    android:id="@+id/find_button_setting"
+        	    android:layout_width="fill_parent"
+        	    android:layout_height="fill_parent"
+        	    android:text="@string/LeftMenu_Setting"
+        	    android:layout_marginTop="10dip" />
+        	
+        	<Button
+        	    android:id="@+id/find_button_help"
+        	    android:layout_width="fill_parent"
+        	    android:layout_height="fill_parent"
+        	    android:text="@string/LeftMenu_Help"
+        	    android:layout_marginTop="3dip" />
+        	
+        	<Button
+        	    android:id="@+id/find_button_feedback"
+        	    android:layout_width="fill_parent"
+        	    android:layout_height="fill_parent"
+        	    android:text="@string/LeftMenu_FeedBack"
+        	    android:layout_marginTop="3dip" />
+        	
+        	<Button
+        	    android:id="@+id/find_button_about"
+        	    android:layout_width="fill_parent"
+        	    android:layout_height="fill_parent"
+        	    android:text="@string/LeftMenu_About"
+        	    android:layout_marginTop="3dip" />
+            
+        </LinearLayout>
+        
+    </ScrollView>
+    "
+</LinearLayout>
+

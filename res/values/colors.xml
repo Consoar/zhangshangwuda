@@ -291,6 +291,9 @@
     <!-- 黑色 -->
     <color name="alpha">#00000000</color>
     <!-- 透明色 -->
+    
+    <color name="red_unpress">#be232b</color>
+    <color name="red_pressed">#a1161d</color>
 
     <color name="List_Title_color">#222222</color>
     <color name="List_Time_color">#777777</color>
@@ -313,5 +316,7 @@
     <color name="actionbar_light">#DDDDDD</color>
     <color name="actionbar_black">#1c1c1c</color>
     <color name="holo_blue">#FF33E5B5</color>
-
+   
+     <color name="separator_color">#b9b9bb</color>
+    <color name="titlebat_bg_color">#e5e5e5</color>
 </resources>

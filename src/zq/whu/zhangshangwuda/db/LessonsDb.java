@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 import zq.whu.zhangshangwuda.entity.Lessons;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -92,6 +93,7 @@ public class LessonsDb extends LessonsDBUtil {
 	 */
 	public List<Map<String, String>> getLessonsByDay(String day) {
 		ArrayList<Map<String, String>> list = new ArrayList<Map<String, String>>();
+		ArrayList<Map<String, String>> alist = new ArrayList<Map<String, String>>();
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor cursor = db.query(TABLE_NAME, null, "day = ?",
 				new String[] { String.valueOf(day) }, null, null, null);
@@ -120,7 +122,20 @@ public class LessonsDb extends LessonsDBUtil {
 			cursor = null;
 			db.close();
 		}
-		return list;
+		
+		for (int i = 0; i < 13; i++)
+		{
+			for (int j = 0; j < list.size(); j++)
+			{
+				Map<String, String> aMap = list.get(j);
+				if (Integer.parseInt(aMap.get("time").substring(0, aMap.get("time").indexOf("-"))) == i)
+				{
+					alist.add(aMap);
+				}
+			}
+		}
+		
+		return alist;
 	}
 
 	/**
@@ -155,6 +170,45 @@ public class LessonsDb extends LessonsDBUtil {
 		db.close();
 		return null;
 	}
+	
+	public List<Map<String, String>> getLocalLessonsListGroupByName(){
+		ArrayList<Map<String, String>> list = new ArrayList<Map<String, String>>();
+		Set<String> set=new TreeSet<String>();
+		SQLiteDatabase db = this.getReadableDatabase();		
+		Cursor cursor = db.query(TABLE_NAME, //
+				null, null, null, null, null, null);
+		try {
+			while (cursor.moveToNext()) {
+				Map<String, String> map = new HashMap<String, String>();
+				map.put("id", cursor.getString(cursor.getColumnIndex("id")));
+				map.put("name", cursor.getString(cursor.getColumnIndex("name")));
+				set.add(cursor.getString(cursor.getColumnIndex("name")));
+				list.add(map);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (cursor != null)
+				cursor.close();
+			cursor = null;
+			db.close();
+		}
+		ArrayList<Map<String, String>> _list = new ArrayList<Map<String, String>>();
+		for(String name:set){
+			Map<String, String> map=new HashMap<String, String>();
+			String id="";
+			for(Map<String, String> course:list){
+				if(course.get("name").equals(name)) {
+					id=id+course.get("id")+";";					
+				}
+			}
+			map.put("name", name);
+			map.put("id", id);
+			_list.add(map);
+		}
+		return _list;		
+	}
+	
 
 	/**
 	 * 

@@ -1,15 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+	
+    <string-array name="ringer_after_mode">
+        <item>声音</item>
+        <item>震动</item>
+        <item>之前状态</item>
+    </string-array>
+    <string-array name="ringer_after_mode_value">
+        <item>normal</item>
+        <item>vibrate</item>
+        <item>recover</item>
+    </string-array>
+    
+    <string-array name="ringer_mode">
+        <item>静音</item>
+        <item>震动</item>
+    </string-array>
+    <string-array name="ringer_mode_value">
+        <item>silent</item>
+        <item>vibrate</item>
+    </string-array>
     <string-array name="start_tabs">
         <item>新闻</item>
         <item>课程表</item>
         <item>无线网</item>
+		<item>发现</item>
     </string-array>
     <string-array name="start_tabs_value">
         <item>news</item>
         <item>lessons</item>
         <item>wifi</item>
+		<item>find</item>
     </string-array>
     <string-array name="theme_tabs">
         <item>白版</item>
@@ -33,4 +54,6 @@
         <item>RotateDown</item>
         <item>Accordion</item>
     </string-array>
+    
+    
 </resources>

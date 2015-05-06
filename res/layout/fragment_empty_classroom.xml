@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pngfi="http://schemas.android.com/apk/res/zq.whu.zhangshangwuda.ui"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/rl_cancel_ok"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/titlebat_bg_color"
+        android:visibility="gone" >
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/bg_btncancel"
+            android:text="取消"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/btn_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/bg_btnok"
+            android:text="确定"
+            android:textColor="@color/white" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_alignParentBottom="true"
+            android:background="@color/separator_color" />
+    </RelativeLayout>
+
+    <include
+        android:id="@+id/place_lessons_view"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@id/rl_cancel_ok"
+        layout="@layout/place_lessons_choose" />
+
+    <ExpandableListView
+        android:id="@+id/expandableListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:layout_below="@id/place_lessons_view"
+        android:background="#f8f8f4"
+        android:groupIndicator="@drawable/elist_group_indicator" />
+
+    <zq.whu.zhangshangwuda.ui.emptyclassroom.WheelGroup
+        android:id="@+id/wg_place_leseons_choose"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/bg_wheel_group"
+        android:gravity="center_vertical"
+        android:visibility="gone"
+        pngfi:additionalItemHeight="20dp"
+        pngfi:leftIndicatorWidth="8dp"
+        pngfi:textSize="16sp"
+        pngfi:valueTextColor="#ff2a9939"
+        pngfi:wheelNumber="4" />
+
+</RelativeLayout>

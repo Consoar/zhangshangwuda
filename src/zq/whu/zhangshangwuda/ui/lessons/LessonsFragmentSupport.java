@@ -8,9 +8,12 @@ import zq.whu.zhangshangwuda.base.UmengSherlockFragmentActivity;
 import zq.whu.zhangshangwuda.tools.LessonsSharedPreferencesTool;
 import zq.whu.zhangshangwuda.tools.LessonsTool;
 import zq.whu.zhangshangwuda.tools.SettingSharedPreferencesTool;
-import zq.whu.zhangshangwuda.ui.MainActivity;
+import zq.whu.zhangshangwuda.ui.AboutActivity;
+import zq.whu.zhangshangwuda.ui.HelpActivity;
+import zq.whu.zhangshangwuda.ui.MainActivityTAB;
 import zq.whu.zhangshangwuda.ui.MyApplication;
 import zq.whu.zhangshangwuda.ui.R;
+import zq.whu.zhangshangwuda.ui.SettingActivity;
 import zq.whu.zhangshangwuda.views.LessonsViewPager;
 import zq.whu.zhangshangwuda.views.toast.ToastUtil;
 import zq.whu.zhangshangwuda.views.viewpager.JazzyViewPager.TransitionEffect;
@@ -22,6 +25,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,9 +39,15 @@ import com.umeng.analytics.MobclickAgent;
 public class LessonsFragmentSupport extends BaseSherlockFragment {
 	private static final String mPageName = "LessonsFragment";
 	private static int ACTIONBAR_MODEL = 0;
+	private final int MENU_GROUP = 1;
 	private static final int MENU_LOGOFF = Menu.FIRST;
 	private static final int MENU_ADD = Menu.FIRST + 1;
 	private static final int MENU_TODAY = Menu.FIRST + 2;
+	private static final int MENU_COURSES=Menu.FIRST+3;
+	private final int MENU_SETTING = Menu.FIRST + 4;
+	private final int MENU_HELP = Menu.FIRST + 5;
+	private final int MENU_FEEDBACK = Menu.FIRST + 6;
+	private final int MENU_ABOUT = Menu.FIRST + 7;
 	private static MyApplication application;
 	private boolean lessonsHave;
 	private String sWeekFormat;
@@ -47,41 +57,31 @@ public class LessonsFragmentSupport extends BaseSherlockFragment {
 	private View rootView;
 
 	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		menu.add(Menu.NONE, MENU_ADD, 1,
-				getResources().getString(R.string.Lessons_add_lessons))
-				.setIcon(R.drawable.ic_menu_new)
-				.setShowAsAction(
-						MenuItem.SHOW_AS_ACTION_IF_ROOM
-								| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) 
+	{
+		menu.add(MENU_GROUP, MENU_ADD, MENU_ADD,getResources().getString(R.string.Lessons_add_lessons));
 		if (ACTIONBAR_MODEL == 1) {
-			menu.add(Menu.NONE, MENU_TODAY, 2,
-					getResources().getString(R.string.Lessons_go_today))
-					.setIcon(R.drawable.ic_menu_today)
-					.setShowAsAction(
-							MenuItem.SHOW_AS_ACTION_IF_ROOM
-									| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+			menu.add(MENU_GROUP, MENU_TODAY, MENU_TODAY,getResources().getString(R.string.Lessons_go_today));
 		}
-		menu.add(Menu.NONE, MENU_LOGOFF, 3,
-				getResources().getString(R.string.logoff))
-				.setIcon(R.drawable.ic_menu_logoff)
-				.setShowAsAction(
-						MenuItem.SHOW_AS_ACTION_IF_ROOM
-								| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
+		menu.add(MENU_GROUP, MENU_LOGOFF, MENU_LOGOFF, getResources().getString(R.string.logoff));
+		menu.add(MENU_GROUP, MENU_COURSES, MENU_COURSES, getResources().getString(R.string.course_management));
+//		menu.add(MENU_GROUP, MENU_SETTING, MENU_SETTING, getResources().getString(R.string.LeftMenu_Setting));
+//		menu.add(MENU_GROUP, MENU_HELP, MENU_HELP, getResources().getString(R.string.LeftMenu_Help));
+//		menu.add(MENU_GROUP, MENU_FEEDBACK, MENU_FEEDBACK, getResources().getString(R.string.LeftMenu_FeedBack)); 
+//		menu.add(MENU_GROUP, MENU_ABOUT, MENU_ABOUT, getResources().getString(R.string.LeftMenu_About)); 
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
+		Intent intent = new Intent();
 		switch (item.getItemId()) {
 		case MENU_LOGOFF:
-			Intent intent = new Intent();
 			intent.setClass(getActivity(), LessonsLoginActivity.class);
 			getActivity().startActivity(intent);
 			return true;
 		case MENU_ADD:
-			Intent intent1 = new Intent();
-			intent1.setClass(getActivity(), LessonsAddActivity.class);
-			getActivity().startActivity(intent1);
+			intent.setClass(getActivity(), LessonsAddActivity.class);
+			getActivity().startActivity(intent);
 			return true;
 		case MENU_TODAY:
 			nowWeek = LessonsTool.getNowWeek(getActivity());
@@ -89,6 +89,25 @@ public class LessonsFragmentSupport extends BaseSherlockFragment {
 			ACTIONBAR_MODEL = 0;
 			getSherlockActivity().invalidateOptionsMenu();
 			return true;
+		case MENU_COURSES:
+			intent.setClass(getActivity(), LessonsManagementActivity.class);
+			getActivity().startActivity(intent);
+			return true;
+//		case MENU_SETTING:
+//			intent.setClass(getActivity(),SettingActivity.class);
+//			startActivity(intent);
+//			return true;
+//		case MENU_HELP:
+//			intent.setClass(getActivity(),HelpActivity.class);
+//			startActivity(intent);
+//			return true;
+//		case MENU_FEEDBACK:
+//			MainActivityTAB.agent.startFeedbackActivity();
+//			return true;
+//		case MENU_ABOUT:
+//			intent.setClass(getActivity(),AboutActivity.class);
+//			startActivity(intent);
+//			return true;
 		default:
 			return super.onOptionsItemSelected(item);
 		}
@@ -97,7 +116,6 @@ public class LessonsFragmentSupport extends BaseSherlockFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
-		// System.out.println("LessonsFragmentSupport_onCreate");
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(true);
 		regBroadcastRecv();
@@ -106,7 +124,6 @@ public class LessonsFragmentSupport extends BaseSherlockFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// System.out.println("LessonsFragmentSupport_onCreateView");
 		application = (MyApplication) getActivity().getApplication();
 		rootView = inflater.inflate(R.layout.lessons_viewpager, container,
 				false);
@@ -121,7 +138,6 @@ public class LessonsFragmentSupport extends BaseSherlockFragment {
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
-		// System.out.println("LessonsFragmentSupport_onActivityCreated");
 		super.onActivityCreated(savedInstanceState);
 		lessonsHave = LessonsSharedPreferencesTool
 				.getLessonsHave(getActivity());
@@ -145,7 +161,16 @@ public class LessonsFragmentSupport extends BaseSherlockFragment {
 		// int nowWeek = 1;
  
 		String sWeekInfo=String.format(sWeekFormat,nowWeek); 
-		MainActivity.MainActivityActionbar.setSubtitle(sWeekInfo);
+		MainActivityTAB.MainActivityActionBar.setSubtitle(sWeekInfo);
+		MyApplication.getInstance().setLessonsWeek(nowWeek);
+		if(nowWeek==0){
+			viewPager.setPagingEnabled(false);
+			viewPager.setCurrentItem(30);
+			ACTIONBAR_MODEL = 0;
+			getSherlockActivity().invalidateOptionsMenu();
+			return;
+		}
+		viewPager.setPagingEnabled(true);
 		viewPager.setCurrentItem(nowWeek - 1);
 		viewPager.setOnPageChangeListener(new OnPageChangeListener() {
 
@@ -153,8 +178,9 @@ public class LessonsFragmentSupport extends BaseSherlockFragment {
 			public void onPageSelected(int arg0) {
 				// TODO Auto-generated method stub
 				String sWeekInfo=String.format(sWeekFormat,arg0 + 1); 
-				MainActivity.MainActivityActionbar.setSubtitle(sWeekInfo);
+				MainActivityTAB.MainActivityActionBar.setSubtitle(sWeekInfo);
 				MyApplication.getInstance().setLessonsWeek(arg0 + 1);
+				
 				if (arg0 + 1 != nowWeek) {
 					if (ACTIONBAR_MODEL != 1) {
 						ACTIONBAR_MODEL = 1;
@@ -210,7 +236,15 @@ public class LessonsFragmentSupport extends BaseSherlockFragment {
 			if (intent.getStringExtra("Type").equals("Login")) {
 				int nowWeek = LessonsTool.getNowWeek(getActivity());
 				String sWeekInfo=String.format(sWeekFormat,nowWeek); 
-				MainActivity.MainActivityActionbar.setSubtitle(sWeekInfo);
+				MainActivityTAB.MainActivityActionBar.setSubtitle(sWeekInfo);
+				if(nowWeek==0){
+					viewPager.setPagingEnabled(false);
+					viewPager.setCurrentItem(30);
+					ACTIONBAR_MODEL = 0;
+					getSherlockActivity().invalidateOptionsMenu();
+					return;
+				}
+				viewPager.setPagingEnabled(true);
 				viewPager.setCurrentItem(nowWeek - 1);
 				ACTIONBAR_MODEL = 0;
 				getSherlockActivity().invalidateOptionsMenu();

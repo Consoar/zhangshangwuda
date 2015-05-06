@@ -10,19 +10,13 @@ import zq.whu.zhangshangwuda.views.ViewFlowViewPager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.view.View;
 import android.view.ViewGroup;
 
 public class NewsFragmentPagerAdapter extends FragmentPagerAdapter {
-	public static final String URL_MAIN_SY = "http://news.ziqiang.net/api/article/?n=15&s=全部&p=";
-	public static final String URL_MAIN_XW = "http://news.ziqiang.net/api/article/?n=15&s=最新&p=";
-	public static final String URL_MAIN_HD = "http://news.ziqiang.net/api/article/?n=15&s=公告&p=";
-	public static final String URL_MAIN_SD = "http://news.ziqiang.net/api/article/?n=15&s=深度&p=";
-	public static final String URL_MAIN_TZ = "http://news.ziqiang.net/api/article/?n=15&s=公告&p=";
-	public static final String URL_MAIN_YX = "http://news.ziqiang.net/api/article/?n=15&s=院系&p=";
-	private static final String[] CONTENT = new String[] { "首页", "新闻", "活动",
-			"深度", "通知", "院系" };
-	private static final String[] URL = new String[] { URL_MAIN_SY,
-			URL_MAIN_XW, URL_MAIN_HD, URL_MAIN_SD, URL_MAIN_TZ, URL_MAIN_YX };
+	private ArrayList<String> newsTab; //动态标签栏
+	private ArrayList<String> newsURL; //动态网址（对应标签）
 	private static List<NewsFragmentBase> mFragment;
 	private ViewFlowViewPager viewPager;
 	private static int nowPos;
@@ -32,15 +26,17 @@ public class NewsFragmentPagerAdapter extends FragmentPagerAdapter {
 	}
 
 	public NewsFragmentPagerAdapter(FragmentManager fm,
-			ViewFlowViewPager viewPager) {
+			ViewFlowViewPager viewPager, List<String> newsTab, List<String> newsURL) {
 		super(fm);
 		this.viewPager = viewPager;
+		this.newsTab = (ArrayList<String>) newsTab;
+		this.newsURL = (ArrayList<String>) newsURL;
 		mFragment = new ArrayList<NewsFragmentBase>();
 	}
 
 	@Override
 	public CharSequence getPageTitle(int position) {
-		return CONTENT[position % CONTENT.length];
+		return newsTab.get(position % newsTab.size());
 	}
 
 	@Override
@@ -52,11 +48,12 @@ public class NewsFragmentPagerAdapter extends FragmentPagerAdapter {
 		}
 		page = new NewsFragmentBase();
 		if (position == 0) {
-			page = NewsFragmentWithTopic.create(URL[position],
-					CONTENT[position]);
+			page = NewsFragmentWithTopic.create(newsURL.get(position),
+					newsTab.get(position));
 			((NewsFragmentWithTopic) page).setmPager(viewPager);
 		} else {
-			page = NewsFragmentCommon.create(URL[position], CONTENT[position]);
+			page = NewsFragmentCommon.create(newsURL.get(position),
+					newsTab.get(position));
 		}
 		if (nowPos == position)
 			((NewsFragmentBase) page).setShowMessage(true);
@@ -68,16 +65,24 @@ public class NewsFragmentPagerAdapter extends FragmentPagerAdapter {
 	@Override
 	public void destroyItem(ViewGroup container, int position, Object object) {
 		// TODO Auto-generated method stub
-		// super.destroyItem(container, position, object);
+		//super.destroyItem(container, position, object);  
 	}
 
 	@Override
 	public int getCount() {
-		return CONTENT.length;
+		return newsTab.size();
+	
 	}
 
 	public int getItemPosition(Object object) {
 		return POSITION_NONE;
 	}
 
+	public void setNewsTab(ArrayList<String> newsTab) {
+		this.newsTab = newsTab;
+	}
+	
+	public void setNewsURL(ArrayList<String> newsURL) {
+		this.newsURL = newsURL;
+	}
 }

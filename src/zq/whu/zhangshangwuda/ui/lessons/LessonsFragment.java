@@ -69,8 +69,8 @@ public class LessonsFragment extends BaseSherlockFragment {
 	private static int ccolor = -1;
 	private List<Map<String, String>> lessonsList;
 	private boolean isShowNowLessons;
-	private String colors[] = { "#EEFFFF", "#33B5E5", "#AA66CC", "#99CC00",
-			"#FFBB33", "#FF4444" };
+	private String colors[] = { "#F4F5F5", "#BA68C8", "#F36C60", "#91A7FF",
+			"#4DB6AC", "#A1887F" };
 	private int mPageNumber;
 	private List<String> PdList = new ArrayList<String>();
 	private double lessonsWidth, lessonsHeight;
@@ -102,7 +102,6 @@ public class LessonsFragment extends BaseSherlockFragment {
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
-		// System.out.println("NewsFragmentCommon_onActivityCreated");
 		displayWidth = MyApplication.getDisplayWidth();
 		displayHeight = MyApplication.getDisplayHeight();
 		densityDpi = MyApplication.getDensityDpi();
@@ -123,7 +122,6 @@ public class LessonsFragment extends BaseSherlockFragment {
 		int leftWidth = dip2px(getSherlockActivity(), 20);
 		lessonsWidth = lessonsWidth - leftWidth;
 		lessonsWidth = lessonsWidth / 7;
-		// System.out.println("lessonsWidthDP "
 		// + px2dip(getSherlockActivity(), Math.round(lessonsWidth)));
 		if (px2dip(getSherlockActivity(), Math.round(lessonsWidth)) > minClassWidth) {
 			minClassWidth = (int) Math.round(lessonsWidth);
@@ -145,7 +143,6 @@ public class LessonsFragment extends BaseSherlockFragment {
 		// lessonsHeight = lessonsHeight - actionbarHeight - titleHeight
 		// - statusBarHeight;
 		// lessonsHeight = lessonsHeight / 5.5;
-		// System.out.println("lessonsHeightDP "+px2dip(getSherlockActivity(),
 		// Math.round(lessonsHeight)));
 		// if (px2dip(getSherlockActivity(), Math.round(lessonsHeight)) >
 		// minClassWidth) {
@@ -175,8 +172,6 @@ public class LessonsFragment extends BaseSherlockFragment {
 		rootView.findViewById(R.id.left_11).setMinimumHeight(minHeight);
 		rootView.findViewById(R.id.left_12).setMinimumHeight(minHeight);
 		rootView.findViewById(R.id.left_13).setMinimumHeight(minHeight);
-		rootView.findViewById(R.id.left_14).setMinimumHeight(minHeight);
-
 	}
 
 	private void setDayItemWidth(int minWidth) {
@@ -241,11 +236,11 @@ public class LessonsFragment extends BaseSherlockFragment {
 		}
 		tday.addView(getTitleView(day));
 		PdList.clear();
-		lessonsList = LessonsDb.getInstance(getActivity()).getLessonsByDay(
-				Integer.toString(day));
+		lessonsList = LessonsDb.getInstance(getActivity()).getLessonsByDay(Integer.toString(day));
 		lessonsList = LessonsTool.sortLessonsByTime(lessonsList);
-		// 处理课程
+		
 		int size = lessonsList.size();
+		
 		String tstring = null, sbegin, send, stime, name, time, place, id;
 		int a, b, t;
 		t = 1;
@@ -294,6 +289,7 @@ public class LessonsFragment extends BaseSherlockFragment {
 			time1 = time;
 			time1 = time1.substring(0, time1.indexOf("节"));
 			StrPd = String.valueOf(day) + time1;
+			//这里缺少判断周数的逻辑，但是我不想改了，好麻烦
 			if (PdList.contains(StrPd))
 				continue;
 			boolean flag = false;
@@ -306,12 +302,11 @@ public class LessonsFragment extends BaseSherlockFragment {
 					PdList.add(StrPd);
 			}
 			ccolor++;
-			setClass(tday, id, String.valueOf(day), name, place, time, stime, b
-					- a + 1, ccolor, flag);
+			setClass(tday, id, String.valueOf(day), name, place, time, stime, b - a + 1, ccolor, flag);
 			t = b + 1;
 		}
-		if (t < 14)
-			setNoClass(tday, 14 - t + 1, 0);
+		if (t < 13)
+			setNoClass(tday, 13 - t + 1, 0);
 	}
 
 	public void removeEveryDayLessons(int day) {
@@ -356,23 +351,23 @@ public class LessonsFragment extends BaseSherlockFragment {
 		case 5:
 			return "11:30";
 		case 6:
-			return "13:15";
-		case 7:
 			return "14:05";
-		case 8:
+		case 7:
 			return "14:55";
-		case 9:
+		case 8:
 			return "15:45";
-		case 10:
+		case 9:
 			return "16:40";
-		case 11:
+		case 10:
 			return "17:30";
+		case 11:
+			return "18:30";
 		case 12:
-			return "19:00";
+			return "19:20";
 		case 13:
-			return "19:50";
-		case 14:
-			return "20:40";
+			return "20:10";
+//		case 14:
+//			return "";
 		}
 		return null;
 	}
@@ -391,23 +386,23 @@ public class LessonsFragment extends BaseSherlockFragment {
 		case 5:
 			return "12:15";
 		case 6:
-			return "14:00";
-		case 7:
 			return "14:50";
-		case 8:
+		case 7:
 			return "15:40";
-		case 9:
+		case 8:
 			return "16:30";
-		case 10:
+		case 9:
 			return "17:25";
+		case 10:
+			return "18:15";
 		case 11:
-			return "17:30";
+			return "19:15";
 		case 12:
-			return "19:45";
+			return "20:05";
 		case 13:
-			return "20:35";
-		case 14:
-			return "21:25";
+			return "20:55";
+//		case 14:
+//			return "";
 		}
 		return null;
 	}

@@ -9,7 +9,7 @@
     <FrameLayout
         android:id="@+id/framelayout"
         android:layout_width="fill_parent"
-        android:layout_height="200dip"
+        android:layout_height="250dip"
         android:background="@null">
 
         <org.taptwo.android.widget.ViewFlow
@@ -49,8 +49,8 @@
                 android:background="@null"
                 app:activeColor="#33B5E5"
                 app:activeType="fill"
-                app:cradius="5dip"
-                app:circleSeparation="20dip"
+                app:cradius="3dip"
+                app:circleSeparation="12dip"
                 app:inactiveColor="#ffffff"
                 app:inactiveType="fill" />
         </RelativeLayout>

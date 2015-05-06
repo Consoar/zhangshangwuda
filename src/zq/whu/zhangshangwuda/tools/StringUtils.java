@@ -150,6 +150,23 @@ public class StringUtils {
 		}
 		return true;
 	}
+	
+	/**
+	 * 判断给定字符串是否为有效的图片链接，支持jpg，gif，png三种格式
+	 * 
+	 * @param url
+	 * @return boolean
+	 */
+	public static boolean isImageUrl(String url) {
+		if(url.endsWith(".jpg"))
+			return true;
+		else if(url.endsWith(".gif"))
+			return true;
+		else if(url.endsWith(".png"))
+			return true;
+		else
+			return false;
+	}
 
 	/**
 	 * 判断是不是一个合法的电子邮件地址

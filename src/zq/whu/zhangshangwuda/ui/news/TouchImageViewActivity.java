@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import zq.whu.zhangshangwuda.base.BaseThemeSherlockActivity;
+import zq.whu.zhangshangwuda.tools.DisplayTool;
 import zq.whu.zhangshangwuda.ui.MyApplication;
 import zq.whu.zhangshangwuda.views.TouchImageView;
 import android.content.Intent;
@@ -30,7 +31,7 @@ public class TouchImageViewActivity extends BaseThemeSherlockActivity {
 		final TouchImageView img = new TouchImageView(this);
 		setContentView(img);
 		img.setMaxZoom(6f);
-		MyApplication.getInstance().mImageLoader.loadImage(url,
+		MyApplication.getInstance().mImageLoader.loadImage(DisplayTool.getInitImageUrl(url),
 				new ImageLoadingListener() {
 
 					@Override

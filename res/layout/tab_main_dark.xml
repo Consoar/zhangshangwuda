@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+    <FrameLayout
+        android:id="@+id/tab_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
+    
+    <RadioGroup
+        android:id="@+id/rg_tab"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:gravity="center" >
+        
+        <RadioButton
+            android:id="@+id/rb_news"
+            style="@style/tab_buttom_dark"
+            android:drawableTop="@drawable/news_tab_dark"
+            android:text="@string/LeftMenu_News" />
+        
+        <RadioButton
+            android:id="@+id/rb_lessons"
+            style="@style/tab_buttom_dark"
+            android:drawableTop="@drawable/lessons_tab_dark"
+            android:text="@string/LeftMenu_Lessons" />
+        
+        <RadioButton
+            android:id="@+id/rb_wifi"
+            style="@style/tab_buttom_dark"
+            android:drawableTop="@drawable/wifi_tab_dark"
+            android:text="@string/LeftMenu_Wifi" />
+        
+        <RadioButton
+            android:id="@+id/rb_find"
+            style="@style/tab_buttom_dark"
+            android:drawableTop="@drawable/find_tab_dark"
+            android:text="@string/tab_find" />
+        
+    </RadioGroup>
+ 
+
+</LinearLayout>

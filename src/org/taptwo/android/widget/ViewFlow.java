@@ -505,7 +505,7 @@ public class ViewFlow extends AdapterView<Adapter> {
 
 		final int newX = whichScreen * getWidth();
 		final int delta = newX - getScrollX();
-		mScroller.startScroll(getScrollX(), 0, delta, 0, Math.abs(delta) * 2);
+		mScroller.startScroll(getScrollX(), 0, delta, 0, 250);
 		invalidate();
 	}
 

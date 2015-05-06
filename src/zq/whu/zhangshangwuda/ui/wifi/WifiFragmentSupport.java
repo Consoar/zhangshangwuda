@@ -3,9 +3,7 @@
 import java.io.IOException;
 import java.security.KeyStore;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
@@ -37,24 +35,18 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-import com.actionbarsherlock.app.SherlockFragment;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.Window;
-import com.umeng.analytics.MobclickAgent;
-
 import zq.whu.zhangshangwuda.adapter.DropMenuAdapter;
-import zq.whu.zhangshangwuda.base.UmengSherlockFragmentActivity;
 import zq.whu.zhangshangwuda.db.WifiDb;
 import zq.whu.zhangshangwuda.entity.WifiAccount;
 import zq.whu.zhangshangwuda.tools.BosCrypto;
 import zq.whu.zhangshangwuda.tools.Constants;
 import zq.whu.zhangshangwuda.tools.LessonsTool;
-import zq.whu.zhangshangwuda.ui.MainActivity;
+import zq.whu.zhangshangwuda.ui.AboutActivity;
+import zq.whu.zhangshangwuda.ui.HelpActivity;
+import zq.whu.zhangshangwuda.ui.MainActivityTAB;
 import zq.whu.zhangshangwuda.ui.MyApplication;
 import zq.whu.zhangshangwuda.ui.R;
+import zq.whu.zhangshangwuda.ui.SettingActivity;
 import zq.whu.zhangshangwuda.views.DropPopMenu;
 import zq.whu.zhangshangwuda.views.toast.ToastUtil;
 import android.app.AlertDialog;
@@ -69,7 +61,6 @@ import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.FragmentManager;
 import android.text.format.Formatter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -77,17 +68,26 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
-public class WifiFragmentSupport extends SherlockFragment {
+import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+import com.umeng.analytics.MobclickAgent;
+
+public class WifiFragmentSupport extends SherlockFragment implements OnClickListener{
 	private static final String mPageName = "WifiFragment";
+	private final int MENU_GROUP = 1;
 	private static final int MENU_LOGOFF = Menu.FIRST;
+	private final int MENU_SETTING = Menu.FIRST + 1;
+	private final int MENU_HELP = Menu.FIRST + 2;
+	private final int MENU_FEEDBACK = Menu.FIRST + 3;
+	private final int MENU_ABOUT = Menu.FIRST + 4;
 	private View rootView;
 	private Button LoginButton;
 	private Button LogoutButton;
@@ -105,27 +105,6 @@ public class WifiFragmentSupport extends SherlockFragment {
 	private DropMenuAdapter dropMenuAdapter;
 	private List<WifiAccount> list = new ArrayList<WifiAccount>();
 	private List<WifiAccount> templist = new ArrayList<WifiAccount>();
-
-	@Override
-	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-		menu.add(Menu.NONE, MENU_LOGOFF, 1,
-				getResources().getString(R.string.logoff))
-				.setIcon(R.drawable.ic_menu_logoff)
-				.setShowAsAction(
-						MenuItem.SHOW_AS_ACTION_IF_ROOM
-								| MenuItem.SHOW_AS_ACTION_WITH_TEXT);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case MENU_LOGOFF:
-			new Thread(new LogOutThread()).start();
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
-		}
-	}
 
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
@@ -160,7 +139,7 @@ public class WifiFragmentSupport extends SherlockFragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 		int nowWeek = LessonsTool.getNowWeek(getActivity());
-		MainActivity.MainActivityActionbar.setSubtitle("第"
+		MainActivityTAB.MainActivityActionBar.setSubtitle("第"
 				+ String.valueOf(nowWeek) + "周");
 		if (isCheckNetwork()) {
 			CheckNetwork();
@@ -184,7 +163,9 @@ public class WifiFragmentSupport extends SherlockFragment {
 		PasswordView = (EditText) rootView
 				.findViewById(R.id.wifi_txtPassword_EditText);
 		LoginButton = (Button) rootView.findViewById(R.id.wifi_cmdLogin_Button);
-		LoginButton.setOnClickListener(new LoginButtonListener());
+		Button logout = (Button)rootView.findViewById(R.id.wifi_cmdLogout_Button);
+		logout.setOnClickListener(this);
+		LoginButton.setOnClickListener(this);
 		moreButton = (ImageButton) rootView
 				.findViewById(R.id.wifi_txtAccount_more_Button);
 		bottomImg = (ImageView) rootView.findViewById(R.id.wifi_bottom);
@@ -581,32 +562,6 @@ public class WifiFragmentSupport extends SherlockFragment {
 
 	};
 
-	public class LogOutThread implements Runnable {
-
-		@Override
-		public void run() {
-			// TODO Auto-generated method stub
-			Message msg = LogOutHandler.obtainMessage();
-			HttpClient httpclient = new DefaultHttpClient();
-			HttpGet httpLogOff = new HttpGet(LogOutURL);
-			try {
-				HttpResponse httpResponse = httpclient.execute(httpLogOff);
-				if (httpResponse.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-					String strResult = EntityUtils.toString(httpResponse
-							.getEntity());
-					msg.obj = (strResult);
-					msg.arg1 = 1;
-				}
-			} catch (ClientProtocolException e) {
-			} catch (IOException e) {
-			} catch (Exception e) {
-			} finally {
-				httpclient.getConnectionManager().shutdown();
-			}
-			LogOutHandler.sendMessage(msg);
-		}
-	}
-
 	public class OnlineThread implements Runnable {
 		@Override
 		public void run() {
@@ -716,17 +671,33 @@ public class WifiFragmentSupport extends SherlockFragment {
 		}
 	}
 
-	class LoginButtonListener implements OnClickListener {
-
-		@Override
-		public void onClick(View v) {
-			// TODO Auto-generated method stub
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()){
+		case R.id.wifi_cmdLogout_Button:
+			new Thread(new LogOutThread(this.LogOutHandler)).start();
+			Toast.makeText(getActivity(), "下线中……", Toast.LENGTH_SHORT).show();
+			break;
+		case R.id.wifi_cmdLogin_Button:
 			SaveConfig();
 			Account = AccountView.getText().toString();
+			try {
+				Long.parseLong(Account);
+			} catch (Exception e) {
+				AccountView.setText("");
+				Toast.makeText(getActivity(), "请输入正确的学号哦~~", Toast.LENGTH_SHORT).show();
+				return;
+			}
+			if (Account.length() != 13 ){
+				AccountView.setText("");
+				Toast.makeText(getActivity(), "请输入正确的学号哦~~", Toast.LENGTH_SHORT).show();
+				return;
+			}
 			Password = PasswordView.getText().toString();
-			LoginButton.setText("登陆中……");
+			Toast.makeText(getActivity(), "登陆中……", Toast.LENGTH_SHORT).show();
 			new Thread(new OnlineThread()).start();
 			LoginButton.setEnabled(false);
+			break;
 		}
 	}
 }
